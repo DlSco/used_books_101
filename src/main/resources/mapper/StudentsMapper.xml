@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.frontStage.students.mapper.StudentsMapper">
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <sql id="baseSearchSql">
+    <if test="name != null">
+        and name = #{name , jdbcType=VARCHAR}
+    </if>
+    <if test="chinese != null">
+        and chinese = #{chinese , jdbcType=DOUBLE}
+    </if>
+    <if test="math != null">
+        and math = #{math , jdbcType=DOUBLE}
+    </if>
+    <if test="english != null">
+        and english = #{english , jdbcType=DOUBLE}
+    </if>
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Students">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="chinese" jdbcType="DOUBLE" property="chinese" />
+    <result column="math" jdbcType="DOUBLE" property="math" />
+    <result column="english" jdbcType="DOUBLE" property="english" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, chinese, math, english
+  </sql>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <select id="countByStudents" parameterType="com.usedBooks.pojo.Students" resultType="java.lang.Long">
+    select count(*) from students
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Students" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from students
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from students
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from students
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <delete id="deleteByStudents" parameterType="com.usedBooks.pojo.Students">
+    delete from students
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.usedBooks.pojo.Students">
+    insert into students (id, name, chinese, 
+      math, english)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{chinese,jdbcType=DOUBLE}, 
+      #{math,jdbcType=DOUBLE}, #{english,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.usedBooks.pojo.Students">
+    insert into students
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="chinese != null">
+        chinese,
+      </if>
+      <if test="math != null">
+        math,
+      </if>
+      <if test="english != null">
+        english,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="chinese != null">
+        #{chinese,jdbcType=DOUBLE},
+      </if>
+      <if test="math != null">
+        #{math,jdbcType=DOUBLE},
+      </if>
+      <if test="english != null">
+        #{english,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <update id="updateByStudentsSelective">
+    update students
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="chinese != null">
+        chinese = #{chinese,jdbcType=DOUBLE},
+      </if>
+      <if test="math != null">
+        math = #{math,jdbcType=DOUBLE},
+      </if>
+      <if test="english != null">
+        english = #{english,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月14日 16:22 -->
+  <update id="updateByStudents">
+    update students
+    set id = #{id,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      chinese = #{chinese,jdbcType=DOUBLE},
+      math = #{math,jdbcType=DOUBLE},
+      english = #{english,jdbcType=DOUBLE}
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Students">
+    update students
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="chinese != null">
+        chinese = #{chinese,jdbcType=DOUBLE},
+      </if>
+      <if test="math != null">
+        math = #{math,jdbcType=DOUBLE},
+      </if>
+      <if test="english != null">
+        english = #{english,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Students">
+    update students
+    set name = #{name,jdbcType=VARCHAR},
+      chinese = #{chinese,jdbcType=DOUBLE},
+      math = #{math,jdbcType=DOUBLE},
+      english = #{english,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,86 @@
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://47.101.183.172:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
+    username: root
+    password: root123
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT1FROMDUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    logSlowSql: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#  #rabbitmq
+#  rabbitmq:
+#    template:
+#      retry:
+#        enabled: true
+#        initial-interval: 1000
+#        max-attempts: 3
+#        max-interval: 10000
+#        multiplier: 1.0
+#
+#    host: 39.108.217.97
+#    port: 5672
+#    username: guest
+#    password: guest
+#    virtual-host: /
+#    listener:
+#      simple:
+#        concurrency: 10
+#        max-concurrency: 10
+#        prefetch: 1
+#        auto-startup: true
+#        default-requeue-rejected: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+redis:
+  host: 39.108.217.97
+  password: 123456
+  port: 6379
+  timeout: 10
+  poolMaxTotal: 1000
+  poolMaxIdle: 500
+  maxActive: 500
+
+##color为颜色属性名
+#color: "颜色"
+#
+##size为尺码属性名
+#size: "尺码"
+#
+##aliyun 短信配置信息
+#aliyun:
+#  accessKeyId: LTAI87hOXJIydyGF
+#  accessKeySecret: EyEgPh6WEYmzCcPi2D9U6t23IyqGVT
+#  defaultConnectTimeout: 10000
+#  defaultReadTimeout: 10000
+#  SignName: Shoes101
+#  loginCode: SMS_147196676
+#  resetPassword: SMS_147201716
+#  payCode: SMS_147196689
+#  userRegistration: SMS_147196672
