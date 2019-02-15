@@ -17,15 +17,14 @@ public class StudentsController {
     private StuService stuService;
     @RequestMapping("/getStudent")
     public Result getStudent(Integer id){
-        return Result.success(stuService.getByPrimaryKey(id));
+        return Result.success(stuService.getByPrimaryKey(id),1);
     }
     @RequestMapping(value = "/addStudent",method = RequestMethod.POST)
     public Result addStudent(Students students){
         if(stuService.save(students)>0){
-            return Result.success(null);
+            return Result.success(null,null);
         }else{
             return Result.error(new CodeMsg(0,"添加学生失败！"));
         }
-
     }
 }
