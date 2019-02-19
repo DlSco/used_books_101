@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.mapper.AuctionMapper">
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <sql id="baseSearchSql">
+    <if test="bookId != null">
+        and book_id = #{bookId , jdbcType=INTEGER}
+    </if>
+    <if test="announcerId != null">
+        and announcer_id = #{announcerId , jdbcType=INTEGER}
+    </if>
+    <if test="beginTime != null">
+        and begin_time = #{beginTime , jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null">
+        and end_time = #{endTime , jdbcType=TIMESTAMP}
+    </if>
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Auction">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="announcer_id" jdbcType="INTEGER" property="announcerId" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, book_id, announcer_id, begin_time, end_time
+  </sql>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <select id="countByAuction" parameterType="com.usedBooks.pojo.Auction" resultType="java.lang.Long">
+    select count(*) from auction
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Auction" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from auction
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auction
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from auction
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <delete id="deleteByAuction" parameterType="com.usedBooks.pojo.Auction">
+    delete from auction
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.usedBooks.pojo.Auction">
+    insert into auction (id, book_id, announcer_id, 
+      begin_time, end_time)
+    values (#{id,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{announcerId,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.usedBooks.pojo.Auction">
+    insert into auction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="announcerId != null">
+        announcer_id,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="announcerId != null">
+        #{announcerId,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <update id="updateByAuctionSelective">
+    update auction
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="announcerId != null">
+        announcer_id = #{announcerId,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 14:06 -->
+  <update id="updateByAuction">
+    update auction
+    set id = #{id,jdbcType=INTEGER},
+      book_id = #{bookId,jdbcType=INTEGER},
+      announcer_id = #{announcerId,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Auction">
+    update auction
+    <set>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="announcerId != null">
+        announcer_id = #{announcerId,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Auction">
+    update auction
+    set book_id = #{bookId,jdbcType=INTEGER},
+      announcer_id = #{announcerId,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

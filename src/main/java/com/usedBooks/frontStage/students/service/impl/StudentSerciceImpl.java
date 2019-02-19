@@ -1,6 +1,6 @@
 package com.usedBooks.frontStage.students.service.impl;
 
-import com.usedBooks.frontStage.students.mapper.StudentsMapper;
+import com.usedBooks.mapper.StudentsMapper;
 import com.usedBooks.pojo.Students;
 import com.usedBooks.frontStage.students.service.StuService;
 import org.apache.ibatis.session.RowBounds;

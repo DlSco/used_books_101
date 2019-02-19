@@ -1,16 +1,6 @@
- /*
- * @Project Name:TODO 
- * @File Name:StudentsMapper
- * @Package Name:com.hhly.sns.commons.mapper
- * @Date:2019年02月14日 16:22
- * @Creator:Vakoe
- * @line------------------------------
- * @修改人:
- * @修改时间:
- * @修改内容:
- */
 
-package com.usedBooks.frontStage.students.mapper;
+
+package com.usedBooks.mapper;
 
 import com.usedBooks.pojo.Students;
 import org.apache.ibatis.annotations.Param;

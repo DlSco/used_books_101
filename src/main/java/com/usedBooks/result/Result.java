@@ -4,10 +4,9 @@ public class Result<T> {
     private int code;
     private String msg;
     private T data;
-    private Integer count;
     //成功时候的调用
-    public static <T> Result<T> success(T data,Integer count){
-        return new Result<T>(data,count);
+    public static <T> Result<T> success(T data){
+        return new Result<T>(data);
     }
 
     //失败时候的调用
@@ -17,12 +16,11 @@ public class Result<T> {
 
     }
 
-    private Result(T data,Integer count)
+    private Result(T data)
     {
         this.code = CodeMsg.SUCCESS.getCode();
         this.msg  = CodeMsg.SUCCESS.getMsg();
         this.data = data;
-        this.count = count;
     }
 
     private Result(int code,String msg)

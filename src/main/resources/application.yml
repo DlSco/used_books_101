@@ -7,9 +7,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     platform: mysql
-    url: jdbc:mysql://47.101.183.172:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
+    #url: jdbc:mysql://47.101.183.172:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
     username: root
-    password: root123
+    password: 123456
     initialSize: 5
     minIdle: 5
     maxActive: 20
@@ -55,17 +56,26 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   configuration:
     map-underscore-to-camel-case: true
+    #打印sql到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 
-redis:
-  host: 39.108.217.97
-  password: 123456
-  port: 6379
-  timeout: 10
-  poolMaxTotal: 1000
-  poolMaxIdle: 500
-  maxActive: 500
+pagehelper:
+  helperDialect: mysql                           #分页插件方言选择
+  reasonable: true                               #合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
+  supportMethodsArguments: true
+
+
+
+#redis:
+#  host: 39.108.217.97
+#  password: 123456
+#  port: 6379
+#  timeout: 10
+#  poolMaxTotal: 1000
+#  poolMaxIdle: 500
+#  maxActive: 500
 
 ##color为颜色属性名
 #color: "颜色"

@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.mapper.BookMapper">
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <sql id="baseSearchSql">
+    <if test="isbn != null">
+      and isbn = #{isbn , jdbcType=VARCHAR}
+    </if>
+    <if test="name != null">
+      and name = #{name , jdbcType=VARCHAR}
+    </if>
+    <if test="author != null">
+      and author = #{author , jdbcType=VARCHAR}
+    </if>
+    <if test="publishHouse != null">
+      and publish_house = #{publishHouse , jdbcType=VARCHAR}
+    </if>
+    <if test="pictureUrl != null">
+      and picture_url = #{pictureUrl , jdbcType=VARCHAR}
+    </if>
+    <if test="originalPrice != null">
+      and original_price = #{originalPrice , jdbcType=DOUBLE}
+    </if>
+    <if test="price != null">
+      and price = #{price , jdbcType=DOUBLE}
+    </if>
+    <if test="quantity != null">
+      and quantity = #{quantity , jdbcType=INTEGER}
+    </if>
+    <if test="bookOldState != null">
+      and book_old_state = #{bookOldState , jdbcType=INTEGER}
+    </if>
+    <if test="classificationId != null">
+      and classification_id = #{classificationId , jdbcType=INTEGER}
+    </if>
+    <if test="type != null">
+      and type = #{type , jdbcType=INTEGER}
+    </if>
+    <if test="remark != null">
+      and remark = #{remark , jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and status = #{status , jdbcType=INTEGER}
+    </if>
+    <if test="isDrop != null">
+      and is_drop = #{isDrop , jdbcType=INTEGER}
+    </if>
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Book">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="isbn" jdbcType="VARCHAR" property="isbn" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="publish_house" jdbcType="VARCHAR" property="publishHouse" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="original_price" jdbcType="DOUBLE" property="originalPrice" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="book_old_state" jdbcType="INTEGER" property="bookOldState" />
+    <result column="classification_id" jdbcType="INTEGER" property="classificationId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_drop" jdbcType="INTEGER" property="isDrop" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, isbn, name, author, publish_house, picture_url, original_price, price, quantity,
+    book_old_state, classification_id, type, remark, status, is_drop
+  </sql>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <select id="countByBook" parameterType="com.usedBooks.pojo.Book" resultType="java.lang.Long">
+    select count(*) from book
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Book" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from book
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <delete id="deleteByBook" parameterType="com.usedBooks.pojo.Book">
+    delete from book
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.usedBooks.pojo.Book">
+    insert into book (id, isbn, name,
+      author, publish_house, picture_url,
+      original_price, price, quantity,
+      book_old_state, classification_id, type,
+      remark, status, is_drop
+      )
+    values (#{id,jdbcType=INTEGER}, #{isbn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{author,jdbcType=VARCHAR}, #{publishHouse,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR},
+      #{originalPrice,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{quantity,jdbcType=INTEGER},
+      #{bookOldState,jdbcType=INTEGER}, #{classificationId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isDrop,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.usedBooks.pojo.Book">
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="isbn != null">
+        isbn,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="publishHouse != null">
+        publish_house,
+      </if>
+      <if test="pictureUrl != null">
+        picture_url,
+      </if>
+      <if test="originalPrice != null">
+        original_price,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="bookOldState != null">
+        book_old_state,
+      </if>
+      <if test="classificationId != null">
+        classification_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="isDrop != null">
+        is_drop,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="isbn != null">
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publishHouse != null">
+        #{publishHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null">
+        #{originalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="bookOldState != null">
+        #{bookOldState,jdbcType=INTEGER},
+      </if>
+      <if test="classificationId != null">
+        #{classificationId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isDrop != null">
+        #{isDrop,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <update id="updateByBookSelective">
+    update book
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="isbn != null">
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publishHouse != null">
+        publish_house = #{publishHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null">
+        original_price = #{originalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="bookOldState != null">
+        book_old_state = #{bookOldState,jdbcType=INTEGER},
+      </if>
+      <if test="classificationId != null">
+        classification_id = #{classificationId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isDrop != null">
+        is_drop = #{isDrop,jdbcType=INTEGER},
+      </if>
+    </set>
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月18日 15:16 -->
+  <update id="updateByBook">
+    update book
+    set id = #{id,jdbcType=INTEGER},
+    isbn = #{isbn,jdbcType=VARCHAR},
+    name = #{name,jdbcType=VARCHAR},
+    author = #{author,jdbcType=VARCHAR},
+    publish_house = #{publishHouse,jdbcType=VARCHAR},
+    picture_url = #{pictureUrl,jdbcType=VARCHAR},
+    original_price = #{originalPrice,jdbcType=DOUBLE},
+    price = #{price,jdbcType=DOUBLE},
+    quantity = #{quantity,jdbcType=INTEGER},
+    book_old_state = #{bookOldState,jdbcType=INTEGER},
+    classification_id = #{classificationId,jdbcType=INTEGER},
+    type = #{type,jdbcType=INTEGER},
+    remark = #{remark,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    is_drop = #{isDrop,jdbcType=INTEGER}
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Book">
+    update book
+    <set>
+      <if test="isbn != null">
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publishHouse != null">
+        publish_house = #{publishHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureUrl != null">
+        picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null">
+        original_price = #{originalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="bookOldState != null">
+        book_old_state = #{bookOldState,jdbcType=INTEGER},
+      </if>
+      <if test="classificationId != null">
+        classification_id = #{classificationId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isDrop != null">
+        is_drop = #{isDrop,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Book">
+    update book
+    set isbn = #{isbn,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publish_house = #{publishHouse,jdbcType=VARCHAR},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      original_price = #{originalPrice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
+      quantity = #{quantity,jdbcType=INTEGER},
+      book_old_state = #{bookOldState,jdbcType=INTEGER},
+      classification_id = #{classificationId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      is_drop = #{isDrop,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--自己写的-->
+  <!--获取书籍列表,动态条件-->
+  <select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from book
+      <where>
+        <if test="key != null and key != '' and value != null">
+          and ${key} like #{value}
+        </if>
+        <if test="type != null">
+         and type = #{type}
+        </if>
+        <if test="isDrop != null">
+          and is_drop = #{isDrop}
+        </if>
+      </where>
+  </select>
+</mapper>
