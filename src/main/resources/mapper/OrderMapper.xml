@@ -47,6 +47,7 @@
     <if test="isValid != null">
         and is_valid = #{isValid , jdbcType=INTEGER}
     </if>
+
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Order">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -67,13 +68,13 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, buyer_phone, seller_phone, order_number, buyer, buyer_id, seller, seller_id, 
-    time, order_amount, actual_amount, delivery_method, state, is_cancel, is_valid
+    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid
   </sql>
   <!--   -->
   <!--  @authorVakoe  -->
   <!--  @date2019年02月18日 14:06 -->
   <select id="countByOrder" parameterType="com.usedBooks.pojo.Order" resultType="java.lang.Long">
-    select count(*) from order
+    select count(*) from order_form
     <where>
       <include refid="baseSearchSql" />
     </where>
@@ -89,27 +90,38 @@
       <include refid="baseSearchSql" />
     </where>
   </select>
+  <select id="getList" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_form
+    <where>
+      <include refid="baseSearchSql" />
+      <if test="key != null and key != '' and value != null">
+        and ${key} = #{value}
+      </if>
+    </where>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from order_form
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from order_form
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <!--   -->
   <!--  @authorVakoe  -->
   <!--  @date2019年02月18日 14:06 -->
   <delete id="deleteByOrder" parameterType="com.usedBooks.pojo.Order">
-    delete from order
+    delete from order_form
     <where>
       <include refid="baseSearchSql" />
     </where>
   </delete>
   <insert id="insert" parameterType="com.usedBooks.pojo.Order">
-    insert into order (id, buyer_phone, seller_phone, 
+    insert into order_form (id, buyer_phone, seller_phone,
       order_number, buyer, buyer_id, 
       seller, seller_id, time, 
       order_amount, actual_amount, delivery_method, 
@@ -123,7 +135,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.usedBooks.pojo.Order">
-    insert into order
+    insert into order_form
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -223,7 +235,7 @@
   <!--  @authorVakoe  -->
   <!--  @date2019年02月18日 14:06 -->
   <update id="updateByOrderSelective">
-    update order
+    update order_form
     <set>
       <if test="id != null">
         id = #{id,jdbcType=INTEGER},
@@ -279,7 +291,7 @@
   <!--  @authorVakoe  -->
   <!--  @date2019年02月18日 14:06 -->
   <update id="updateByOrder">
-    update order
+    update order_form
     set id = #{id,jdbcType=INTEGER},
       buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
       seller_phone = #{sellerPhone,jdbcType=VARCHAR},
@@ -300,7 +312,7 @@
     </where>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Order">
-    update order
+    update order_form
     <set>
       <if test="buyerPhone != null">
         buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
@@ -348,7 +360,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Order">
-    update order
+    update order_form
     set buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
       seller_phone = #{sellerPhone,jdbcType=VARCHAR},
       order_number = #{orderNumber,jdbcType=VARCHAR},

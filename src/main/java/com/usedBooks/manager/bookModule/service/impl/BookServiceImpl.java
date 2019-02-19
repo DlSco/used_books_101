@@ -59,13 +59,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getList(String key,String value,Integer type,Integer isDrop) {
+    public List<Book> getList(String key,String value,Book book) {
         value = "%" + value+ "%";
         Map<String,Object> map = new HashMap<>();
         map.put("key",key);
         map.put("value",value);
-        map.put("type",type);
-        map.put("isDrop",isDrop);
+        map.put("type",book.getType());
+        map.put("isDrop",book.getIsDrop());
+        map.put("id",book.getId());
+        map.put("status",book.getStatus());
         return bookMapper.getList(map);
+    }
+
+    @Override
+    public int updateShelf(Integer id) {
+        Integer code = null;
+        code = bookMapper.getBookShelfCode(id);
+        return bookMapper.updateShelf(id,code==1?0:1);
     }
 }

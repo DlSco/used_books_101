@@ -15,7 +15,10 @@ package com.usedBooks.mapper;
 import com.usedBooks.pojo.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
-@Mapper
+
+import java.util.List;
+
+ @Mapper
 public interface OrderDetailMapper {
     /**
      * @param orderDetail
@@ -70,4 +73,6 @@ public interface OrderDetailMapper {
      * @return  int
      */
     int updateByPrimaryKey(OrderDetail record);
+
+    List<OrderDetail> getDetail(Integer orderId);
 }

@@ -1,11 +1,10 @@
 package com.usedBooks.manager.bookModule.controller;
 
-
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
+import com.usedBooks.result.CodeMsg;
 import com.usedBooks.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +22,38 @@ public class BookController {
     private final Logger logger= LoggerFactory.getLogger(BookController.class) ;
     @Autowired
     private BookService bookService;
+
+    /**
+     *
+     * @param page       第几页
+     * @param limit      请求的条数
+     * @param key        关键字(数据库)
+     * @param value      搜素值
+     * @Param book       Book类实体
+     * @return           result实体
+     */
     @RequestMapping(value="/getList",method = RequestMethod.POST)
-    public Result getList(Integer page,Integer limit,String key,String value,Integer type,Integer isDrop){
-        List<Book> list = null;
+    public Result getList(Integer page,Integer limit,String key,String value,Book book ){
         if(page!=null && limit!=null){
             PageHelper.startPage(page,limit);
         }
-        list = bookService.getList(key,value,type,isDrop);
-        PageInfo pageInfo = new PageInfo(list,5);
+        List<Book> list = bookService.getList(key,value,book);
+        PageInfo pageInfo = new PageInfo(list);
+        logger.info(pageInfo.toString());
         return Result.success(pageInfo);
     }
+
+    /**
+     * 修改上下架
+     * @param id    书本id
+     * @return
+     */
+    @RequestMapping("/updateShelf")
+    public Result updateShelf(Integer id){
+       if(bookService.updateShelf(id)>0) {
+            return Result.success(null);
+       }
+       return Result.error(new CodeMsg(0,"上架或下架失败"));
+    }
+
 }

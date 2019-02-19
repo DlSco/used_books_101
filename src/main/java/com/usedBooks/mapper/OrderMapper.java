@@ -1,20 +1,12 @@
- /*
- * @Project Name:TODO 
- * @File Name:OrderMapper
- * @Package Name:com.hhly.sns.commons.mapper
- * @Date:2019年02月18日 14:06
- * @Creator:Vakoe
- * @line------------------------------
- * @修改人:
- * @修改时间:
- * @修改内容:
- */
 
 package com.usedBooks.mapper;
 
 import com.usedBooks.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.Map;
+
 @Mapper
 public interface OrderMapper {
     /**
@@ -49,13 +41,13 @@ public interface OrderMapper {
 
     /**
      * @param order
-     * @return  java.util.List<com.hhly.sns.entity.app.Order>
+     * @return  java.util.List<com.usedBooks.pojo.Order>
      */
     java.util.List<Order> selectWithRowbounds(Order order, RowBounds rowBounds);
 
     /**
      * @param id
-     * @return  com.hhly.sns.entity.app.Order
+     * @return  com.usedBooks.pojo.Order
      */
     Order selectByPrimaryKey(Integer id);
 
@@ -70,4 +62,11 @@ public interface OrderMapper {
      * @return  int
      */
     int updateByPrimaryKey(Order record);
+
+    /**
+     *
+     * @param map      参数的map集合
+     * @return
+     */
+    java.util.List<Order> getList(Map<String,Object> map);
 }

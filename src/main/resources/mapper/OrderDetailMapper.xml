@@ -176,4 +176,10 @@
       totalprice = #{totalprice,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getDetail" parameterType="Integer" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" /> from order_detail
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
 </mapper>

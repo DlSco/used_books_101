@@ -25,5 +25,7 @@ public interface BookService {
 
     int saveSelective(Book book);
 
-    List<Book> getList(String key, String value, Integer type, Integer isDrop);
+    List<Book> getList(String key, String value,  Book book);
+
+    int updateShelf(Integer id);
 }

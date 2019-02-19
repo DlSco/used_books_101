@@ -369,7 +369,7 @@
 
   <!--自己写的-->
   <!--获取书籍列表,动态条件-->
-  <select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="getList" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from book
       <where>
         <if test="key != null and key != '' and value != null">
@@ -381,6 +381,27 @@
         <if test="isDrop != null">
           and is_drop = #{isDrop}
         </if>
+        <if test="id != null">
+          and id = #{id}
+        </if>
+        <if test="status != null and status != '' ">
+          and status = #{status}
+        </if>
       </where>
+  </select>
+
+
+  <!--上架或下架-->
+  <update id="updateShelf" parameterType="Integer">
+    update book
+      set is_drop = #{code}
+    where id = #{id}
+  </update>
+
+
+  <!--查看书籍上下架字段的值-->
+
+  <select id="getBookShelfCode" resultType="Integer" parameterType="Integer">
+    select is_drop from book where id = #{id}
   </select>
 </mapper>

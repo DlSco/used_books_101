@@ -1,10 +1,15 @@
 package com.usedBooks.manager.orderModule.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.usedBooks.mapper.OrderDetailMapper;
 import com.usedBooks.manager.orderModule.service.OrderDetailService;
+import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
+import com.usedBooks.util.MyBeanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,4 +60,17 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public int saveSelective(OrderDetail orderDetail) {
         return this.orderDetailMapper.insertSelective(orderDetail);
     }
+
+    @Override
+    public PageInfo<OrderDetail> getDetail(Integer page, Integer limit, Integer orderId) {
+
+        //分页
+        if(page!=null&&limit!=null){
+            PageHelper.startPage(page,limit);
+        }
+        List<OrderDetail>list = orderDetailMapper.getDetail(orderId);
+        PageInfo pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
+
 }

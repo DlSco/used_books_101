@@ -66,5 +66,25 @@ public interface BookMapper {
      */
     int updateByPrimaryKey(Book record);
 
+    /**
+     * 获取书籍列表,动态条件
+     * @param map
+     * @return
+     */
     List<Book> getList( Map<String,Object> map);
+
+    /**
+     * 上架或下架
+     * @param id
+     * @param code
+     * @return
+     */
+    int updateShelf(@Param("id") Integer id,@Param("code") Integer code);
+
+    /**
+     * 查看书籍上下架数据库字段的值
+     * @param id
+     * @return
+     */
+    Integer getBookShelfCode(@Param("id") Integer id);
 }
