@@ -53,17 +53,17 @@ spring:
 #        default-requeue-rejected: true
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml  #×¢Òâ£ºÒ»¶¨Òª¶ÔÓ¦mapperÓ³ÉäxmlÎÄ¼şµÄËùÔÚÂ·¾¶
+  mapper-locations: classpath:mapper/*.xml  #æ³¨æ„ï¼šä¸€å®šè¦å¯¹åº”mapperæ˜ å°„xmlæ–‡ä»¶çš„æ‰€åœ¨è·¯å¾„
   configuration:
     map-underscore-to-camel-case: true
-    #´òÓ¡sqlµ½¿ØÖÆÌ¨
+    #æ‰“å°sqlåˆ°æ§åˆ¶å°
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 
 pagehelper:
-  helperDialect: mysql                           #·ÖÒ³²å¼ş·½ÑÔÑ¡Ôñ
-  reasonable: true                               #ºÏÀí»¯²ÎÊı£¬ÉèÎªtrueÊ±pageNum<=0 Ê±»á²éµÚÒ»Ò³£¬ pageNum>pages£¨³¬¹ı×ÜÊıÊ±£©£¬»á²éÑ¯×îºóÒ»Ò³
+  helperDialect: mysql                            #åˆ†é¡µæ’ä»¶æ–¹è¨€é€‰æ‹©
+  reasonable: true                               #åˆç†åŒ–å‚æ•°ï¼Œè®¾ä¸ºtrueæ—¶pageNum<=0 æ—¶ä¼šæŸ¥ç¬¬ä¸€é¡µï¼Œ pageNum>pagesï¼ˆè¶…è¿‡æ€»æ•°æ—¶ï¼‰ï¼Œä¼šæŸ¥è¯¢æœ€åä¸€é¡µ
   supportMethodsArguments: true
 
 
@@ -77,13 +77,13 @@ pagehelper:
 #  poolMaxIdle: 500
 #  maxActive: 500
 
-##colorÎªÑÕÉ«ÊôĞÔÃû
-#color: "ÑÕÉ«"
+##colorä¸ºé¢œè‰²å±æ€§å
+#color: "é¢œè‰²"
 #
-##sizeÎª³ßÂëÊôĞÔÃû
-#size: "³ßÂë"
+##sizeä¸ºå°ºç å±æ€§å
+#size: "å°ºç "
 #
-##aliyun ¶ÌĞÅÅäÖÃĞÅÏ¢
+##aliyun çŸ­ä¿¡é…ç½®ä¿¡æ¯
 #aliyun:
 #  accessKeyId: LTAI87hOXJIydyGF
 #  accessKeySecret: EyEgPh6WEYmzCcPi2D9U6t23IyqGVT
