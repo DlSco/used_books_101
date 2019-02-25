@@ -29,6 +29,16 @@ spring:
       ddl-auto: update
     show-sql: true
 
+
+  #配置文件上传器
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+
+
+
 #  #rabbitmq
 #  rabbitmq:
 #    template:
@@ -66,6 +76,18 @@ pagehelper:
   reasonable: true                               #合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
   supportMethodsArguments: true
 
+#ftp相关配置
+FTP:
+  ADDRESS: 47.101.183.172
+  port: 21
+  USERNAME: ftpuser
+  PASSWORD: Vakoe123
+  BASEPATH: /home/ftpuser/images
+
+#图片服务器相关配置
+IMAGE:
+  BASE:
+    URL: http://47.101.183.172/images
 
 
 #redis:
