@@ -79,7 +79,7 @@ pagehelper:
 #ftp相关配置
 FTP:
   ADDRESS: 47.101.183.172
-  port: 21
+  PORT: 21
   USERNAME: ftpuser
   PASSWORD: Vakoe123
   BASEPATH: /home/ftpuser/images
