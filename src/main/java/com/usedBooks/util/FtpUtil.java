@@ -3,12 +3,16 @@ package com.usedBooks.util;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class FtpUtil {
 
+
+    private static Logger logger = LoggerFactory.getLogger(FtpUtil.class);
     /**
      * Description: 向FTP服务器上传文件
      * @param host FTP服务器ip
@@ -74,5 +78,40 @@ public class FtpUtil {
             }
         }
         return result;
+    }
+
+    public static boolean deleteFile(String host, int port, String username, String password, String basePath,
+                                     String filePath,String filename) {
+
+        FTPClient client = new FTPClient();
+
+        try {
+            client.connect(host,port);
+            client.login(username, password);
+            String reslFilename = basePath+filePath+filename;
+
+            // Delete file
+            boolean exist = client.deleteFile(reslFilename);
+
+            // Notify user for deletion
+            if (exist) {
+                logger.info("File '"+ reslFilename + "' deleted...");
+            }
+            // Notify user that file doesn't exist
+            else{
+                logger.info("File '"+ reslFilename + "' doesn't exist...");
+            }
+            client.logout();
+            return true;
+        } catch (IOException e) {
+            logger.error(e.getMessage(),e);
+            return false;
+        } finally {
+            try {
+                client.disconnect();
+            } catch (IOException e) {
+                logger.error(e.getMessage(),e);
+            }
+        }
     }
 }
