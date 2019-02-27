@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -41,19 +42,19 @@ public class UploadServiceUtil {
     @Value("${IMAGE.BASE.URL}")
     private String baseUrl;
 
-    public boolean pictureUpload(HttpServletRequest request, String paramName,String dirName) {
+    public List<String> pictureUpload(HttpServletRequest request, String paramName,String dirName) {
 
 
         // 参数校验
         if (request == null) {
             logger.error("请求参数为null");
-            return false;
+            return null;
         }
 
         // 判断是多块请求的类型
         if (!(request instanceof MultipartHttpServletRequest)) {
             logger.error("请求参数不是上传类型的请求，不能处理。");
-            return false;
+            return null;
         }
 
         // 强制转换成上传类型的请求处理
@@ -67,8 +68,14 @@ public class UploadServiceUtil {
                 realFileList.add(multipartFile);
             }
         }
+        return doRemoteUpload(realFileList,dirName);
+
+    }
+
+
+    public List<String> doRemoteUpload(List<MultipartFile> realFileList,String dirName){
         Iterator<MultipartFile> iterator = realFileList.iterator();
-        int flag = 0;
+        List<String> picUrlList = new LinkedList<>();
         while (iterator.hasNext()) {
             MultipartFile uploadFile = iterator.next();
 
@@ -81,7 +88,7 @@ public class UploadServiceUtil {
                 String newName = IDUtil.genImageName();
                 newName = newName + oldName.substring(oldName.lastIndexOf("."));
                 //1.3生成文件在服务器端存储的子目录
-                String filePath = dirName+new DateTime().toString("/yyyy/MM/dd");
+                String filePath = "/"+dirName+new DateTime().toString("/yyyy/MM/dd");
                 //3、把图片上传到图片服务器
                 //3.1获取上传的io流
                 InputStream input = uploadFile.getInputStream();
@@ -89,15 +96,17 @@ public class UploadServiceUtil {
                 //3.2调用FtpUtil工具类进行上传
                 boolean result = FtpUtil.uploadFile(host, port, userName, passWord, basePath, filePath, newName, input);
                 if (result) {
-                    flag++;
+                    picUrlList.add(baseUrl+filePath+"/"+newName);
                 } else {
-                    return false;
+                    picUrlList.removeAll(picUrlList);
+                    FtpUtil.deleteFile(host, port, userName,
+                            passWord, basePath, filePath, newName);
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
-                return false;
+                return null;
             }
         }
-        return true;
+        return picUrlList;
     }
 }
