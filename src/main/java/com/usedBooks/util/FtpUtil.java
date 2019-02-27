@@ -88,7 +88,7 @@ public class FtpUtil {
         try {
             client.connect(host,port);
             client.login(username, password);
-            String reslFilename = basePath+filePath+filename;
+            String reslFilename = basePath+filePath+"/"+filename;
 
             // Delete file
             boolean exist = client.deleteFile(reslFilename);
