@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.frontStage.order.mapper.OrderFrontStageMapper">
+    <!--   -->
+    <!--  @authorVakoe  -->
+    <!--  @date2019年02月18日 14:06 -->
+    <sql id="baseSearchSql">
+        <if test="buyerPhone != null">
+            and buyer_phone = #{buyerPhone , jdbcType=VARCHAR}
+        </if>
+        <if test="sellerPhone != null">
+            and seller_phone = #{sellerPhone , jdbcType=VARCHAR}
+        </if>
+        <if test="orderNumber != null">
+            and order_number = #{orderNumber , jdbcType=VARCHAR}
+        </if>
+        <if test="buyer != null">
+            and buyer = #{buyer , jdbcType=VARCHAR}
+        </if>
+        <if test="buyerId != null">
+            and buyer_id = #{buyerId , jdbcType=INTEGER}
+        </if>
+        <if test="seller != null">
+            and seller = #{seller , jdbcType=VARCHAR}
+        </if>
+        <if test="sellerId != null">
+            and seller_id = #{sellerId , jdbcType=INTEGER}
+        </if>
+        <if test="time != null">
+            and time = #{time , jdbcType=TIMESTAMP}
+        </if>
+        <if test="orderAmount != null">
+            and order_amount = #{orderAmount , jdbcType=DOUBLE}
+        </if>
+        <if test="actualAmount != null">
+            and actual_amount = #{actualAmount , jdbcType=DOUBLE}
+        </if>
+        <if test="deliveryMethod != null">
+            and delivery_method = #{deliveryMethod , jdbcType=VARCHAR}
+        </if>
+        <if test="state != null">
+            and state = #{state , jdbcType=INTEGER}
+        </if>
+        <if test="isCancel != null">
+            and is_cancel = #{isCancel , jdbcType=INTEGER}
+        </if>
+        <if test="isValid != null">
+            and is_valid = #{isValid , jdbcType=INTEGER}
+        </if>
+
+    </sql>
+    <resultMap id="OrderResultMap" type="com.usedBooks.pojo.Order">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="buyer_phone" jdbcType="VARCHAR" property="buyerPhone" />
+        <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
+        <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+        <result column="buyer" jdbcType="VARCHAR" property="buyer" />
+        <result column="buyer_id" jdbcType="INTEGER" property="buyerId" />
+        <result column="seller" jdbcType="VARCHAR" property="seller" />
+        <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+        <result column="order_amount" jdbcType="DOUBLE" property="orderAmount" />
+        <result column="actual_amount" jdbcType="DOUBLE" property="actualAmount" />
+        <result column="delivery_method" jdbcType="VARCHAR" property="deliveryMethod" />
+        <result column="state" jdbcType="INTEGER" property="state" />
+        <result column="is_cancel" jdbcType="INTEGER" property="isCancel" />
+        <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+    </resultMap>
+
+</mapper>
