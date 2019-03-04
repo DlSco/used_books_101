@@ -120,7 +120,7 @@
       <include refid="baseSearchSql" />
     </where>
   </delete>
-  <insert id="insert" parameterType="com.usedBooks.pojo.Order">
+  <insert id="insert" parameterType="com.usedBooks.pojo.Order" useGeneratedKeys="true" keyProperty="id">
     insert into order_form (id, buyer_phone, seller_phone,
       order_number, buyer, buyer_id, 
       seller, seller_id, time, 
