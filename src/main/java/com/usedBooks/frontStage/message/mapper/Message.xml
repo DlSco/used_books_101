@@ -57,4 +57,12 @@
         </foreach>
     </delete>
 
+    <select id="toList">
+        select <include refid="Base_Column_List"/> from message
+        <where>
+            <if test="type!=null">and type = #{type}</if>
+        </where>
+        order by message_time desc
+    </select>
+
 </mapper>
