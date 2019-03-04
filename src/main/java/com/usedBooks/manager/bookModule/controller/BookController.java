@@ -33,11 +33,12 @@ public class BookController {
      * @return           result实体
      */
     @RequestMapping(value="/getList",method = RequestMethod.POST)
-    public Result getList(Integer page,Integer limit,String key,String value,Book book ){
+    public Result getList(Integer page,Integer limit,String key,
+                          String value,Book book ,String sname,Integer sortRule){
         if(page!=null && limit!=null){
             PageHelper.startPage(page,limit);
         }
-        List<Book> list = bookService.getList(key,value,book);
+        List<Book> list = bookService.getList(key,value,book,sname,sortRule);
         PageInfo pageInfo = new PageInfo(list);
         logger.info(pageInfo.toString());
         return Result.success(pageInfo);

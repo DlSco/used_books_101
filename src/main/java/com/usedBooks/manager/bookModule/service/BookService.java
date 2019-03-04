@@ -3,7 +3,6 @@ package com.usedBooks.manager.bookModule.service;
 import java.util.List;
 
 import com.usedBooks.pojo.Book;
-import com.usedBooks.result.Result;
 import org.apache.ibatis.session.RowBounds;
 
 public interface BookService {
@@ -25,7 +24,7 @@ public interface BookService {
 
     int saveSelective(Book book);
 
-    List<Book> getList(String key, String value,  Book book);
+    List<Book> getList(String key, String value,  Book book,String sname,Integer sortRule);
 
     int updateShelf(Integer id);
 }

@@ -2,7 +2,13 @@
 
 package com.usedBooks.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -12,12 +18,16 @@ import java.io.Serializable;
  * @author Vakoe
  * @date 2019年02月18日 14:06
  */
+
+@Entity(name ="book")
 public class Book implements Serializable {
     /**
      * Database Column Remarks:
      *   书籍id
      * book.id
      */
+    @Id
+    @GeneratedValue
     private Integer id;
 
     /**
@@ -119,6 +129,23 @@ public class Book implements Serializable {
     /**
      * book
      */
+    /**
+     * 上架时间
+     */
+    private Date onshelfTime;
+    /**
+     * 下架时间
+     */
+    private Date dropshelfTime;
+    /**
+     * 描述
+     */
+    private String description;
+
+    private Date updateTime;
+
+    private Date createTime;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -317,5 +344,45 @@ public class Book implements Serializable {
 
     public void setIsDrop(Integer isDrop) {
         this.isDrop = isDrop;
+    }
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getOnshelfTime() {
+        return onshelfTime;
+    }
+
+    public void setOnshelfTime(Date onshelfTime) {
+        this.onshelfTime = onshelfTime;
+    }
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getDropshelfTime() {
+        return dropshelfTime;
+    }
+
+    public void setDropshelfTime(Date dropshelfTime) {
+        this.dropshelfTime = dropshelfTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

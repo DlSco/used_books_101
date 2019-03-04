@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getList(String key,String value,Book book) {
+    public List<Book> getList(String key,String value,Book book,String sname,Integer sortRule) {
         value = "%" + value+ "%";
         Map<String,Object> map = new HashMap<>();
         map.put("key",key);
@@ -68,6 +68,8 @@ public class BookServiceImpl implements BookService {
         map.put("isDrop",book.getIsDrop());
         map.put("id",book.getId());
         map.put("status",book.getStatus());
+        map.put("sname",sname);
+        map.put("sortRule",sortRule==null?"ASC":(sortRule==1?"ASC":"DESC"));
         return bookMapper.getList(map);
     }
 

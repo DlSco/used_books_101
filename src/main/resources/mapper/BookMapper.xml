@@ -3,49 +3,61 @@
 <mapper namespace="com.usedBooks.mapper.BookMapper">
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
+  <!--  @date2019年02月28日 13:46 -->
   <sql id="baseSearchSql">
     <if test="isbn != null">
-      and isbn = #{isbn , jdbcType=VARCHAR}
+        and isbn = #{isbn , jdbcType=VARCHAR}
     </if>
     <if test="name != null">
-      and name = #{name , jdbcType=VARCHAR}
+        and name = #{name , jdbcType=VARCHAR}
     </if>
     <if test="author != null">
-      and author = #{author , jdbcType=VARCHAR}
+        and author = #{author , jdbcType=VARCHAR}
     </if>
     <if test="publishHouse != null">
-      and publish_house = #{publishHouse , jdbcType=VARCHAR}
+        and publish_house = #{publishHouse , jdbcType=VARCHAR}
     </if>
     <if test="pictureUrl != null">
-      and picture_url = #{pictureUrl , jdbcType=VARCHAR}
+        and picture_url = #{pictureUrl , jdbcType=VARCHAR}
     </if>
     <if test="originalPrice != null">
-      and original_price = #{originalPrice , jdbcType=DOUBLE}
+        and original_price = #{originalPrice , jdbcType=DOUBLE}
     </if>
     <if test="price != null">
-      and price = #{price , jdbcType=DOUBLE}
+        and price = #{price , jdbcType=DOUBLE}
     </if>
     <if test="quantity != null">
-      and quantity = #{quantity , jdbcType=INTEGER}
+        and quantity = #{quantity , jdbcType=INTEGER}
     </if>
     <if test="bookOldState != null">
-      and book_old_state = #{bookOldState , jdbcType=INTEGER}
+        and book_old_state = #{bookOldState , jdbcType=INTEGER}
     </if>
     <if test="classificationId != null">
-      and classification_id = #{classificationId , jdbcType=INTEGER}
+        and classification_id = #{classificationId , jdbcType=INTEGER}
     </if>
     <if test="type != null">
-      and type = #{type , jdbcType=INTEGER}
+        and type = #{type , jdbcType=INTEGER}
     </if>
     <if test="remark != null">
-      and remark = #{remark , jdbcType=VARCHAR}
+        and remark = #{remark , jdbcType=VARCHAR}
     </if>
     <if test="status != null">
-      and status = #{status , jdbcType=INTEGER}
+        and status = #{status , jdbcType=INTEGER}
     </if>
     <if test="isDrop != null">
-      and is_drop = #{isDrop , jdbcType=INTEGER}
+        and is_drop = #{isDrop , jdbcType=INTEGER}
+    </if>
+    <if test="dropshelfTime != null">
+        and dropshelf_time = #{dropshelfTime , jdbcType=TIMESTAMP}
+    </if>
+    <if test="onshelfTime != null">
+        and onshelf_time = #{onshelfTime , jdbcType=TIMESTAMP}
+    </if>
+    <if test="description != null">
+        and description = #{description , jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime!=null">
+        and updateTime = #{updateTime , jdbcType=TIMESTAMP}
     </if>
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Book">
@@ -64,14 +76,20 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="is_drop" jdbcType="INTEGER" property="isDrop" />
+    <result column="dropshelf_time" jdbcType="TIMESTAMP" property="dropshelfTime" />
+    <result column="onshelf_time" jdbcType="TIMESTAMP" property="onshelfTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, isbn, name, author, publish_house, picture_url, original_price, price, quantity,
-    book_old_state, classification_id, type, remark, status, is_drop
+    id, isbn, name, author, publish_house, picture_url, original_price, price, quantity, 
+    book_old_state, classification_id, type, remark, status, is_drop, dropshelf_time, 
+    onshelf_time,description,create_time,update_time
   </sql>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
+  <!--  @date2019年02月28日 13:46 -->
   <select id="countByBook" parameterType="com.usedBooks.pojo.Book" resultType="java.lang.Long">
     select count(*) from book
     <where>
@@ -80,7 +98,7 @@
   </select>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
+  <!--  @date2019年02月28日 13:46 -->
   <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Book" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -90,7 +108,7 @@
     </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from book
     where id = #{id,jdbcType=INTEGER}
@@ -101,7 +119,7 @@
   </delete>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
+  <!--  @date2019年02月28日 13:46 -->
   <delete id="deleteByBook" parameterType="com.usedBooks.pojo.Book">
     delete from book
     <where>
@@ -109,18 +127,19 @@
     </where>
   </delete>
   <insert id="insert" parameterType="com.usedBooks.pojo.Book">
-    insert into book (id, isbn, name,
-      author, publish_house, picture_url,
-      original_price, price, quantity,
-      book_old_state, classification_id, type,
-      remark, status, is_drop
-      )
-    values (#{id,jdbcType=INTEGER}, #{isbn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{author,jdbcType=VARCHAR}, #{publishHouse,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR},
-      #{originalPrice,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{quantity,jdbcType=INTEGER},
-      #{bookOldState,jdbcType=INTEGER}, #{classificationId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isDrop,jdbcType=INTEGER}
-      )
+    insert into book (id, isbn, name, 
+      author, publish_house, picture_url, 
+      original_price, price, quantity, 
+      book_old_state, classification_id, type, 
+      remark, status, is_drop, 
+      dropshelf_time, onshelf_time,description,create_time,update_time)
+    values (#{id,jdbcType=INTEGER}, #{isbn,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{publishHouse,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR}, 
+      #{originalPrice,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{quantity,jdbcType=INTEGER}, 
+      #{bookOldState,jdbcType=INTEGER}, #{classificationId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isDrop,jdbcType=INTEGER}, 
+      #{dropshelfTime,jdbcType=TIMESTAMP}, #{onshelfTime,jdbcType=TIMESTAMP},#{description,jdbcType=VARCHAR}),
+      now(),now()
   </insert>
   <insert id="insertSelective" parameterType="com.usedBooks.pojo.Book">
     insert into book
@@ -170,6 +189,17 @@
       <if test="isDrop != null">
         is_drop,
       </if>
+      <if test="dropshelfTime != null">
+        dropshelf_time,
+      </if>
+      <if test="onshelfTime != null">
+        onshelf_time,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+        create_time,
+        update_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -217,88 +247,19 @@
       <if test="isDrop != null">
         #{isDrop,jdbcType=INTEGER},
       </if>
+      <if test="dropshelfTime != null">
+        #{dropshelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onshelfTime != null">
+        #{onshelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      now(),now()
     </trim>
   </insert>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
-  <update id="updateByBookSelective">
-    update book
-    <set>
-      <if test="id != null">
-        id = #{id,jdbcType=INTEGER},
-      </if>
-      <if test="isbn != null">
-        isbn = #{isbn,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="author != null">
-        author = #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="publishHouse != null">
-        publish_house = #{publishHouse,jdbcType=VARCHAR},
-      </if>
-      <if test="pictureUrl != null">
-        picture_url = #{pictureUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="originalPrice != null">
-        original_price = #{originalPrice,jdbcType=DOUBLE},
-      </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="bookOldState != null">
-        book_old_state = #{bookOldState,jdbcType=INTEGER},
-      </if>
-      <if test="classificationId != null">
-        classification_id = #{classificationId,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="isDrop != null">
-        is_drop = #{isDrop,jdbcType=INTEGER},
-      </if>
-    </set>
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </update>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 15:16 -->
-  <update id="updateByBook">
-    update book
-    set id = #{id,jdbcType=INTEGER},
-    isbn = #{isbn,jdbcType=VARCHAR},
-    name = #{name,jdbcType=VARCHAR},
-    author = #{author,jdbcType=VARCHAR},
-    publish_house = #{publishHouse,jdbcType=VARCHAR},
-    picture_url = #{pictureUrl,jdbcType=VARCHAR},
-    original_price = #{originalPrice,jdbcType=DOUBLE},
-    price = #{price,jdbcType=DOUBLE},
-    quantity = #{quantity,jdbcType=INTEGER},
-    book_old_state = #{bookOldState,jdbcType=INTEGER},
-    classification_id = #{classificationId,jdbcType=INTEGER},
-    type = #{type,jdbcType=INTEGER},
-    remark = #{remark,jdbcType=VARCHAR},
-    status = #{status,jdbcType=INTEGER},
-    is_drop = #{isDrop,jdbcType=INTEGER}
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Book">
     update book
     <set>
@@ -344,6 +305,19 @@
       <if test="isDrop != null">
         is_drop = #{isDrop,jdbcType=INTEGER},
       </if>
+      <if test="dropshelfTime != null">
+        dropshelf_time = #{dropshelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onshelfTime != null">
+        onshelf_time = #{onshelfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+     </if>
+
+     <if test="updateTime != null">
+         update_time = #{updateTime,jdbcType=TIMESTAMP}
+     </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -362,39 +336,58 @@
       type = #{type,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      is_drop = #{isDrop,jdbcType=INTEGER}
+      is_drop = #{isDrop,jdbcType=INTEGER},
+      dropshelf_time = #{dropshelfTime,jdbcType=TIMESTAMP},
+      onshelf_time = #{onshelfTime,jdbcType=TIMESTAMP},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
+    <!--搜索全部的基本sql语句-->
+    <sql id="sql_search_all">
+        select <include refid="Base_Column_List" /> from book a
+    </sql>
   <!--自己写的-->
+    <!--后管-->
   <!--获取书籍列表,动态条件-->
   <select id="getList" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List" /> from book
-      <where>
-        <if test="key != null and key != '' and value != null">
-          and ${key} like #{value}
-        </if>
-        <if test="type != null">
-         and type = #{type}
-        </if>
-        <if test="isDrop != null">
-          and is_drop = #{isDrop}
-        </if>
-        <if test="id != null">
-          and id = #{id}
-        </if>
-        <if test="status != null and status != '' ">
-          and status = #{status}
-        </if>
-      </where>
+    <!--select <include refid="Base_Column_List" /> from book-->
+    <include refid="sql_search_all"/>
+    <where>
+      <if test="key != null and key != '' and value != null">
+        and a.${key} like #{value}
+      </if>
+      <if test="type != null">
+        and a.type = #{type}
+      </if>
+      <if test="isDrop != null">
+        and a.is_drop = #{isDrop}
+      </if>
+      <if test="id != null">
+        and a.id = #{id}
+      </if>
+      <if test="status != null and status != '' ">
+        and a.status = #{status}
+      </if>
+    </where>
+      <if test="sname != null and sname != '' and sortRule != null and sortRule != ''">
+        order by ${sname} ${sortRule}
+      </if>
   </select>
 
 
   <!--上架或下架-->
-  <update id="updateShelf" parameterType="Integer">
+  <update id="updateShelf" >
     update book
-      set is_drop = #{code}
+    set is_drop = #{code},
+    <if test="code==1">
+      dropshelf_time = now(),
+      onshelf_time = null
+    </if>
+    <if test="code==0">
+      onshelf_time = now(),
+      dropshelf_time = null
+    </if>
     where id = #{id}
   </update>
 
