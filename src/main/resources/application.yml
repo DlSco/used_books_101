@@ -87,7 +87,7 @@ FTP:
 #图片服务器相关配置
 IMAGE:
   BASE:
-    URL: http://47.101.183.172/images
+    URL: http://47.101.183.172:8088/images
 
 
 #redis:
