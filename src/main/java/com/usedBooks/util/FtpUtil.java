@@ -39,25 +39,33 @@ public class FtpUtil {
                 ftp.disconnect();
                 return result;
             }
+
+            logger.info("切换到上传目录");
             //切换到上传目录
             if (!ftp.changeWorkingDirectory(basePath+filePath)) {
+                logger.info("创建目录");
                 //如果目录不存在创建目录
+                logger.info(basePath+filePath);
                 String[] dirs = filePath.split("/");
                 String tempPath = basePath;
                 for (String dir : dirs) {
                     if (null == dir || "".equals(dir)) continue;
-                    tempPath += "/" + dir;
+                    tempPath +="/"+ dir;
+                    logger.info("tempPath:"+tempPath);
                     if (!ftp.changeWorkingDirectory(tempPath)) {
+                        //String newDir = dir;
+                        logger.info("------->"+tempPath);
                         if (!ftp.makeDirectory(tempPath)) {
                             return result;
                         } else {
+                            logger.info("workingDirector:"+tempPath);
                             ftp.changeWorkingDirectory(tempPath);
                         }
                     }
                 }
             }
-            //设置为被动模式
-            ftp.enterLocalPassiveMode();
+            //设置为主动模式
+            ftp.enterLocalActiveMode();
             //设置上传文件的类型为二进制类型
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             //上传文件

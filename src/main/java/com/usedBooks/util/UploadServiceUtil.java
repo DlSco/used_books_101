@@ -42,7 +42,14 @@ public class UploadServiceUtil {
     @Value("${IMAGE.BASE.URL}")
     private String baseUrl;
 
-    public List<String> pictureUpload(HttpServletRequest request, String paramName,String dirName) {
+    /**
+     *
+     * @param request
+     * @param paramName        上传的文件传参的name
+     * @param dirName          自定义目录路径，格式：xxxxx/xxxx/xxx
+     * @return
+     */
+    public List<String> Upload(HttpServletRequest request, String paramName,String dirName) {
 
 
         // 参数校验
@@ -73,6 +80,12 @@ public class UploadServiceUtil {
     }
 
 
+    /**
+     *
+     * @param realFileList         文件列表
+     * @param dirName              自定义的目录路径   格式：xxxx/xxxx/xxx
+     * @return
+     */
     public List<String> doRemoteUpload(List<MultipartFile> realFileList,String dirName){
         Iterator<MultipartFile> iterator = realFileList.iterator();
         List<String> picUrlList = new LinkedList<>();
@@ -84,17 +97,21 @@ public class UploadServiceUtil {
                 //1、给上传的图片生成新的文件名
                 //1.1获取原始文件名
                 String oldName = uploadFile.getOriginalFilename();
+                logger.info("oldName:"+oldName);
                 //1.2使用IDUtils工具类生成新的文件名，新文件名 = newName + 文件后缀
                 String newName = IDUtil.genImageName();
                 newName = newName + oldName.substring(oldName.lastIndexOf("."));
+                logger.info("newName:"+newName);
                 //1.3生成文件在服务器端存储的子目录
                 String filePath = "/"+dirName+new DateTime().toString("/yyyy/MM/dd");
+                logger.info("filePath:"+filePath);
                 //3、把图片上传到图片服务器
                 //3.1获取上传的io流
                 InputStream input = uploadFile.getInputStream();
 
                 //3.2调用FtpUtil工具类进行上传
                 boolean result = FtpUtil.uploadFile(host, port, userName, passWord, basePath, filePath, newName, input);
+                logger.info("result"+result);
                 if (result) {
                     picUrlList.add(baseUrl+filePath+"/"+newName);
                 } else {
