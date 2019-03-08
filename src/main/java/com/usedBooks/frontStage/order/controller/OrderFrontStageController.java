@@ -21,10 +21,7 @@ public class OrderFrontStageController {
     private OrderFrontStageService orderFrontStageService;
     @Autowired
     private OrderService orderService;
-   /* @RequestMapping("/toList")
-    public Result toList(Order order){
-        return null;
-    }*/
+
 
     @PostMapping("/add")
     public Result add(Order order, OrderDetail orderDetail){

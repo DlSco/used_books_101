@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,7 +20,8 @@ import java.util.Date;
  * @date 2019年02月18日 14:06
  */
 
-@Entity(name ="book")
+@Entity
+@Table(name="book")
 public class Book implements Serializable {
     /**
      * Database Column Remarks:
@@ -27,7 +29,7 @@ public class Book implements Serializable {
      * book.id
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     /**

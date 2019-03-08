@@ -1,7 +1,7 @@
  /*
  * @Project Name:TODO 
  * @File Name:OrderDetailMapper
- * @Package Name:com.hhly.sns.commons.mapper
+ * @Package Name:com.hhly.sns.commons.common
  * @Date:2019年02月18日 14:06
  * @Creator:Vakoe
  * @line------------------------------

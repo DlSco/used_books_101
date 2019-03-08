@@ -151,14 +151,14 @@
             <version>1.1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.projectreactor.ipc</groupId>
-            <artifactId>reactor-netty</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>io.projectreactor.ipc</groupId>-->
+            <!--<artifactId>reactor-netty</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-all</artifactId>-->
+        <!--</dependency>-->
         <!-- 支付宝 依赖 -->
         <dependency>
             <groupId>com.alipay.sdk</groupId>
@@ -195,7 +195,11 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.5</version>
+        </dependency>
     </dependencies>
 
     <build>

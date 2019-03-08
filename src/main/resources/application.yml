@@ -69,7 +69,10 @@ mybatis:
     #打印sql到控制台
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
+mapper:
+  mappers:
+      - com.usedBooks.mybatis.common.BaseMapper
+  notEmpty: true
 
 pagehelper:
   helperDialect: mysql                            #分页插件方言选择

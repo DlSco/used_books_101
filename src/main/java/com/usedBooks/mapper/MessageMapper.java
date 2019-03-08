@@ -1,7 +1,7 @@
  /*
  * @Project Name:TODO 
  * @File Name:MessageMapper
- * @Package Name:com.usedBooks.mapper
+ * @Package Name:com.usedBooks.common
  * @Date:2019年03月04日 10:36
  * @Creator:Vakoe
  * @line------------------------------

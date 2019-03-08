@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.mapper.DictionaryMapper">
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <sql id="baseSearchSql">
+    <if test="dictName != null">
+        and dict_name = #{dictName , jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Dictionary">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dict_name" jdbcType="VARCHAR" property="dictName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dict_name
+  </sql>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <select id="countByDictionary" parameterType="com.usedBooks.pojo.Dictionary" resultType="java.lang.Long">
+    select count(*) from dictionary
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Dictionary" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dictionary
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dictionary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <delete id="deleteByDictionary" parameterType="com.usedBooks.pojo.Dictionary">
+    delete from dictionary
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </delete>
+  <insert id="insert" parameterType="com.usedBooks.pojo.Dictionary">
+    insert into dictionary (id, dict_name)
+    values (#{id,jdbcType=INTEGER}, #{dictName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.usedBooks.pojo.Dictionary">
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dictName != null">
+        dict_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dictName != null">
+        #{dictName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <update id="updateByDictionarySelective">
+    update dictionary
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dictName != null">
+        dict_name = #{dictName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月07日 21:05 -->
+  <update id="updateByDictionary">
+    update dictionary
+    set id = #{id,jdbcType=INTEGER},
+      dict_name = #{dictName,jdbcType=VARCHAR}
+    <where>
+      <include refid="baseSearchSql" />
+    </where>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.Dictionary">
+    update dictionary
+    <set>
+      <if test="dictName != null">
+        dict_name = #{dictName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Dictionary">
+    update dictionary
+    set dict_name = #{dictName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
