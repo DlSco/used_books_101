@@ -15,6 +15,9 @@ package com.usedBooks.mapper;
 import com.usedBooks.pojo.Dictionary;
 import org.apache.ibatis.session.RowBounds;
 
+import java.util.List;
+import java.util.Map;
+
  public interface DictionaryMapper {
      /**
       * @param dictionary
@@ -69,4 +72,6 @@ import org.apache.ibatis.session.RowBounds;
       * @return  int
       */
      int updateByPrimaryKey(Dictionary record);
+
+     List<Dictionary> toList(Map<String, Object> map);
  }

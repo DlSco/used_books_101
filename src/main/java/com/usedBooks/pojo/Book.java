@@ -4,10 +4,7 @@ package com.usedBooks.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,8 +17,7 @@ import java.util.Date;
  * @date 2019年02月18日 14:06
  */
 
-@Entity
-@Table(name="book")
+@Entity(name="book")
 public class Book implements Serializable {
     /**
      * Database Column Remarks:
@@ -29,7 +25,7 @@ public class Book implements Serializable {
      * book.id
      */
     @Id
-    @GeneratedValue(generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**

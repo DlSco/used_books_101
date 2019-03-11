@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.usedBooks.mapper.UserMapper">
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @author hengzi  -->
+  <!--  @date2019年03月08日 17:35 -->
   <sql id="baseSearchSql">
     <if test="userNo != null">
         and user_no = #{userNo , jdbcType=VARCHAR}
@@ -28,7 +28,7 @@
     </if>
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.User">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_no" jdbcType="VARCHAR" property="userNo" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -41,8 +41,8 @@
     id, user_no, user_name, phone, gender, password, salt, email
   </sql>
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月08日 17:35 -->
   <select id="countByUser" parameterType="com.usedBooks.pojo.User" resultType="java.lang.Long">
     select count(*) from user
     <where>
@@ -50,8 +50,8 @@
     </where>
   </select>
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月08日 17:35 -->
   <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.User" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -60,19 +60,19 @@
       <include refid="baseSearchSql" />
     </where>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月08日 17:35 -->
   <delete id="deleteByUser" parameterType="com.usedBooks.pojo.User">
     delete from user
     <where>
@@ -83,7 +83,7 @@
     insert into user (id, user_no, user_name, 
       phone, gender, password, 
       salt, email)
-    values (#{id,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
   </insert>
@@ -117,7 +117,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="userNo != null">
         #{userNo,jdbcType=VARCHAR},
@@ -143,13 +143,13 @@
     </trim>
   </insert>
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月08日 17:35 -->
   <update id="updateByUserSelective">
     update user
     <set>
       <if test="id != null">
-        id = #{id,jdbcType=VARCHAR},
+        id = #{id,jdbcType=INTEGER},
       </if>
       <if test="userNo != null">
         user_no = #{userNo,jdbcType=VARCHAR},
@@ -178,11 +178,11 @@
     </where>
   </update>
   <!--   -->
-  <!--  @authorhengzi  -->
-  <!--  @date2019年03月03日 11:14 -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年03月08日 17:35 -->
   <update id="updateByUser">
     update user
-    set id = #{id,jdbcType=VARCHAR},
+    set id = #{id,jdbcType=INTEGER},
       user_no = #{userNo,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.User">
     update user
@@ -230,6 +230,24 @@
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
+
+
+
+
+
+  <select id="toList" resultType="com.usedBooks.pojo.User">
+    select <include refid="Base_Column_List"></include>
+    from user
+    <where>
+      <include refid="baseSearchSql" />
+      <if test="key != null and key != '' and value != null">
+        and ${key} = #{value}
+      </if>
+    </where>
+  </select>
 </mapper>

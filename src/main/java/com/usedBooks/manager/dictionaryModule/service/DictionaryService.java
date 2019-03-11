@@ -1,5 +1,6 @@
 package com.usedBooks.manager.dictionaryModule.service;
 
+import com.github.pagehelper.PageInfo;
 import com.usedBooks.pojo.Dictionary;
 import org.apache.ibatis.session.RowBounds;
 
@@ -23,4 +24,7 @@ public interface DictionaryService {
     int save(Dictionary dictionary);
 
     int saveSelective(Dictionary dictionary);
+
+    PageInfo<Dictionary> toList(Integer page,Integer limit,Dictionary dictionary,String key,String value);
+
 }

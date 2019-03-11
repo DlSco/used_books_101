@@ -23,6 +23,9 @@ spring:
     testOnReturn: false
     filters: stat,wall,log4j
     logSlowSql: true
+  devtools:
+    livereload:
+      enabled: true
 
   jpa:
     hibernate:

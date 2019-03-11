@@ -9,6 +9,7 @@ import com.usedBooks.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,8 +50,8 @@ public class BookController {
      * @param id    书本id
      * @return
      */
-    @RequestMapping("/updateShelf")
-    public Result updateShelf(Integer id){
+    @RequestMapping("/updateShelf/{id}")
+    public Result updateShelf(@PathVariable Integer id){
        if(bookService.updateShelf(id)>0) {
             return Result.success(null);
        }

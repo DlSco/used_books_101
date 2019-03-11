@@ -140,4 +140,10 @@
       dict_id = #{dictId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="getByDictId" resultType="com.usedBooks.pojo.DictionaryData">
+    select <include refid="Base_Column_List"></include>
+    from dictionary_data where dict_id = #{dictId,jdbcType=INTEGER}
+  </select>
 </mapper>

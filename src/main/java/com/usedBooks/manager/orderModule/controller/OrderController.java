@@ -10,6 +10,7 @@ import com.usedBooks.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +32,8 @@ public class OrderController {
         return Result.success(pageInfo);
     }
 
-    @RequestMapping("/getDetail")
-    public Result getDetail(Integer page,Integer limit,Integer orderId){
+    @RequestMapping("/getDetail/{orderId}")
+    public Result getDetail(Integer page,Integer limit,@PathVariable Integer orderId){
 
         PageInfo<OrderDetail> pageInfo = detailService.getDetail(page,limit,orderId);
         logger.info(pageInfo.toString());

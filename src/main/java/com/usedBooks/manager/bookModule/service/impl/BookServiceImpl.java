@@ -58,6 +58,15 @@ public class BookServiceImpl implements BookService {
         return this.bookMapper.insertSelective(book);
     }
 
+    /**
+     * 获取书籍列表 ，动态条件
+     * @param key
+     * @param value
+     * @param book
+     * @param sname
+     * @param sortRule
+     * @return
+     */
     @Override
     public List<Book> getList(String key,String value,Book book,String sname,Integer sortRule) {
         value = "%" + value+ "%";

@@ -1,5 +1,7 @@
 package com.usedBooks.manager.dictionaryModule.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.dictionaryModule.service.DictionaryDataService;
 import com.usedBooks.mapper.DictionaryDataMapper;
 import com.usedBooks.pojo.DictionaryData;
@@ -9,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class DictionaryDataServiceImpl implements DictionaryDataService {
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper;
@@ -55,4 +59,17 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
     public int saveSelective(DictionaryData dictionaryData) {
         return this.dictionaryDataMapper.insertSelective(dictionaryData);
     }
+
+    @Override
+    public PageInfo getByDictId(Integer page, Integer limit, Integer dictId) {
+        if(page!=null&&limit!=null){
+            PageHelper.startPage(page,limit);
+        }
+
+        List<DictionaryData> list = dictionaryDataMapper.getByDictId( dictId);
+        PageInfo pageInfo = new PageInfo(list);
+        return pageInfo;
+    }
+
+
 }

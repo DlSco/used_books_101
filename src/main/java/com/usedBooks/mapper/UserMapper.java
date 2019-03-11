@@ -2,8 +2,8 @@
  * @Project Name:TODO 
  * @File Name:UserMapper
  * @Package Name:com.usedBooks.mapper
- * @Date:2019年03月03日 11:14
- * @Creator:hengzi
+ * @Date:2019年03月08日 17:35
+ * @Creator:Vakoe
  * @line------------------------------
  * @修改人:
  * @修改时间:
@@ -14,6 +14,9 @@ package com.usedBooks.mapper;
 
 import com.usedBooks.pojo.User;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
+import java.util.Map;
 
  public interface UserMapper {
      /**
@@ -32,7 +35,7 @@ import org.apache.ibatis.session.RowBounds;
       * @param id
       * @return  int
       */
-     int deleteByPrimaryKey(String id);
+     int deleteByPrimaryKey(Integer id);
 
      /**
       * @param record
@@ -56,7 +59,7 @@ import org.apache.ibatis.session.RowBounds;
       * @param id
       * @return  com.usedBooks.pojo.User
       */
-     User selectByPrimaryKey(String id);
+     User selectByPrimaryKey(Integer id);
 
      /**
       * @param record
@@ -69,4 +72,6 @@ import org.apache.ibatis.session.RowBounds;
       * @return  int
       */
      int updateByPrimaryKey(User record);
+
+     List<User> toList(Map<String,Object> map);
  }

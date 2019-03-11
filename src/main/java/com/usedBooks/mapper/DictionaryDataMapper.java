@@ -69,4 +69,8 @@ import org.apache.ibatis.session.RowBounds;
       * @return  int
       */
      int updateByPrimaryKey(DictionaryData record);
+
+
+     java.util.List<DictionaryData> getByDictId(Integer dictId);
+
  }

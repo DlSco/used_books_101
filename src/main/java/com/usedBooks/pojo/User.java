@@ -28,7 +28,7 @@ import java.io.Serializable;
       *   主键ID
       * user.id
       */
-     private String id;
+     private Integer id;
 
      /**
       * Database Column Remarks:
@@ -87,14 +87,14 @@ import java.io.Serializable;
      /**
       * @return  java.lang.String  id
       */
-     public String getId() {
+     public Integer getId() {
          return id;
      }
 
      /**
       * @param java.lang.String  id
       */
-     public void setId(String id) {
+     public void setId(Integer id) {
          this.id = id;
      }
 
