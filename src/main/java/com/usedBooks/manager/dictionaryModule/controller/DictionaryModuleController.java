@@ -113,5 +113,20 @@ public class DictionaryModuleController {
         return Result.error(new CodeMsg(0,"修改失败"));
     }
 
+    @RequestMapping("/addDictionary")
+    public Result addDictionary(Dictionary dictionary){
+        if(dictionaryService.save(dictionary)>0){
+            return Result.success(null);
+        }
+        return Result.error(new CodeMsg(0,"添加失败"));
+    }
+
+    @RequestMapping("/addDictionaryData")
+    public Result addDictionaryData(DictionaryData dictionaryData){
+        if(dictionaryDataService.save(dictionaryData)>0){
+            return Result.success(null);
+        }
+        return Result.error(new CodeMsg(0,"添加失败"));
+    }
 
 }
