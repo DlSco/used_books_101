@@ -3,22 +3,26 @@
 <mapper namespace="com.usedBooks.mapper.DictionaryMapper">
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <sql id="baseSearchSql">
     <if test="dictName != null">
-        and dict_name = #{dictName , jdbcType=VARCHAR}
+      and dict_name = #{dictName , jdbcType=VARCHAR}
+    </if>
+    <if test="dictCode != null">
+      and dict_code = #{dictCode , jdbcType=VARCHAR}
     </if>
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Dictionary">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="dict_name" jdbcType="VARCHAR" property="dictName" />
+    <result column="dict_code" jdbcType="VARCHAR" property="dictCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, dict_name
+    id, dict_name, dict_code
   </sql>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <select id="countByDictionary" parameterType="com.usedBooks.pojo.Dictionary" resultType="java.lang.Long">
     select count(*) from dictionary
     <where>
@@ -27,7 +31,7 @@
   </select>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.Dictionary" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -37,7 +41,7 @@
     </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from dictionary
     where id = #{id,jdbcType=INTEGER}
@@ -48,7 +52,7 @@
   </delete>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <delete id="deleteByDictionary" parameterType="com.usedBooks.pojo.Dictionary">
     delete from dictionary
     <where>
@@ -56,8 +60,10 @@
     </where>
   </delete>
   <insert id="insert" parameterType="com.usedBooks.pojo.Dictionary">
-    insert into dictionary (id, dict_name)
-    values (#{id,jdbcType=INTEGER}, #{dictName,jdbcType=VARCHAR})
+    insert into dictionary (id, dict_name, dict_code
+      )
+    values (#{id,jdbcType=INTEGER}, #{dictName,jdbcType=VARCHAR}, #{dictCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.usedBooks.pojo.Dictionary">
     insert into dictionary
@@ -68,6 +74,9 @@
       <if test="dictName != null">
         dict_name,
       </if>
+      <if test="dictCode != null">
+        dict_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -76,11 +85,14 @@
       <if test="dictName != null">
         #{dictName,jdbcType=VARCHAR},
       </if>
+      <if test="dictCode != null">
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <update id="updateByDictionarySelective">
     update dictionary
     <set>
@@ -90,6 +102,9 @@
       <if test="dictName != null">
         dict_name = #{dictName,jdbcType=VARCHAR},
       </if>
+      <if test="dictCode != null">
+        dict_code = #{dictCode,jdbcType=VARCHAR},
+      </if>
     </set>
     <where>
       <include refid="baseSearchSql" />
@@ -97,11 +112,12 @@
   </update>
   <!--   -->
   <!--  @authorVakoe  -->
-  <!--  @date2019年03月07日 21:05 -->
+  <!--  @date2019年03月12日 10:12 -->
   <update id="updateByDictionary">
     update dictionary
     set id = #{id,jdbcType=INTEGER},
-      dict_name = #{dictName,jdbcType=VARCHAR}
+    dict_name = #{dictName,jdbcType=VARCHAR},
+    dict_code = #{dictCode,jdbcType=VARCHAR}
     <where>
       <include refid="baseSearchSql" />
     </where>
@@ -112,12 +128,16 @@
       <if test="dictName != null">
         dict_name = #{dictName,jdbcType=VARCHAR},
       </if>
+      <if test="dictCode != null">
+        dict_code = #{dictCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.Dictionary">
     update dictionary
-    set dict_name = #{dictName,jdbcType=VARCHAR}
+    set dict_name = #{dictName,jdbcType=VARCHAR},
+      dict_code = #{dictCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -12,6 +12,9 @@
 
 package com.usedBooks.pojo;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
  /**
@@ -22,14 +25,20 @@ import java.io.Serializable;
   * @author Vakoe
   * @date 2019年03月07日 21:05
   */
+ @Data
+ @Entity(name = "dictionary")
  public class Dictionary implements Serializable {
      /**
       * Database Column Remarks:
       *   id
       * dictionary.id
       */
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Integer id;
 
+     @Column(columnDefinition = " COMMENT '字典代码'")
+     private String dictCode;
      /**
       * Database Column Remarks:
       *   字典名称

@@ -66,7 +66,7 @@ spring:
 #        default-requeue-rejected: true
 
 mybatis:
-  mapper-locations: classpath:**/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  mapper-locations: classpath:**/mapper/**/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   configuration:
     map-underscore-to-camel-case: true
     #打印sql到控制台
