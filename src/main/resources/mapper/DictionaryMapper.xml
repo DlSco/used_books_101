@@ -140,4 +140,14 @@
       dict_code = #{dictCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="toList" parameterMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>
+        from dictionary
+        <where>
+            <include refid="BaseSearchSql"></include>
+            <if test="key != null and key != '' and value != null">
+                and a.${key} like #{value}
+            </if>
+        </where>
+    </select>
 </mapper>
