@@ -100,6 +100,7 @@
         and ${key} = #{value}
       </if>
     </where>
+    order by time desc
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
