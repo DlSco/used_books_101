@@ -12,6 +12,12 @@
 
 package com.usedBooks.pojo;
 
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
  /**
@@ -22,12 +28,16 @@ import java.io.Serializable;
   * @author Vakoe
   * @date 2019年03月07日 21:05
   */
+ @Data
+ @Entity(name="dictionary_data")
  public class DictionaryData implements Serializable {
      /**
       * Database Column Remarks:
       *   id
       * dictionary_data.id
       */
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Integer id;
 
      /**
@@ -35,7 +45,7 @@ import java.io.Serializable;
       *   字典值
       * dictionary_data.value
       */
-     private String value;
+     private String dictValue;
 
      /**
       * Database Column Remarks:
@@ -44,50 +54,8 @@ import java.io.Serializable;
       */
      private Integer dictId;
 
-     /**
-      * dictionary_data
-      */
-     private static final long serialVersionUID = 1L;
 
-     /**
-      * @return  java.lang.Integer  id
-      */
-     public Integer getId() {
-         return id;
-     }
+     private String dictKey;
 
-     /**
-      * @param java.lang.Integer  id
-      */
-     public void setId(Integer id) {
-         this.id = id;
-     }
 
-     /**
-      * @return  java.lang.String  value
-      */
-     public String getValue() {
-         return value;
-     }
-
-     /**
-      * @param java.lang.String  value
-      */
-     public void setValue(String value) {
-         this.value = value;
-     }
-
-     /**
-      * @return  java.lang.Integer  dictId
-      */
-     public Integer getDictId() {
-         return dictId;
-     }
-
-     /**
-      * @param java.lang.Integer  dictId
-      */
-     public void setDictId(Integer dictId) {
-         this.dictId = dictId;
-     }
  }
