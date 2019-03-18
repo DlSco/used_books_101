@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.frontStage.shopCart.shopCartDetail.mapper.ShopCartDetailMapper">
+    <!--   -->
+    <!--  @authorVakoe  -->
+    <!--  @date2019年03月12日 14:17 -->
+    <sql id="baseSearchSql">
+        <if test="bookId != null">
+            and book_id = #{bookId , jdbcType=INTEGER}
+        </if>
+        <if test="purchaseQuantity != null">
+            and purchase_quantity = #{purchaseQuantity , jdbcType=DOUBLE}
+        </if>
+        <if test="shopCartId != null">
+            and shop_cart_id = #{shopCartId , jdbcType=INTEGER}
+        </if>
+    </sql>
+    <sql id="listSearchSql">
+        <if test="bookId != null">
+            and a.book_id = #{bookId , jdbcType=INTEGER}
+        </if>
+        <if test="purchaseQuantity != null">
+            and a.purchase_quantity = #{purchaseQuantity , jdbcType=DOUBLE}
+        </if>
+        <if test="shopCartId != null">
+            and a.shop_cart_id = #{shopCartId , jdbcType=INTEGER}
+        </if>
+        <if test="sellerId != null">
+            and a.seller_id = #{sellerId,jdbcType=Integer}
+        </if>
+        <if test="name != null">
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <sql id="Base_Column_List">
+      id, book_id, purchase_quantity, shop_cart_id,seller_id
+    </sql>
+    <sql id="list_column">
+        a.id, a.book_id, a.purchase_quantity, a.shop_cart_id,a.seller_id,b.name,b.original_price,b.price
+    </sql>
+    <select id="toList" resultType="com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo">
+        select <include refid="list_column"></include>
+        from shop_cart_detail a inner join book b on b.id = a.book_id
+        <where>
+          <include refid="listSearchSql"></include>
+        </where>
+    </select>
+</mapper>

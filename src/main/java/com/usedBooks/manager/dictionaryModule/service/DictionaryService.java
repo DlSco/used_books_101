@@ -1,30 +1,25 @@
 package com.usedBooks.manager.dictionaryModule.service;
 
-import com.github.pagehelper.PageInfo;
-import com.usedBooks.pojo.Dictionary;
-import org.apache.ibatis.session.RowBounds;
+import com.usedBooks.manager.dictionaryModule.pojo.Dictionary;
+import com.usedBooks.result.Pager;
 
 import java.util.List;
 
 public interface DictionaryService {
+
+    List<Dictionary> select(Dictionary dictionary);
+
     long countByDictionary(Dictionary dictionary);
 
     Dictionary getByPrimaryKey(Integer id);
-
-    List<Dictionary> listWithRowbounds(Dictionary dictionary, RowBounds rowBounds);
 
     int removeByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Dictionary dictionary);
 
-    int updateByPrimaryKey(Dictionary dictionary);
-
-    int removeByDictionary(Dictionary dictionary);
-
     int save(Dictionary dictionary);
 
-    int saveSelective(Dictionary dictionary);
+    Pager<Dictionary> toList(Integer page, Integer limit, Dictionary dictionary, String keyword);
 
-    PageInfo<Dictionary> toList(Integer page,Integer limit,Dictionary dictionary,String key,String value);
 
 }

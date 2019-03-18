@@ -1,21 +1,17 @@
 package com.usedBooks.manager.dictionaryModule.controller;
-
-
 import com.github.pagehelper.PageInfo;
-import com.usedBooks.manager.dictionaryModule.service.DictionaryDataService;
+import com.usedBooks.manager.dictionaryModule.pojo.Dictionary;
+import com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem;
+import com.usedBooks.manager.dictionaryModule.service.DictionaryItemService;
 import com.usedBooks.manager.dictionaryModule.service.DictionaryService;
-import com.usedBooks.pojo.Dictionary;
-import com.usedBooks.pojo.DictionaryData;
 import com.usedBooks.result.CodeMsg;
+import com.usedBooks.result.Pager;
 import com.usedBooks.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/Manager/dictionaryModule",method = RequestMethod.POST)
+@RequestMapping(value = "/dictionary",method = RequestMethod.POST)
 public class DictionaryModuleController {
 
     /**
@@ -30,31 +26,31 @@ public class DictionaryModuleController {
     private DictionaryService dictionaryService;
 
     @Autowired
-    private DictionaryDataService dictionaryDataService;
+    private DictionaryItemService dictionaryItemService;
     @RequestMapping("/toList")
-    public Result toList(Integer page, Integer limit, Dictionary dictionary,String key,String value){
-        PageInfo pageInfo = dictionaryService.toList(page,limit,dictionary,key,value);
-        if(pageInfo.getList()==null){
-            return Result.error(new CodeMsg(0,"查询失败"));
+    public Result toList(Integer page, Integer limit, Dictionary dictionary, String keyword){
+        Pager pager = dictionaryService.toList(page,limit,dictionary,keyword);
+        if(pager.getRows()==null){
+            return Result.error(new CodeMsg(1,"查询失败"));
         }
-        return Result.success(pageInfo);
+        return Result.success(pager);
     }
 
     /**
-     * 字典值列表
+     * 字典项目列表
      * @param page
      * @param limit
      * @param dictId
      * @return
      */
     @RequestMapping("/toDetail/{dictId}")
-    public Result toDetail(Integer page, Integer limit,Integer dictId){
+    public Result toDetail(Integer page, Integer limit,@PathVariable Integer dictId){
 
-        PageInfo pageInfo = dictionaryDataService.getByDictId(page,limit,dictId);
+        PageInfo pageInfo = dictionaryItemService.getByDictId(page,limit,dictId);
         if(pageInfo.getList()==null){
-            return Result.error(new CodeMsg(0,"查询失败"));
+            return Result.error(new CodeMsg(1,"查询失败"));
         }
-        return Result.success(pageInfo);
+        return Result.success(new Pager(pageInfo));
     }
 
     /**
@@ -63,70 +59,128 @@ public class DictionaryModuleController {
      * @return
      */
     @RequestMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id){
+    public Result delete(@PathVariable(value = "id") Integer id){
 
         if(dictionaryService.removeByPrimaryKey(id)>0){
             return Result.success(null);
         }
-        return Result.error(new CodeMsg(0,"删除失败"));
+        return Result.error(new CodeMsg(1,"删除失败"));
     }
 
     /**
-     * 根据id删除字典值
-     * @param dictId
+     * 根据id删除字典项目
+     * @param id
      * @return
      */
-    @RequestMapping("/deleteDictionaryData/{dictId}")
-    public Result deleteDictionaryData(@PathVariable Integer dictId){
-       if(dictionaryDataService.removeByPrimaryKey(dictId)>0){
+    @RequestMapping("/deleteDictionaryItem/{id}")
+    public Result deleteDictionaryItem(@PathVariable Integer id){
+       if(dictionaryItemService.removeByPrimaryKey(id)>0){
            return Result.success(null);
        }
-       return Result.error(new CodeMsg(0,"删除失败"));
+       return Result.error(new CodeMsg(1,"删除失败"));
     }
 
     /**
-     * 修改字典
+     * 修改字典表
      * @param dictionary
      * @return
      */
-    @RequestMapping("/updateDictionary/{id}")
-    public Result updateDictionary(@PathVariable Integer id,Dictionary dictionary){
-        dictionary.setId(id);
-        if(dictionaryService.updateByPrimaryKey(dictionary)>0){
+    @RequestMapping("/updateDictionary")
+    public Result updateDictionary(Dictionary dictionary){
+        //判断数据库是否有相同的记录
+        Dictionary temp = new Dictionary();
+        temp.setDictCode(dictionary.getDictCode());
+
+        if(dictionaryService.countByDictionary(temp)>0){
+            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        }
+        if(dictionaryService.updateByPrimaryKeySelective(dictionary)>0){
             return Result.success(null);
         }
-        return Result.error(new CodeMsg(0,"修改失败"));
+        return Result.error(new CodeMsg(1,"修改失败"));
     }
 
     /**
-     * 修改字典值
-     * @param id
-     * @param dictionaryData
+     * 修改字典项目表
+     * @param dictionaryItem
      * @return
      */
-    @RequestMapping("/updateDictionaryData/{id}")
-    public Result updateDictionaryData(@PathVariable Integer id,DictionaryData dictionaryData){
-        dictionaryData.setId(id);
-        if(dictionaryDataService.updateByPrimaryKey(dictionaryData)>0){
+    @RequestMapping("/updateDictionaryItem")
+    public Result updateDictionaryItem(DictionaryItem dictionaryItem){
+
+        DictionaryItem temp = new DictionaryItem();
+        temp.setItemName(dictionaryItem.getItemName());
+        //判断数据库是否有相同的记录
+        if(dictionaryItemService.countByDictionaryData(temp)>0){
+            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        }
+        if(dictionaryItemService.updateByPrimaryKeySelective(dictionaryItem)>0){
             return Result.success(null);
         }
-        return Result.error(new CodeMsg(0,"修改失败"));
+        return Result.error(new CodeMsg(1,"修改失败"));
     }
 
+    /**
+     * 添加字典
+     * @param dictionary
+     * @return
+     */
     @RequestMapping("/addDictionary")
     public Result addDictionary(Dictionary dictionary){
+        //判断数据库是否有相同的记录
+        Dictionary temp = new Dictionary();
+        temp.setDictCode(dictionary.getDictCode());
+
+        if(dictionaryService.countByDictionary(temp)>0){
+            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        }
+        //判断数据库是否有相同的记录
+        if(dictionaryService.countByDictionary(dictionary)>0){
+            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        }
         if(dictionaryService.save(dictionary)>0){
             return Result.success(null);
         }
-        return Result.error(new CodeMsg(0,"添加失败"));
+        return Result.error(new CodeMsg(1,"添加失败"));
     }
 
-    @RequestMapping("/addDictionaryData")
-    public Result addDictionaryData(DictionaryData dictionaryData){
-        if(dictionaryDataService.save(dictionaryData)>0){
+    /**
+     * 添加字典项目
+     * @param dictionaryItem
+     * @return
+     */
+    @RequestMapping("/addDictionaryItem")
+    public Result addDictionaryItem(DictionaryItem dictionaryItem){
+        DictionaryItem temp = new DictionaryItem();
+        temp.setItemName(dictionaryItem.getItemName());
+        //判断数据库是否有相同的记录
+        if(dictionaryItemService.countByDictionaryData(temp)>0){
+            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        }
+        if(dictionaryItemService.save(dictionaryItem)>0){
             return Result.success(null);
         }
-        return Result.error(new CodeMsg(0,"添加失败"));
+        return Result.error(new CodeMsg(1,"添加失败"));
     }
 
+    /**
+     *根据以下条件获得DictionaryItem
+     * @param dictCode        字典代码
+     * @param itemValue       字典项目值
+     * @return
+     */
+    @RequestMapping("/getDictionaryItemValue")
+    public Result getDictionaryItemValue(String dictCode,String itemValue){
+        return Result.success(dictionaryItemService.getDictionaryItemValue(dictCode,itemValue));
+    }
+
+    /**
+     * 根据一下条件获得DictionaryItem
+     * @param dictCode
+     * @return
+     */
+    @RequestMapping("/getDictionaryItemByDictCode")
+    public Result getDictionaryItemByDictCode(String dictCode){
+        return Result.success(dictionaryItemService.getDictionaryItemByDictCode(dictCode));
+    }
 }

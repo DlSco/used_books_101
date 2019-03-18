@@ -26,7 +26,6 @@ public class OrderController {
     private OrderDetailService detailService;
     @RequestMapping("/getList")
     public Result getList(Integer page,Integer limit,Order order,String key,String value){
-
         PageInfo<Order> pageInfo = orderService.getList(page,limit,order,key,value);
         logger.info(pageInfo.toString());
         return Result.success(pageInfo);

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem">
+  <!--   -->
+  <!--  @authorhengzi  -->
+  <!--  @date2019年03月12日 11:14 -->
+  <sql id="baseSearchSql">
+    <if test="dictId != null">
+      and dict_id = #{dictId , jdbcType=INTEGER}
+    </if>
+    <if test="itemValue != null">
+      and item_value = #{itemValue , jdbcType=VARCHAR}
+    </if>
+    <if test="itemName != null">
+      and item_name = #{itemName , jdbcType=VARCHAR}
+    </if>
+
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dict_id" jdbcType="INTEGER" property="dictId" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dict_id, item_name, item_value
+  </sql>
+  <sql id="Link_Column_List">
+    a.id, a.dict_id, a.item_name, a.item_value
+  </sql>
+  <select id="getDictionaryItemByDictCode" resultType="com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem">
+    select <include refid="Link_Column_List"></include>
+    from erp_dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
+    where b.dict_code = #{dictCode}
+  </select>
+
+  <select id="getDictionaryItemValue" resultMap="BaseResultMap">
+    select <include refid="Link_Column_List"></include>
+    from erp_dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
+    where a.item_value = #{itemValue,jdbcType=VARCHAR} and b.dict_code = #{dictCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

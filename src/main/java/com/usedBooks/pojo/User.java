@@ -11,7 +11,12 @@
  */
 
 package com.usedBooks.pojo;
+import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
  /**
@@ -22,12 +27,16 @@ import java.io.Serializable;
   * @author hengzi
   * @date 2019年03月03日 11:14
   */
+ @Data
+ @Entity
  public class User implements Serializable {
      /**
       * Database Column Remarks:
       *   主键ID
       * user.id
       */
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Integer id;
 
      /**
@@ -78,121 +87,15 @@ import java.io.Serializable;
       * user.email
       */
      private String email;
+     /**
+      * 是否冻结，1：是，0：否
+      */
+     private Integer is_delete;
 
      /**
       * user
       */
      private static final long serialVersionUID = 1L;
 
-     /**
-      * @return  java.lang.String  id
-      */
-     public Integer getId() {
-         return id;
-     }
 
-     /**
-      * @param java.lang.String  id
-      */
-     public void setId(Integer id) {
-         this.id = id;
-     }
-
-     /**
-      * @return  java.lang.String  userNo
-      */
-     public String getUserNo() {
-         return userNo;
-     }
-
-     /**
-      * @param java.lang.String  userNo
-      */
-     public void setUserNo(String userNo) {
-         this.userNo = userNo;
-     }
-
-     /**
-      * @return  java.lang.String  userName
-      */
-     public String getUserName() {
-         return userName;
-     }
-
-     /**
-      * @param java.lang.String  userName
-      */
-     public void setUserName(String userName) {
-         this.userName = userName;
-     }
-
-     /**
-      * @return  java.lang.String  phone
-      */
-     public String getPhone() {
-         return phone;
-     }
-
-     /**
-      * @param java.lang.String  phone
-      */
-     public void setPhone(String phone) {
-         this.phone = phone;
-     }
-
-     /**
-      * @return  java.lang.Integer  gender
-      */
-     public Integer getGender() {
-         return gender;
-     }
-
-     /**
-      * @param java.lang.Integer  gender
-      */
-     public void setGender(Integer gender) {
-         this.gender = gender;
-     }
-
-     /**
-      * @return  java.lang.String  password
-      */
-     public String getPassword() {
-         return password;
-     }
-
-     /**
-      * @param java.lang.String  password
-      */
-     public void setPassword(String password) {
-         this.password = password;
-     }
-
-     /**
-      * @return  java.lang.String  salt
-      */
-     public String getSalt() {
-         return salt;
-     }
-
-     /**
-      * @param java.lang.String  salt
-      */
-     public void setSalt(String salt) {
-         this.salt = salt;
-     }
-
-     /**
-      * @return  java.lang.String  email
-      */
-     public String getEmail() {
-         return email;
-     }
-
-     /**
-      * @param java.lang.String  email
-      */
-     public void setEmail(String email) {
-         this.email = email;
-     }
  }

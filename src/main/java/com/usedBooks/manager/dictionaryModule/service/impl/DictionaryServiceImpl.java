@@ -1,22 +1,21 @@
 package com.usedBooks.manager.dictionaryModule.service.impl;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.usedBooks.manager.dictionaryModule.mapper.DictionaryItemMapper;
+import com.usedBooks.manager.dictionaryModule.mapper.DictionaryMapper;
+import com.usedBooks.manager.dictionaryModule.pojo.Dictionary;
+import com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem;
 import com.usedBooks.manager.dictionaryModule.service.DictionaryService;
-import com.usedBooks.mapper.DictionaryDataMapper;
-import com.usedBooks.mapper.DictionaryMapper;
-import com.usedBooks.pojo.Dictionary;
-import com.usedBooks.pojo.DictionaryData;
+import com.usedBooks.result.Pager;
 import com.usedBooks.util.MyBeanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 @Transactional
@@ -24,7 +23,9 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Autowired
     private DictionaryMapper dictionaryMapper;
     @Autowired
-    private DictionaryDataMapper dictionaryDataMapper;
+    private DictionaryItemMapper dictionaryItemMapper;
+
+
 
     private static final Logger logger = LoggerFactory.getLogger(DictionaryServiceImpl.class);
 
@@ -33,54 +34,48 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     public long countByDictionary(Dictionary dictionary) {
-        long count = this.dictionaryMapper.countByDictionary(dictionary);
+        long count = this.dictionaryMapper.selectCount(dictionary);
         logger.debug("count: {}", count);
         return count;
     }
 
-    public List<Dictionary> listWithRowbounds(Dictionary dictionary, RowBounds rowBounds) {
-        return this.dictionaryMapper.selectWithRowbounds(dictionary,rowBounds);
+    public List<Dictionary> select(Dictionary dictionary) {
+        return this.dictionaryMapper.select(dictionary);
     }
 
     @Transactional
     public int removeByPrimaryKey(Integer id) {
-        DictionaryData dictionaryData = new DictionaryData();
-        dictionaryData.setDictId(id);
-        if(dictionaryDataMapper.deleteByDictionaryData(dictionaryData)>0){
+        try {
+            DictionaryItem erpDictionaryItem = new DictionaryItem();
+            erpDictionaryItem.setDictId(id);
+            dictionaryItemMapper.delete(erpDictionaryItem);
             return this.dictionaryMapper.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+           logger.error(e.getMessage(),e);
         }
         return 0;
     }
 
     public int updateByPrimaryKeySelective(Dictionary dictionary) {
-        return this.dictionaryMapper.updateByPrimaryKeySelective(dictionary);
+        return dictionaryMapper.updateByPrimaryKeySelective(dictionary);
     }
 
-    public int updateByPrimaryKey(Dictionary dictionary) {
-        return this.dictionaryMapper.updateByPrimaryKey(dictionary);
-    }
-
-    public int removeByDictionary(Dictionary dictionary) {
-        return this.dictionaryMapper.deleteByDictionary(dictionary);
-    }
 
     public int save(Dictionary dictionary) {
-        return this.dictionaryMapper.insert(dictionary);
+        return dictionaryMapper.insert(dictionary);
     }
 
-    public int saveSelective(Dictionary dictionary) {
-        return this.dictionaryMapper.insertSelective(dictionary);
-    }
 
     @Override
-    public PageInfo toList(Integer page,Integer limit,Dictionary dictionary,String key,String value) {
+    public Pager toList(Integer page, Integer limit, Dictionary dictionary, String keyword) {
         if(page!=null&&limit!=null){
             PageHelper.startPage(page,limit);
         }
         Map<String,Object> map = MyBeanUtils.beanToMap(dictionary);
-        map.put("key",key);
-        map.put("value",value);
+        map.put("keyword",null==keyword?null:"%"+keyword+"%");
         List<Dictionary> list = dictionaryMapper.toList(map);
-        return new PageInfo(list);
+        return new Pager(new PageInfo(list));
     }
+
+
 }
