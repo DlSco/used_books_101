@@ -87,10 +87,13 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/updateDictionary")
     public Result updateDictionary(Dictionary dictionary){
+
         //判断数据库是否有相同的记录
         Dictionary temp = new Dictionary();
         temp.setDictCode(dictionary.getDictCode());
-
+        if(temp.getDictCode()==null || temp.getDictCode().equals("")){
+            return Result.error(new CodeMsg(1,"字典代码不能为空"));
+        }
         if(dictionaryService.countByDictionary(temp)>0){
             return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
         }
@@ -108,6 +111,9 @@ public class DictionaryModuleController {
     @RequestMapping("/updateDictionaryItem")
     public Result updateDictionaryItem(DictionaryItem dictionaryItem){
 
+        if(dictionaryItem.getItemName()==null || dictionaryItem.getItemName()==""){
+            return Result.error(new CodeMsg(1,"字典项目名不能没值"));
+        }
         DictionaryItem temp = new DictionaryItem();
         temp.setItemName(dictionaryItem.getItemName());
         //判断数据库是否有相同的记录
@@ -127,12 +133,11 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/addDictionary")
     public Result addDictionary(Dictionary dictionary){
-        //判断数据库是否有相同的记录
+
         Dictionary temp = new Dictionary();
         temp.setDictCode(dictionary.getDictCode());
-
-        if(dictionaryService.countByDictionary(temp)>0){
-            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+        if(temp.getDictCode()==null || temp.getDictCode().equals("")){
+            return Result.error(new CodeMsg(1,"字典代码不能为空"));
         }
         //判断数据库是否有相同的记录
         if(dictionaryService.countByDictionary(dictionary)>0){
@@ -151,6 +156,9 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/addDictionaryItem")
     public Result addDictionaryItem(DictionaryItem dictionaryItem){
+        if(dictionaryItem.getItemName()==null || dictionaryItem.getItemName()==""){
+            return Result.error(new CodeMsg(1,"字典项目名不能没值"));
+        }
         DictionaryItem temp = new DictionaryItem();
         temp.setItemName(dictionaryItem.getItemName());
         //判断数据库是否有相同的记录

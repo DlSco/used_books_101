@@ -2,7 +2,7 @@ package com.usedBooks.manager.auctionModule.service.impl;
 
 import java.util.List;
 
-import com.usedBooks.mapper.AuctionMapper;
+import com.usedBooks.manager.auctionModule.mapper.AuctionMapper;
 import com.usedBooks.manager.auctionModule.service.AuctionService;
 import com.usedBooks.pojo.Auction;
 import org.apache.ibatis.session.RowBounds;
@@ -23,13 +23,13 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     public long countByAuction(Auction auction) {
-        long count = this.auctionMapper.countByAuction(auction);
+        long count = this.auctionMapper.selectCount(auction);
         logger.debug("count: {}", count);
         return count;
     }
 
     public List<Auction> listWithRowbounds(Auction auction, RowBounds rowBounds) {
-        return this.auctionMapper.selectWithRowbounds(auction,rowBounds);
+        return this.auctionMapper.selectByRowBounds(auction,rowBounds);
     }
 
     public int removeByPrimaryKey(Integer id) {
@@ -45,7 +45,7 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     public int removeByAuction(Auction auction) {
-        return this.auctionMapper.deleteByAuction(auction);
+        return this.auctionMapper.delete(auction);
     }
 
     public int save(Auction auction) {

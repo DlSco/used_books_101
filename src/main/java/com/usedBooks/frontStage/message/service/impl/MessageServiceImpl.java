@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.usedBooks.frontStage.message.mapper.MessageInherit;
 import com.usedBooks.frontStage.message.service.MessageService;
-import com.usedBooks.mapper.MessageMapper;
+import com.usedBooks.frontStage.message.mapper.MessageMapper;
 import com.usedBooks.pojo.Message;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;

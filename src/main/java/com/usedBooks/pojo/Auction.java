@@ -2,6 +2,13 @@
 
 package com.usedBooks.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,27 +20,25 @@ import java.util.Date;
  * @author Vakoe
  * @date 2019年02月18日 14:06
  */
+@Data
+@Entity(name="auction")
 public class Auction implements Serializable {
     /**
      * Database Column Remarks:
      *   id
      * auction.id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * Database Column Remarks:
-     *   书籍id
+     *   发布id
      * auction.book_id
      */
-    private Integer bookId;
+    private Integer publishId;
 
-    /**
-     * Database Column Remarks:
-     *   发布者id
-     * auction.announcer_id
-     */
-    private Integer announcerId;
 
     /**
      * Database Column Remarks:
@@ -55,50 +60,9 @@ public class Auction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @return  java.lang.Integer  id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param java.lang.Integer  id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * @return  java.lang.Integer  bookId
-     */
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    /**
-     * @param java.lang.Integer  bookId
-     */
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    /**
-     * @return  java.lang.Integer  announcerId
-     */
-    public Integer getAnnouncerId() {
-        return announcerId;
-    }
-
-    /**
-     * @param java.lang.Integer  announcerId
-     */
-    public void setAnnouncerId(Integer announcerId) {
-        this.announcerId = announcerId;
-    }
-
-    /**
      * @return  java.util.Date  beginTime
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getBeginTime() {
         return beginTime;
     }
@@ -113,6 +77,7 @@ public class Auction implements Serializable {
     /**
      * @return  java.util.Date  endTime
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getEndTime() {
         return endTime;
     }

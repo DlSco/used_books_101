@@ -1,5 +1,5 @@
 
-package com.usedBooks.mapper;
+package com.usedBooks.manager.orderModule.mapper;
 
 import com.usedBooks.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;

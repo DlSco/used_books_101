@@ -3,7 +3,9 @@ package com.usedBooks.manager.bookModule.service;
 import java.util.List;
 
 import com.usedBooks.pojo.Book;
+import com.usedBooks.pojo.Publish;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface BookService {
     long countByBook(Book book);
@@ -24,7 +26,7 @@ public interface BookService {
 
     int saveSelective(Book book);
 
-    List<Book> getList(String key, String value,  Book book,String sname,Integer sortRule);
+    List<Book> getList(Publish publish, String keyword, Book book, String sname, Integer sortRule);
 
-    int updateShelf(Integer id);
+    int updateShelf(Integer bookId);
 }

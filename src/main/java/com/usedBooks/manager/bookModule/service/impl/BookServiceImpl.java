@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.usedBooks.mapper.BookMapper;
+import com.usedBooks.manager.bookModule.mapper.BookMapper;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
+import com.usedBooks.pojo.Publish;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,13 @@ public class BookServiceImpl implements BookService {
     }
 
     public long countByBook(Book book) {
-        long count = this.bookMapper.countByBook(book);
+        long count = this.bookMapper.selectCount(book);
         logger.debug("count: {}", count);
         return count;
     }
 
     public List<Book> listWithRowbounds(Book book, RowBounds rowBounds) {
-        return this.bookMapper.selectWithRowbounds(book,rowBounds);
+        return this.bookMapper.selectByRowBounds(book,rowBounds);
     }
 
     public int removeByPrimaryKey(Integer id) {
@@ -47,7 +48,7 @@ public class BookServiceImpl implements BookService {
     }
 
     public int removeByBook(Book book) {
-        return this.bookMapper.deleteByBook(book);
+        return this.bookMapper.delete(book);
     }
 
     public int save(Book book) {
@@ -60,32 +61,28 @@ public class BookServiceImpl implements BookService {
 
     /**
      * 获取书籍列表 ，动态条件
-     * @param key
-     * @param value
+     * @param keyword
+     * @param publish
      * @param book
      * @param sname
      * @param sortRule
      * @return
      */
     @Override
-    public List<Book> getList(String key,String value,Book book,String sname,Integer sortRule) {
-        value = "%" + value+ "%";
+    public List<Book> getList(Publish publish, String keyword, Book book, String sname, Integer sortRule) {
         Map<String,Object> map = new HashMap<>();
-        map.put("key",key);
-        map.put("value",value);
-        map.put("type",book.getType());
-        map.put("isDrop",book.getIsDrop());
-        map.put("id",book.getId());
-        map.put("status",book.getStatus());
+        map.put("type",publish.getPublishType());
+        map.put("isDrop",publish.getIsDrop());
+        map.put("status",publish.getStatus());
         map.put("sname",sname);
         map.put("sortRule",sortRule==null?"ASC":(sortRule==1?"ASC":"DESC"));
         return bookMapper.getList(map);
     }
 
     @Override
-    public int updateShelf(Integer id) {
+    public int updateShelf(Integer bookId) {
         Integer code = null;
-        code = bookMapper.getBookShelfCode(id);
-        return bookMapper.updateShelf(id,code==1?0:1);
+        code = bookMapper.getBookShelfCode(bookId);
+        return bookMapper.updateShelf(bookId,code==1?0:1);
     }
 }

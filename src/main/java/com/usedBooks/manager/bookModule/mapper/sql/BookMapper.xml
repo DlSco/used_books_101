@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.manager.bookModule.mapper.BookMapper">
+  <!--   -->
+  <!--  @authorVakoe  -->
+  <!--  @date2019年02月28日 13:46 -->
+  <sql id="baseSearchSql">
+    <if test="isbn != null">
+        and a.isbn = #{isbn , jdbcType=VARCHAR}
+    </if>
+    <if test="name != null">
+        and a.name = #{name , jdbcType=VARCHAR}
+    </if>
+    <if test="author != null">
+        and a.author = #{author , jdbcType=VARCHAR}
+    </if>
+    <if test="publishHouse != null">
+        and a.publish_house = #{publishHouse , jdbcType=VARCHAR}
+    </if>
+    <if test="pictureUrl != null">
+        and a.picture_url = #{pictureUrl , jdbcType=VARCHAR}
+    </if>
+    <if test="originalPrice != null">
+        and a.original_price = #{originalPrice , jdbcType=DOUBLE}
+    </if>
+   <!-- <if test="price != null">
+        and price = #{price , jdbcType=DOUBLE}
+    </if>
+    <if test="quantity != null">
+        and quantity = #{quantity , jdbcType=INTEGER}
+    </if>
+    <if test="bookOldState != null">
+        and book_old_state = #{bookOldState , jdbcType=INTEGER}
+    </if>
+    <if test="classificationId != null">
+        and classification_id = #{classificationId , jdbcType=INTEGER}
+    </if>
+    <if test="type != null">
+        and type = #{type , jdbcType=INTEGER}
+    </if>
+    <if test="remark != null">
+        and remark = #{remark , jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+        and status = #{status , jdbcType=INTEGER}
+    </if>
+    <if test="isDrop != null">
+        and is_drop = #{isDrop , jdbcType=INTEGER}
+    </if>
+    <if test="dropshelfTime != null">
+        and dropshelf_time = #{dropshelfTime , jdbcType=TIMESTAMP}
+    </if>
+    <if test="onshelfTime != null">
+        and onshelf_time = #{onshelfTime , jdbcType=TIMESTAMP}
+    </if>
+    <if test="description != null">
+        and description = #{description , jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime!=null">
+        and updateTime = #{updateTime , jdbcType=TIMESTAMP}
+    </if>-->
+  </sql>
+  <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Book">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="isbn" jdbcType="VARCHAR" property="isbn" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="publish_house" jdbcType="VARCHAR" property="publishHouse" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="original_price" jdbcType="DOUBLE" property="originalPrice" />
+    <!--<result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="book_old_state" jdbcType="INTEGER" property="bookOldState" />
+    <result column="classification_id" jdbcType="INTEGER" property="classificationId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_drop" jdbcType="INTEGER" property="isDrop" />
+    <result column="dropshelf_time" jdbcType="TIMESTAMP" property="dropshelfTime" />
+    <result column="onshelf_time" jdbcType="TIMESTAMP" property="onshelfTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
+  </resultMap>
+  <sql id="Base_Column_List">
+    a.id, a.isbn, a.name, a.author, a.publish_house, a.picture_url, a.original_price/*, price, quantity,
+    book_old_state, classification_id, type, remark, status, is_drop, dropshelf_time, 
+    onshelf_time,description,create_time,update_time*/
+  </sql>
+  <sql id="publish_column_list">
+    b.id as b.publishId,b.book_id,b.user_id,b.status,b.is_drop,b.onshelf_Time,b.dropshelf_time,
+    b.description,b.update_time,b.create_time,b.remark,b.quantity,b.publish_type,b.price,
+    b.bookOldState
+  </sql>
+  <sql id="need_user_columns">
+    c.user_id,c.user_name
+  </sql>
+  <sql id="publish_user_columns">
+    d.id as d.publish_id,d.book_id,d.user_id,d.status,d.is_drop,d.onshelf_time,d.dropshelf_time,
+    d.description,d.update_time,d.create_time,d.remark,d.quantity,d.publish_type,d.price,
+    d.bookOldState,d.user_id,d.user_name
+  </sql>
+    <!--搜索全部的基本sql语句-->
+    <!--<sql id="sql_search_all">
+        select <include refid="Base_Column_List" /> from book a
+    </sql>-->
+  <!--自己写的-->
+    <!--后管-->
+  <!--获取书籍列表,动态条件-->
+  <select id="getList" resultMap="BaseResultMap" resultType="com.usedBooks.manager.bookModule.vo.BookForManagerVo">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="publish_column_list"></include> from book a
+    inner join
+    (select <include refid="publish_column_list"></include> from publish b
+    inner join user c on b.user_id  = c.id) as d
+    <where>
+      <include refid="baseSearchSql"></include>
+      <if test="type != null">
+        and d.type = #{type}
+      </if>
+      <if test="isDrop != null">
+        and d.is_drop = #{isDrop}
+      </if>
+      <if test="status != null and status != '' ">
+        and d.status = #{status}
+      </if>
+      <if test="keyword!=null">
+        and (a.name = #{keyword} or a.isbn = #{isbn})
+      </if>
+    </where>
+      <if test="sname != null and sname != '' and sortRule != null and sortRule != ''">
+        order by ${sname} ${sortRule}
+      </if>
+  </select>
+
+
+  <!--上架或下架-->
+  <update id="updateShelf" >
+    update publish
+    set is_drop = #{code},
+    <if test="code==1">
+      dropshelf_time = now(),
+      onshelf_time = null
+    </if>
+    <if test="code==0">
+      onshelf_time = now(),
+      dropshelf_time = null
+    </if>
+    where book_id = #{bookId}
+  </update>
+
+
+  <!--查看书籍上下架字段的值-->
+
+  <select id="getBookShelfCode" resultType="Integer" parameterType="Integer">
+    select is_drop from publish where book_id = #{bookId}
+  </select>
+</mapper>

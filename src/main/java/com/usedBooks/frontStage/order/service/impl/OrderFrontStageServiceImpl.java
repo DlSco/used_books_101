@@ -3,7 +3,7 @@ package com.usedBooks.frontStage.order.service.impl;
 
 import com.usedBooks.frontStage.order.mapper.OrderFrontStageMapper;
 import com.usedBooks.frontStage.order.service.OrderFrontStageService;
-import com.usedBooks.mapper.OrderDetailMapper;
+import com.usedBooks.manager.orderModule.mapper.OrderDetailMapper;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
 import com.usedBooks.util.ToolController;

@@ -28,7 +28,7 @@ import java.io.Serializable;
   * @date 2019年03月03日 11:14
   */
  @Data
- @Entity
+ @Entity(name="user")
  public class User implements Serializable {
      /**
       * Database Column Remarks:

@@ -3,7 +3,7 @@ package com.usedBooks.manager.userModule.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.userModule.service.UserService;
-import com.usedBooks.mapper.UserMapper;
+import com.usedBooks.manager.userModule.mapper.UserMapper;
 import com.usedBooks.pojo.User;
 import com.usedBooks.util.MyBeanUtils;
 import org.apache.ibatis.session.RowBounds;

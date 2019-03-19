@@ -2,6 +2,10 @@
 
 package com.usedBooks.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -12,12 +16,15 @@ import java.io.Serializable;
  * @author Vakoe
  * @date 2019年02月18日 14:06
  */
+@Entity(name="order_detail")
 public class OrderDetail implements Serializable {
     /**
      * Database Column Remarks:
      *   id
      * order_detail.id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**

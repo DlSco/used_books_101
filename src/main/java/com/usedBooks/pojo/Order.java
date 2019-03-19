@@ -4,6 +4,7 @@ package com.usedBooks.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,12 +16,16 @@ import java.util.Date;
  * @author Vakoe
  * @date 2019年02月18日 14:06
  */
+@Entity(name="order_form")
+@Table(name="order_form")
 public class Order implements Serializable {
     /**
      * Database Column Remarks:
      *   id
      * order.id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**

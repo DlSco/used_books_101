@@ -3,6 +3,7 @@ package com.usedBooks.frontStage.book.controller;
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
+import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.result.Result;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class FrBookController {
      * @return       结果集
      */
     @RequestMapping(value="/addBook",method = RequestMethod.POST)
-    public Result addBook(Book book){
+    public Result addBook(Book book, Publish publish){
         if(bookService.save(book)>0){
             return Result.success(null);
         }

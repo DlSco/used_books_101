@@ -10,7 +10,7 @@
  * @修改内容:
  */
 
-package com.usedBooks.mapper;
+package com.usedBooks.manager.userModule.mapper;
 
 import com.usedBooks.pojo.User;
 import org.apache.ibatis.session.RowBounds;
