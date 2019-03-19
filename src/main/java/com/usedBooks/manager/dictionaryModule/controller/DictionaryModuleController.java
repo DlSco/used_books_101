@@ -95,7 +95,7 @@ public class DictionaryModuleController {
             return Result.error(new CodeMsg(1,"字典代码不能为空"));
         }
         if(dictionaryService.countByDictionary(temp)>0){
-            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+            return Result.error(new CodeMsg(1,"修改失败，已含有此纪录"));
         }
         if(dictionaryService.updateByPrimaryKeySelective(dictionary)>0){
             return Result.success(null);
@@ -118,7 +118,7 @@ public class DictionaryModuleController {
         temp.setItemName(dictionaryItem.getItemName());
         //判断数据库是否有相同的记录
         if(dictionaryItemService.countByDictionaryData(temp)>0){
-            return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
+            return Result.error(new CodeMsg(1,"修改失败，已含有此纪录"));
         }
         if(dictionaryItemService.updateByPrimaryKeySelective(dictionaryItem)>0){
             return Result.success(null);
@@ -140,7 +140,7 @@ public class DictionaryModuleController {
             return Result.error(new CodeMsg(1,"字典代码不能为空"));
         }
         //判断数据库是否有相同的记录
-        if(dictionaryService.countByDictionary(dictionary)>0){
+        if(dictionaryService.countByDictionary(temp)>0){
             return Result.error(new CodeMsg(1,"添加失败，已含有此纪录"));
         }
         if(dictionaryService.save(dictionary)>0){
