@@ -83,22 +83,20 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
   </resultMap>
   <sql id="Base_Column_List">
-    a.id, a.isbn, a.name, a.author, a.publish_house, a.picture_url, a.original_price/*, price, quantity,
-    book_old_state, classification_id, type, remark, status, is_drop, dropshelf_time, 
-    onshelf_time,description,create_time,update_time*/
+    a.id, a.isbn, a.name, a.author, a.publish_house, a.picture_url, a.original_price
   </sql>
   <sql id="publish_column_list">
-    b.id as b.publishId,b.book_id,b.user_id,b.status,b.is_drop,b.onshelf_Time,b.dropshelf_time,
+    b.id as publish_id,b.book_id,b.user_id,b.status,b.is_drop,b.onshelf_time,b.dropshelf_time,
     b.description,b.update_time,b.create_time,b.remark,b.quantity,b.publish_type,b.price,
-    b.bookOldState
+    b.book_old_state
   </sql>
   <sql id="need_user_columns">
-    c.user_id,c.user_name
+    c.user_name
   </sql>
   <sql id="publish_user_columns">
-    d.id as d.publish_id,d.book_id,d.user_id,d.status,d.is_drop,d.onshelf_time,d.dropshelf_time,
+    d.publish_id,d.book_id,d.user_id,d.status,d.is_drop,d.onshelf_time,d.dropshelf_time,
     d.description,d.update_time,d.create_time,d.remark,d.quantity,d.publish_type,d.price,
-    d.bookOldState,d.user_id,d.user_name
+    d.book_old_state,d.user_name
   </sql>
     <!--搜索全部的基本sql语句-->
     <!--<sql id="sql_search_all">
@@ -110,9 +108,10 @@
   <select id="getList" resultMap="BaseResultMap" resultType="com.usedBooks.manager.bookModule.vo.BookForManagerVo">
     select
     <include refid="Base_Column_List" />,
-    <include refid="publish_column_list"></include> from book a
+    <include refid="publish_user_columns"></include> from book a
     inner join
-    (select <include refid="publish_column_list"></include> from publish b
+    (select <include refid="publish_column_list"></include>,<include refid="need_user_columns"/>
+    from publish b
     inner join user c on b.user_id  = c.id) as d
     <where>
       <include refid="baseSearchSql"></include>
@@ -130,7 +129,7 @@
       </if>
     </where>
       <if test="sname != null and sname != '' and sortRule != null and sortRule != ''">
-        order by ${sname} ${sortRule}
+        order by d.${sname} ${sortRule}
       </if>
   </select>
 

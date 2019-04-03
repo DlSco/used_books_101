@@ -1,6 +1,7 @@
 package com.usedBooks.frontStage.book.controller;
 
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
+import com.usedBooks.frontStage.book.service.FrontBookService;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
@@ -26,6 +27,8 @@ public class FrBookController {
     private BookService bookService;
     @Autowired
     BookFrontMapper frontMapper;
+    @Autowired
+    private FrontBookService frontBookService;
 
     /**
      *
@@ -34,7 +37,7 @@ public class FrBookController {
      */
     @RequestMapping(value="/addBook",method = RequestMethod.POST)
     public Result addBook(Book book, Publish publish){
-        if(bookService.save(book)>0){
+        if(frontBookService.save(book,publish)>0){
             return Result.success(null);
         }
         return Result.error(new CodeMsg(0,"添加书籍失败"));
@@ -46,8 +49,9 @@ public class FrBookController {
      * @return       结果集
      */
     @RequestMapping(value="/modify",method = RequestMethod.POST)
-    public Result modify (Book book){
-        if(bookService.updateByPrimaryKey(book)>0){
+    public Result modify (Book book,Publish publish,Integer publishId){
+        publish.setId(publishId);
+        if(frontBookService.modifyBook(book,publish)>0){
             return Result.success(null);
         }
         return Result.error(new CodeMsg(0,"修改书籍信息失败"));
@@ -57,7 +61,7 @@ public class FrBookController {
     /**
      *   前台方面的获取书籍list
      */
-    @RequestMapping(value="/getList")
+    @RequestMapping(value="/toList")
     public Result toList(){
         List<Book> list = frontMapper.select(null);
         return Result.success(list);
@@ -76,6 +80,13 @@ public class FrBookController {
         return Result.error(new CodeMsg(0,"查询失败!"));
     }
 
+    @RequestMapping("/delete/{id}")
+    public Result delete(@PathVariable Integer id){
+        if(frontBookService.removeBook(id)>0){
+            return Result.success(null);
+        }
+        return Result.error(new CodeMsg(0,"删除失败"));
+    }
 
 
 }

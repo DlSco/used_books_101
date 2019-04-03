@@ -96,14 +96,14 @@ IMAGE:
     URL: http://47.101.183.172:8088/images
 
 
-#redis:
-#  host: 39.108.217.97
-#  password: 123456
-#  port: 6379
-#  timeout: 10
-#  poolMaxTotal: 1000
-#  poolMaxIdle: 500
-#  maxActive: 500
+redis:
+  host: localhost
+  password: 123456
+  port: 6379
+  timeout: 10
+  poolMaxTotal: 1000
+  poolMaxIdle: 500
+  maxActive: 500
 
 ##color为颜色属性名
 #color: "颜色"
