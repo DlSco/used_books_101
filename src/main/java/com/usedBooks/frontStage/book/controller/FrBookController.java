@@ -1,27 +1,26 @@
 package com.usedBooks.frontStage.book.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
 import com.usedBooks.frontStage.book.service.FrontBookService;
+import com.usedBooks.frontStage.book.vo.BookSearchVo;
 import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.result.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/book")
 public class FrBookController {
 
-    @Autowired
-    BookFrontMapper frontMapper;
     @Autowired
     private FrontBookService frontBookService;
 
@@ -57,22 +56,23 @@ public class FrBookController {
      *   前台方面的获取书籍list
      */
     @RequestMapping(value="/toList")
-    public Result toList(){
-        List<Book> list = frontMapper.select(null);
-        return Result.success(list);
+    public Result toList(Integer page, Integer limit, BookSearchVo bookSearchVo,String keyword,
+                         @RequestParam(defaultValue = "update_time") String sname,
+                         Integer sortRule){
+        PageInfo pageInfo = frontBookService.toList(page,limit,keyword,bookSearchVo,sname,sortRule);
+        return Result.success(pageInfo);
     }
 
 
 
     @RequestMapping("/toDetail/{id}")
     public Result toDetail(@PathVariable Integer id){
-        Book book = new Book();
-        book.setId(id);
-        BookVo bookVo = frontBookService.toDetail(id);
-        if(bookVo!=null){
-            return Result.success(bookVo);
+        try {
+            return Result.success(frontBookService.toDetail(id));
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
         }
-        return Result.error(new CodeMsg(0,"查询失败!"));
+        return Result.error(CodeMsg.SERVER_ERROR);
     }
 
     @RequestMapping("/delete/{id}")

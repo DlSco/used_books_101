@@ -1,8 +1,12 @@
 package com.usedBooks.frontStage.book.service;
 
+import com.github.pagehelper.PageInfo;
+import com.usedBooks.frontStage.book.vo.BookDetailVo;
+import com.usedBooks.frontStage.book.vo.BookSearchVo;
 import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -34,11 +38,12 @@ public interface FrontBookService {
      * 获取列表
      * @return
      */
-    List<BookVo> toList();
+    PageInfo<BookVo> toList(Integer page, Integer limit, String keyword, BookSearchVo bookSearchVo,
+                            String sname, Integer sortRule);
 
     /**
      * 获取某一个书籍Vo
      * @return
      */
-    BookVo toDetail(Integer id);
+    BookDetailVo toDetail(Integer id) throws Exception;
 }
