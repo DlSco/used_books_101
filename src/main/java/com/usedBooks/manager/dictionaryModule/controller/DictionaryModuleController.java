@@ -74,10 +74,10 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/deleteDictionaryItem/{id}")
     public Result deleteDictionaryItem(@PathVariable Integer id){
-       if(dictionaryItemService.removeByPrimaryKey(id)>0){
-           return Result.success(null);
-       }
-       return Result.error(new CodeMsg(1,"删除失败"));
+        if(dictionaryItemService.removeByPrimaryKey(id)>0){
+            return Result.success(null);
+        }
+        return Result.error(new CodeMsg(1,"删除失败"));
     }
 
     /**
@@ -87,7 +87,6 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/updateDictionary")
     public Result updateDictionary(Dictionary dictionary){
-
         //判断数据库是否有相同的记录
         Dictionary temp = new Dictionary();
         temp.setDictCode(dictionary.getDictCode());
@@ -110,7 +109,6 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/updateDictionaryItem")
     public Result updateDictionaryItem(DictionaryItem dictionaryItem){
-
         if(dictionaryItem.getItemName()==null || dictionaryItem.getItemName()==""){
             return Result.error(new CodeMsg(1,"字典项目名不能没值"));
         }
@@ -133,7 +131,6 @@ public class DictionaryModuleController {
      */
     @RequestMapping("/addDictionary")
     public Result addDictionary(Dictionary dictionary){
-
         Dictionary temp = new Dictionary();
         temp.setDictCode(dictionary.getDictCode());
         if(temp.getDictCode()==null || temp.getDictCode().equals("")){
@@ -181,9 +178,8 @@ public class DictionaryModuleController {
     public Result getDictionaryItemValue(String dictCode,String itemValue){
         return Result.success(dictionaryItemService.getDictionaryItemValue(dictCode,itemValue));
     }
-
     /**
-     * 根据一下条件获得DictionaryItem
+     * 根据以下条件获得DictionaryItem
      * @param dictCode
      * @return
      */
