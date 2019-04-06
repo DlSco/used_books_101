@@ -1,4 +1,4 @@
-package com.usedBooks.manager.loginModule.pojo;
+package com.usedBooks.manager.adminModule.pojo;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
-package com.usedBooks.manager.loginModule.service;
+package com.usedBooks.manager.adminModule.service;
 
-import com.usedBooks.manager.loginModule.pojo.Admin;
+import com.usedBooks.manager.adminModule.pojo.Admin;
 
 import javax.servlet.http.HttpServletResponse;
 

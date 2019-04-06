@@ -1,6 +1,8 @@
 package com.usedBooks.frontStage.book.vo;
 
-public class BookVo {
+import com.usedBooks.pojo.Book;
+
+public class BookVo extends Book {
 
 
 }

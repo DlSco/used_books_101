@@ -1,10 +1,10 @@
-package com.usedBooks.manager.loginModule.service.impl;
+package com.usedBooks.manager.adminModule.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
 import com.usedBooks.exception.GlobalException;
-import com.usedBooks.manager.loginModule.mapper.AdminMapper;
-import com.usedBooks.manager.loginModule.pojo.Admin;
-import com.usedBooks.manager.loginModule.service.AdminService;
+import com.usedBooks.manager.adminModule.mapper.AdminMapper;
+import com.usedBooks.manager.adminModule.pojo.Admin;
+import com.usedBooks.manager.adminModule.service.AdminService;
 import com.usedBooks.redis.AdminKey;
 import com.usedBooks.redis.RedisService;
 import com.usedBooks.result.CodeMsg;

@@ -40,5 +40,5 @@ public interface FrontBookService {
      * 获取某一个书籍Vo
      * @return
      */
-    BookVo toDetail();
+    BookVo toDetail(Integer id);
 }

@@ -57,7 +57,8 @@ public class FrontBookServiceImpl implements FrontBookService {
     }
 
     @Override
-    public BookVo toDetail() {
-        return null;
+    public BookVo toDetail(Integer id) {
+
+        return (BookVo) bookFrontMapper.selectByPrimaryKey(id);
     }
 }

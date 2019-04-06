@@ -2,13 +2,12 @@ package com.usedBooks.frontStage.book.controller;
 
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
 import com.usedBooks.frontStage.book.service.FrontBookService;
+import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.result.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +20,6 @@ import java.util.List;
 @RequestMapping("/book")
 public class FrBookController {
 
-
-    private final Logger logger= LoggerFactory.getLogger(FrBookController.class) ;
-    @Autowired
-    private BookService bookService;
     @Autowired
     BookFrontMapper frontMapper;
     @Autowired
@@ -73,9 +68,9 @@ public class FrBookController {
     public Result toDetail(@PathVariable Integer id){
         Book book = new Book();
         book.setId(id);
-        List<Book> list = bookService.getList(null,null,book,null,null);
-        if(list!=null){
-            return Result.success(list.get(0));
+        BookVo bookVo = frontBookService.toDetail(id);
+        if(bookVo!=null){
+            return Result.success(bookVo);
         }
         return Result.error(new CodeMsg(0,"查询失败!"));
     }
