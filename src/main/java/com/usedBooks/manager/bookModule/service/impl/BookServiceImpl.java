@@ -75,6 +75,7 @@ public class BookServiceImpl implements BookService {
         map.put("isDrop",publish.getIsDrop());
         map.put("status",publish.getStatus());
         map.put("sname",sname);
+        map.put("keyword",null==keyword?null:"%"+keyword+"%");
         map.put("sortRule",sortRule==null?"ASC":(sortRule==1?"ASC":"DESC"));
         return bookMapper.getList(map);
     }

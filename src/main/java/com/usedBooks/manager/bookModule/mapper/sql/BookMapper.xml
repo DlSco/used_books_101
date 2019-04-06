@@ -105,7 +105,7 @@
   <!--自己写的-->
     <!--后管-->
   <!--获取书籍列表,动态条件-->
-  <select id="getList" resultMap="BaseResultMap" resultType="com.usedBooks.manager.bookModule.vo.BookForManagerVo">
+  <select id="getList"  resultType="com.usedBooks.manager.bookModule.vo.BookForManagerVo">
     select
     <include refid="Base_Column_List" />,
     <include refid="publish_user_columns"></include> from book a
@@ -116,7 +116,7 @@
     <where>
       <include refid="baseSearchSql"></include>
       <if test="type != null">
-        and d.type = #{type}
+        and d.publish_type = #{type}
       </if>
       <if test="isDrop != null">
         and d.is_drop = #{isDrop}
@@ -125,7 +125,7 @@
         and d.status = #{status}
       </if>
       <if test="keyword!=null">
-        and (a.name = #{keyword} or a.isbn = #{isbn})
+        and (a.name like #{keyword} or a.isbn like #{keyword})
       </if>
     </where>
       <if test="sname != null and sname != '' and sortRule != null and sortRule != ''">

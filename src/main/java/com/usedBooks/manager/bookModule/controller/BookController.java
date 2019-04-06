@@ -33,7 +33,7 @@ public class BookController {
      */
     @RequestMapping(value="/getList",method = RequestMethod.POST)
     public Result getList(Integer page, Integer limit,Publish publish, String keyword,
-                          Book book , @RequestParam(defaultValue = "create_time") String sname,
+                          Book book , @RequestParam(defaultValue = "update_time") String sname,
                           Integer sortRule){
         if(page!=null && limit!=null){
             PageHelper.startPage(page,limit);
