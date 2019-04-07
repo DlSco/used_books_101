@@ -1,14 +1,9 @@
 package com.usedBooks.frontStage.book.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.usedBooks.exception.GlobalException;
-import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
-import com.usedBooks.frontStage.book.pojo.BrowseRecord;
 import com.usedBooks.frontStage.book.service.BrowseService;
 import com.usedBooks.frontStage.book.service.FrontBookService;
 import com.usedBooks.frontStage.book.vo.BookSearchVo;
-import com.usedBooks.frontStage.book.vo.BookVo;
-import com.usedBooks.manager.bookModule.service.BookService;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
@@ -17,7 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 
 @Slf4j
 @RestController
@@ -35,8 +31,8 @@ public class FrBookController {
      * @return       结果集
      */
     @RequestMapping(value="/addBook",method = RequestMethod.POST)
-    public Result addBook(Book book, Publish publish){
-        if(frontBookService.save(book,publish)>0){
+    public Result addBook(Book book, Publish publish, HttpServletRequest request){
+        if(frontBookService.save(book,publish,request)>0){
             return Result.success(null);
         }
         return Result.error(new CodeMsg(0,"添加书籍失败"));

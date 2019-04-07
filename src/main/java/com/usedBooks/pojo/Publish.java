@@ -15,11 +15,11 @@ public class Publish {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;                //id
+    private Integer id;                //id
 
-    Integer bookId;            //书本id
+    private Integer bookId;            //书本id
 
-    Integer userId;            //用户id，代表是谁发布的
+    private Integer userId;            //用户id，代表是谁发布的
 
     private Integer status;    //1:待审核，2：审核通过
 

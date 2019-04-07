@@ -8,6 +8,7 @@ import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface FrontBookService {
@@ -18,7 +19,7 @@ public interface FrontBookService {
      * @param publish
      * @return
      */
-    int save(Book book,Publish publish);
+    int save(Book book, Publish publish, HttpServletRequest request);
 
     /**
      * 删除

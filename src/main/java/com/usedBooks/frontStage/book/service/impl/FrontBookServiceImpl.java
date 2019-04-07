@@ -15,10 +15,12 @@ import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.util.MyBeanUtils;
+import com.usedBooks.util.UploadServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +35,16 @@ public class FrontBookServiceImpl implements FrontBookService {
     private PublishMapper publishMapper;
     @Autowired
     private BrowseService browseService;
+    @Autowired
+    private UploadServiceUtil uploadServiceUtil;
     @Override
-    public int save(Book book,Publish publish) {
+    public int save(Book book,Publish publish,HttpServletRequest request) {
+
+
+        String dirName = "book"+"/"+publish.getUserId()+"/"+publish.getPublishType();
+        String fileKey = "pictureUrl";
+        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
+        book.setPictureUrl(picUrls.get(0));
         Integer bookId = bookFrontMapper.insertUseGeneratedKeys(book);
         if(bookId>0){
             publish.setBookId(bookId);

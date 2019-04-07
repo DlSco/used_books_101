@@ -2,6 +2,8 @@ package com.usedBooks.util;
 
 
 
+import com.usedBooks.exception.GlobalException;
+import com.usedBooks.result.CodeMsg;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +105,13 @@ public class UploadServiceUtil {
                 newName = newName + oldName.substring(oldName.lastIndexOf("."));
                 logger.info("newName:"+newName);
                 //1.3生成文件在服务器端存储的子目录
-                String filePath = "/"+dirName+new DateTime().toString("/yyyy/MM/dd");
+                String filePath = null;
+                if(dirName==null){
+                    filePath = new DateTime().toString("/yyyy/MM/dd");
+                }else{
+                    filePath = "/"+dirName+new DateTime().toString("/yyyy/MM/dd");
+                }
+
                 logger.info("filePath:"+filePath);
                 //3、把图片上传到图片服务器
                 //3.1获取上传的io流
@@ -121,7 +129,7 @@ public class UploadServiceUtil {
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
-                return null;
+                throw new GlobalException(new CodeMsg(500800,"上传失败"));
             }
         }
         return picUrlList;
