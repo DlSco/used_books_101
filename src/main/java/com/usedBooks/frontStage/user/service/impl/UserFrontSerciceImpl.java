@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -40,7 +41,8 @@ public class UserFrontSerciceImpl implements UserFrontService {
         //取数据库
         user = new User();
         user.setPhone(phone);
-        user = (User) userMapper.select(user);
+        List<User> list = userMapper.select(user);
+        user = list.size()==0?null:list.get(0);
 
         if(user != null) {
             redisService.set(UserKey.getByPhone, ""+phone, user);

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,7 +43,8 @@ public class AdminServiceImpl implements AdminService {
         //取数据库
         admin = new Admin();
         admin.setAdminName(userName);
-        admin = (Admin) adminMapper.select(admin);
+        List<Admin> list = adminMapper.select(admin);
+        admin = 0==list.size()?null:list.get(0);
 
         if(admin != null) {
             redisService.set(AdminKey.getByUserName, ""+userName, admin);
