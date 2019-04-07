@@ -19,4 +19,9 @@ public class ManagerLoginController {
     public Result doLogin(HttpServletResponse response, Admin admin){
         return Result.success(adminService.login(response,admin));
     }
+
+    @RequestMapping("/getAdmin")
+    public Result getAdmin(String token,HttpServletResponse response){
+        return Result.success(adminService.getByToken(response,token));
+    }
 }
