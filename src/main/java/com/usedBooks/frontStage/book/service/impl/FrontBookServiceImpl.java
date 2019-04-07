@@ -2,14 +2,18 @@ package com.usedBooks.frontStage.book.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.usedBooks.exception.GlobalException;
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
 import com.usedBooks.frontStage.book.mapper.PublishMapper;
+import com.usedBooks.frontStage.book.pojo.BrowseRecord;
+import com.usedBooks.frontStage.book.service.BrowseService;
 import com.usedBooks.frontStage.book.service.FrontBookService;
 import com.usedBooks.frontStage.book.vo.BookDetailVo;
 import com.usedBooks.frontStage.book.vo.BookSearchVo;
 import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
+import com.usedBooks.result.CodeMsg;
 import com.usedBooks.util.MyBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +29,10 @@ public class FrontBookServiceImpl implements FrontBookService {
 
     @Autowired
     private BookFrontMapper bookFrontMapper;
-
     @Autowired
     private PublishMapper publishMapper;
+    @Autowired
+    private BrowseService browseService;
     @Override
     public int save(Book book,Publish publish) {
         Integer bookId = bookFrontMapper.insertUseGeneratedKeys(book);
@@ -76,8 +81,18 @@ public class FrontBookServiceImpl implements FrontBookService {
     }
 
     @Override
-    public BookDetailVo toDetail(Integer id) throws Exception{
+    public BookDetailVo toDetail(Integer id,Integer publishType) throws Exception{
 
-        return  bookFrontMapper.toDetail(id);
+        if(id == null || publishType ==null){
+            throw new GlobalException(new CodeMsg(500700,"参数不能为空"));
+        }
+        BookDetailVo bookDetailVo = bookFrontMapper.toDetail(id,publishType);
+        if(bookDetailVo!=null){
+            BrowseRecord browseRecord = new BrowseRecord();
+            browseRecord.setBookId(id);
+            browseRecord.setPublishTyep(publishType);
+            browseService.addBrowse(1,browseRecord);
+        }
+        return  bookDetailVo;
     }
 }

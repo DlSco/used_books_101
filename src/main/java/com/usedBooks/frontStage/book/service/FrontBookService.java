@@ -45,5 +45,5 @@ public interface FrontBookService {
      * 获取某一个书籍Vo
      * @return
      */
-    BookDetailVo toDetail(Integer id) throws Exception;
+    BookDetailVo toDetail(Integer id,Integer publishType) throws Exception;
 }

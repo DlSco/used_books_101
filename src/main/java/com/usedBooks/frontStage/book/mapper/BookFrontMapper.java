@@ -17,5 +17,5 @@ public interface BookFrontMapper extends BaseMapper<Book> {
      */
     List<BookVo> toList(Map<String, Object> map);
 
-    BookDetailVo toDetail(@Param("id") Integer id);
+    BookDetailVo toDetail(@Param("id") Integer id,@Param("publishType") Integer publishType);
 }

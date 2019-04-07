@@ -61,6 +61,6 @@
         (select <include refid="publish_column_list"></include>,<include refid="need_user_columns"/>
         from publish b
         inner join user c on b.user_id  = c.id) as d
-        where a.id = #{id}
+        where a.id = #{id} and  d.publish_type = #{publishType}
     </select>
 </mapper>
