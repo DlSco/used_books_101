@@ -82,7 +82,7 @@ public class UserFrontSerciceImpl implements UserFrontService {
             throw new GlobalException(CodeMsg.USER_COLD_ERROR);
         }
         //验证密码
-        String dbPass = user.getPassword();
+        String dbPass = tempUser.getPassword();
         String calcPass = MD5Util.formPassToDBPass(formPass, MD5Util.getSalt());
         log.info("calcPass:"+calcPass);
         log.info("formPass:"+formPass+"  dbPass:"+dbPass);
