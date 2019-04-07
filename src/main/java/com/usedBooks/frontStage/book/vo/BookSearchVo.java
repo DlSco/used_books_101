@@ -10,5 +10,5 @@ public class BookSearchVo {
     private Integer status;    //1:待审核，2：审核通过
     private Integer isDrop;    //1:已下架 ，0:未下架
     private Integer publishType;//类型，1:求购，2：出售，3：竞拍
-
+    private Integer classification;//分类
 }

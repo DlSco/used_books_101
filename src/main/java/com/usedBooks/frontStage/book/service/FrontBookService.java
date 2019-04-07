@@ -46,4 +46,13 @@ public interface FrontBookService {
      * @return
      */
     BookDetailVo toDetail(Integer id,Integer publishType) throws Exception;
+
+    /**
+     * 热门书籍
+     * @param page
+     * @param limit
+     * @return
+     */
+
+    PageInfo<BookVo> toHotBookList(Integer page, Integer limit);
 }

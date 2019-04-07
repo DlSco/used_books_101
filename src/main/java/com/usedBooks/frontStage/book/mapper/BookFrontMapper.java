@@ -17,5 +17,17 @@ public interface BookFrontMapper extends BaseMapper<Book> {
      */
     List<BookVo> toList(Map<String, Object> map);
 
+    /**
+     * 书籍详情
+     * @param id
+     * @param publishType
+     * @return
+     */
     BookDetailVo toDetail(@Param("id") Integer id,@Param("publishType") Integer publishType);
+
+    /**
+     * 热门书籍
+     * @return
+     */
+    List<BookVo> toHotBookList();
 }

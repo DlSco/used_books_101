@@ -82,17 +82,29 @@ public class FrontBookServiceImpl implements FrontBookService {
 
     @Override
     public BookDetailVo toDetail(Integer id,Integer publishType) throws Exception{
-
-        if(id == null || publishType ==null){
-            throw new GlobalException(new CodeMsg(500700,"参数不能为空"));
-        }
         BookDetailVo bookDetailVo = bookFrontMapper.toDetail(id,publishType);
         if(bookDetailVo!=null){
             BrowseRecord browseRecord = new BrowseRecord();
             browseRecord.setBookId(id);
-            browseRecord.setPublishTyep(publishType);
+            browseRecord.setPublishType(publishType);
             browseService.addBrowse(1,browseRecord);
         }
         return  bookDetailVo;
+    }
+
+
+    /**
+     * 热门书籍列表
+     * @param page
+     * @param limit
+     * @return
+     */
+    public PageInfo<BookVo> toHotBookList(Integer page, Integer limit){
+
+        if(page!=null && limit!=null){
+            PageHelper.startPage(page,limit);
+        }
+        List<BookVo> list = bookFrontMapper.toHotBookList();
+        return new PageInfo(list);
     }
 }

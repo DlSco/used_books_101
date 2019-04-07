@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * 浏览记录表
  */
 @Data
-@Entity(name="brows_record")
+@Entity(name="browse_record")
 public class BrowseRecord {
 
     @Id
@@ -20,7 +20,7 @@ public class BrowseRecord {
 
     private Integer bookId;//书籍id
 
-    private Integer publishTyep;//发布类型
+    private Integer publishType;//发布类型
 
     private Integer browseNum;//浏览数
 

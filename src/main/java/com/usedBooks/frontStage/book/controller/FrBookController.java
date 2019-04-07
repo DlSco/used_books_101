@@ -1,6 +1,7 @@
 package com.usedBooks.frontStage.book.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.usedBooks.exception.GlobalException;
 import com.usedBooks.frontStage.book.mapper.BookFrontMapper;
 import com.usedBooks.frontStage.book.pojo.BrowseRecord;
 import com.usedBooks.frontStage.book.service.BrowseService;
@@ -77,6 +78,9 @@ public class FrBookController {
 
     @RequestMapping("/toDetail/{id}")
     public Result toDetail(@PathVariable Integer id,Integer publishType){
+        if(id == null || publishType ==null){
+            return Result.error(new CodeMsg(500700,"参数不能为空"));
+        }
         try {
 
             return Result.success(frontBookService.toDetail(id,publishType));
@@ -98,4 +102,10 @@ public class FrBookController {
      * 首页获取热门书籍列表
      */
 
+    @RequestMapping("/toHotBookList")
+    public Result toHotBookList(Integer page, Integer limit){
+
+        return Result.success(frontBookService.toHotBookList(page,limit));
+
+    }
 }
