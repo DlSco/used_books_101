@@ -13,10 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/Manager/adminModule")
 public class ManagerLoginController {
 
+
     @Autowired
     private AdminService adminService;
+
+    /**
+     * 登录
+     * @param response
+     * @param admin
+     * @return
+     */
     @RequestMapping("/doLogin")
     public Result doLogin(HttpServletResponse response, Admin admin){
         return Result.success(adminService.login(response,admin));
+    }
+
+    /**
+     * 获取登录信息
+     * @param token
+     * @param response
+     * @return
+     */
+    @RequestMapping("/getAdmin")
+    public Result getAdmin(String token,HttpServletResponse response){
+        return Result.success(adminService.getByToken(response,token));
     }
 }
