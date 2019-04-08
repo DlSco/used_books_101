@@ -50,6 +50,8 @@ public class FrontBookServiceImpl implements FrontBookService {
             publish.setBookId(bookId);
             publish.setCreateTime(new Date());
             publish.setUpdateTime(new Date());
+            publish.setOnshelfTime(new Date());
+            publish.setDropshelfTime(new Date());
             return publishMapper.insert(publish);
         }
         return 0;
