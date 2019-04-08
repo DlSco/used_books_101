@@ -85,7 +85,29 @@ public class DicConstants {
             return null;
         }
         HashMap<String,Object> map = (HashMap<String, Object>) dicMap.get(dictCode);
+        if(map.containsKey(itemValue)==false){
+            return null;
+        }
         return (String)map.get(itemValue);
+    }
+
+    /**
+     * 获取hashmap里的字典项目值
+     * @param dictCode  字典代码
+     * @param itemName 字典项目名
+     * @return
+     */
+    public String getItemValue(String dictCode,String itemName) {
+        if (dicMap.containsKey(dictCode) == false) {
+            return null;
+        }
+        HashMap<String,Object> map = (HashMap<String, Object>) dicMap.get(dictCode);
+        for(Object key: map.keySet()){
+            if(map.get(key).equals(itemName)){
+                return (String)key;
+            }
+        }
+        return null;
     }
     /**
      * 将加载的字典放入该工具类中。
