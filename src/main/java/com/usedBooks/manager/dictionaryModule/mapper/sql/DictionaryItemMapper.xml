@@ -30,13 +30,13 @@
   </sql>
   <select id="getDictionaryItemByDictCode" resultType="com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem">
     select <include refid="Link_Column_List"></include>
-    from erp_dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
+    from dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
     where b.dict_code = #{dictCode}
   </select>
 
   <select id="getDictionaryItemValue" resultMap="BaseResultMap">
     select <include refid="Link_Column_List"></include>
-    from erp_dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
+    from dictionary_item a inner join dictionary b on b.id = a.dict_id
     where a.item_value = #{itemValue,jdbcType=VARCHAR} and b.dict_code = #{dictCode,jdbcType=VARCHAR}
   </select>
 </mapper>

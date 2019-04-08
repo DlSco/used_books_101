@@ -23,7 +23,7 @@
 
     <select id="toList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"></include>
-        from erp_dictionary
+        from dictionary
         <where>
             <include refid="baseSearchSql"></include>
             <if test="keyword != null ">
