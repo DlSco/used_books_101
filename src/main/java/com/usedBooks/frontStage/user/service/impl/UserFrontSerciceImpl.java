@@ -91,7 +91,7 @@ public class UserFrontSerciceImpl implements UserFrontService {
         }
         //生成cookie
         String token= UUIDUtils.getUUID();
-        addCookie(response, token, user);
+        addCookie(response, token, tempUser);
         return token;
     }
 
