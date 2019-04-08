@@ -98,7 +98,7 @@ public class UserFrontSerciceImpl implements UserFrontService {
     private void addCookie(HttpServletResponse response, String token, User user) {
         redisService.set(UserKey.token, token, user);
         Cookie cookie = new Cookie(TOKEN, token);
-        cookie.setMaxAge(AdminKey.token.expireSeconds());
+        cookie.setMaxAge(UserKey.token.expireSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);
     }
