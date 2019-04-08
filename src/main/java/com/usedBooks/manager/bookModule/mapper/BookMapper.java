@@ -2,6 +2,7 @@
 package com.usedBooks.manager.bookModule.mapper;
 
 
+import com.usedBooks.manager.bookModule.vo.BookForManagerVo;
 import com.usedBooks.mybatis.common.BaseMapper;
 import com.usedBooks.pojo.Book;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +16,7 @@ public interface BookMapper extends BaseMapper<Book> {
      * @param map
      * @return
      */
-    List<Book> getList( Map<String,Object> map);
+    List<BookForManagerVo> getList(Map<String,Object> map);
 
     /**
      * 上架或下架

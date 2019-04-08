@@ -39,4 +39,14 @@ public class BookForManagerVo extends Book {
     private Integer bookOldState;//新旧程度
 
     private String UserName;//用户名
+
+    private String publishTypeName;
+
+    private String classificationName;
+
+    private String  bookOldStateName;
+
+    private String statusName;
+
+    private String isDropName;
 }

@@ -13,7 +13,6 @@ import com.usedBooks.frontStage.book.vo.BookSearchVo;
 import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
-import com.usedBooks.result.CodeMsg;
 import com.usedBooks.util.DicConstants;
 import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.UploadServiceUtil;
@@ -98,6 +97,8 @@ public class FrontBookServiceImpl implements FrontBookService {
             bookVo.setClassificationName(dicConstants.getItemName("classification",bookVo.getClassification()+""));
             bookVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookVo.getBookOldState()+""));
             bookVo.setPublishTypeName(dicConstants.getItemName("publishType",bookVo.getPublishType()));
+            bookVo.setIsDropName(dicConstants.getItemName("isDrop",bookVo.getIsDrop()+""));
+            bookVo.setStatusName(dicConstants.getItemName("status",bookVo.getStatus()+""));
         }
         return new PageInfo(list);
     }
@@ -110,6 +111,8 @@ public class FrontBookServiceImpl implements FrontBookService {
         bookDetailVo.setClassificationName(dicConstants.getItemName("classification",bookDetailVo.getClassification()+""));
         bookDetailVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookDetailVo.getBookOldState()+""));
         bookDetailVo.setPublishTypeName(dicConstants.getItemName("publishType",bookDetailVo.getPublishType()));
+        bookDetailVo.setIsDropName(dicConstants.getItemName("isDrop",bookDetailVo.getIsDrop()+""));
+        bookDetailVo.setStatusName(dicConstants.getItemName("status",bookDetailVo.getStatus()+""));
 
         if(bookDetailVo!=null){
             BrowseRecord browseRecord = new BrowseRecord();
@@ -135,6 +138,14 @@ public class FrontBookServiceImpl implements FrontBookService {
             PageHelper.startPage(page,limit);
         }
         List<BookVo> list = bookFrontMapper.toHotBookList();
+
+        for(BookVo bookVo:list){
+            bookVo.setClassificationName(dicConstants.getItemName("classification",bookVo.getClassification()+""));
+            bookVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookVo.getBookOldState()+""));
+            bookVo.setPublishTypeName(dicConstants.getItemName("publishType",bookVo.getPublishType()));
+            bookVo.setIsDropName(dicConstants.getItemName("isDrop",bookVo.getIsDrop()+""));
+            bookVo.setStatusName(dicConstants.getItemName("status",bookVo.getStatus()+""));
+        }
         return new PageInfo(list);
     }
 }

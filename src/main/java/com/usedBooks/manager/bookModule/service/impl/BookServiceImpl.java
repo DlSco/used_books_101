@@ -6,8 +6,10 @@ import java.util.Map;
 
 import com.usedBooks.manager.bookModule.mapper.BookMapper;
 import com.usedBooks.manager.bookModule.service.BookService;
+import com.usedBooks.manager.bookModule.vo.BookForManagerVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
+import com.usedBooks.util.DicConstants;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private DicConstants dicConstants;
 
     private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
 
@@ -69,7 +73,7 @@ public class BookServiceImpl implements BookService {
      * @return
      */
     @Override
-    public List<Book> getList(Publish publish, String keyword, Book book, String sname, Integer sortRule) {
+    public List<BookForManagerVo> getList(Publish publish, String keyword, Book book, String sname, Integer sortRule) {
         Map<String,Object> map = new HashMap<>();
         map.put("type",publish.getPublishType());
         map.put("isDrop",publish.getIsDrop());
@@ -77,7 +81,16 @@ public class BookServiceImpl implements BookService {
         map.put("sname",sname);
         map.put("keyword",null==keyword?null:"%"+keyword+"%");
         map.put("sortRule",sortRule==null?"ASC":(sortRule==1?"ASC":"DESC"));
-        return bookMapper.getList(map);
+        List<BookForManagerVo> list = bookMapper.getList(map);
+        for(BookForManagerVo vo:list){
+
+            vo.setClassificationName(dicConstants.getItemName("classification",vo.getClassification()+""));
+            vo.setBookOldStateName(dicConstants.getItemName("bookOldState",vo.getBookOldState()+""));
+            vo.setPublishTypeName(dicConstants.getItemName("publishType",vo.getPublishType()+""));
+            vo.setIsDropName(dicConstants.getItemName("isDrop",vo.getIsDrop()+""));
+            vo.setStatusName(dicConstants.getItemName("status",vo.getStatus()+""));
+        }
+        return list;
     }
 
     @Override

@@ -13,11 +13,20 @@ public class BookVo extends Book {
     private Integer bookOldState;
     //类型，1:求购，2：出售，3：竞拍
     private String publishType;
+    //1:待审，2：审核通核过
+    private Integer status;
+    //1:已下架 ，0:未下架
+    private Integer isDrop;
 
     private String publishTypeName;
 
     private String classificationName;
 
     private String  bookOldStateName;
+
+    private String statusName;
+
+    private String isDropName;
+
 
 }
