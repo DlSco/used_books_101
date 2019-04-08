@@ -30,7 +30,7 @@
   </sql>
   <select id="getDictionaryItemByDictCode" resultType="com.usedBooks.manager.dictionaryModule.pojo.DictionaryItem">
     select <include refid="Link_Column_List"></include>
-    from dictionary_item a inner join erp_dictionary b on b.id = a.dict_id
+    from dictionary_item a inner join dictionary b on b.id = a.dict_id
     where b.dict_code = #{dictCode}
   </select>
 
