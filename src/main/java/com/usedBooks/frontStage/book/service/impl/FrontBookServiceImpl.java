@@ -14,6 +14,7 @@ import com.usedBooks.frontStage.book.vo.BookVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
+import com.usedBooks.util.DicConstants;
 import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.UploadServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class FrontBookServiceImpl implements FrontBookService {
     private BrowseService browseService;
     @Autowired
     private UploadServiceUtil uploadServiceUtil;
+    @Autowired
+    private DicConstants dicConstants;
     @Override
     public int save(Book book,Publish publish,HttpServletRequest request) {
 
@@ -89,18 +92,33 @@ public class FrontBookServiceImpl implements FrontBookService {
             PageHelper.startPage(page,limit);
         }
         List<BookVo> list = bookFrontMapper.toList(map);
+
+        for(BookVo bookVo:list){
+
+            bookVo.setClassificationName(dicConstants.getItemName("classification",bookVo.getClassification()+""));
+            bookVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookVo.getBookOldState()+""));
+            bookVo.setPublishTypeName(dicConstants.getItemName("publishType",bookVo.getPublishType()));
+        }
         return new PageInfo(list);
     }
 
     @Override
     public BookDetailVo toDetail(Integer id,Integer publishType) throws Exception{
+
         BookDetailVo bookDetailVo = bookFrontMapper.toDetail(id,publishType);
+
+        bookDetailVo.setClassificationName(dicConstants.getItemName("classification",bookDetailVo.getClassification()+""));
+        bookDetailVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookDetailVo.getBookOldState()+""));
+        bookDetailVo.setPublishTypeName(dicConstants.getItemName("publishType",bookDetailVo.getPublishType()));
+
         if(bookDetailVo!=null){
             BrowseRecord browseRecord = new BrowseRecord();
             browseRecord.setBookId(id);
             browseRecord.setPublishType(publishType);
             browseService.addBrowse(1,browseRecord);
         }
+
+
         return  bookDetailVo;
     }
 
