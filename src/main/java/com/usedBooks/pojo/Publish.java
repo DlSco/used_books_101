@@ -21,7 +21,7 @@ public class Publish {
 
     private Integer userId;            //用户id，代表是谁发布的
 
-    private Integer status;    //1:待审核，2：审核通过
+    private Integer status;    //1:待审，2：审核通核过
 
     private Integer isDrop;    //1:已下架 ，0:未下架
 
