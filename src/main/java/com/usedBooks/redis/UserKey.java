@@ -6,7 +6,7 @@ public class UserKey extends BasePrefix {
         super(prefix);
     }
 
-    public static final int TOKEN_EXPIRE = 3600*24 * 2;
+    public static final int TOKEN_EXPIRE = 3600*24 * 15;
     /**
      *
      * @param expireSeconds  有效时间
