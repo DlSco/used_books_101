@@ -44,10 +44,10 @@ public class FrontBookServiceImpl implements FrontBookService {
     public int save(Book book,Publish publish,HttpServletRequest request) {
 
 
-        String dirName = "book"+"/"+publish.getUserId()+"/"+publish.getPublishType();
-        String fileKey = "pictureUrl";
-        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
-        book.setPictureUrl(picUrls.get(0));
+//        String dirName = "book"+"/"+publish.getUserId()+"/"+publish.getPublishType();
+//        String fileKey = "pictureUrl";
+//        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
+//        book.setPictureUrl(picUrls.get(0));
         Integer bookId = bookFrontMapper.insertUseGeneratedKeys(book);
         if(bookId>0){
             publish.setBookId(bookId);
