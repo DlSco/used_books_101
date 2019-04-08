@@ -7,8 +7,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     platform: mysql
-    #url: jdbc:mysql://47.101.183.172:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
-    url: jdbc:mysql://127.0.0.1:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
+    url: jdbc:mysql://47.101.183.172:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
+    #url: jdbc:mysql://127.0.0.1:3306/used_books_101?useUnicode=true&characterEncoding=utf-8&useSSL=false&&serverTimezone=UTC
     username: root
     password: 123456
     initialSize: 5
