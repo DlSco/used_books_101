@@ -3,6 +3,7 @@ package com.usedBooks.manager.bookModule.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.bookModule.service.BookService;
+import com.usedBooks.manager.bookModule.vo.BookForManagerVo;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.result.CodeMsg;
@@ -38,7 +39,7 @@ public class BookController {
         if(page!=null && limit!=null){
             PageHelper.startPage(page,limit);
         }
-        List<Book> list = bookService.getList(publish,keyword,book,sname,sortRule);
+        List<BookForManagerVo> list = bookService.getList(publish,keyword,book,sname,sortRule);
         PageInfo pageInfo = new PageInfo(list);
         logger.info(pageInfo.toString());
         return Result.success(pageInfo);
