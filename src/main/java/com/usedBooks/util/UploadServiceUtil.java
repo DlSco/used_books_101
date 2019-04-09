@@ -132,6 +132,10 @@ public class UploadServiceUtil {
                 throw new GlobalException(new CodeMsg(500800,"上传失败"));
             }
         }
+
+        if(picUrlList.size()==0){
+            throw new GlobalException(new CodeMsg(500800,"上传失败"));
+        }
         return picUrlList;
     }
 }
