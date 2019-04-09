@@ -113,6 +113,8 @@
     (select <include refid="publish_column_list"></include>,<include refid="need_user_columns"/>
     from publish b
     inner join user c on b.user_id  = c.id) as d
+
+    on a.id = d.book_id
     <where>
       <include refid="baseSearchSql"></include>
       <if test="type != null">
