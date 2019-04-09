@@ -57,13 +57,13 @@ public class UploadServiceUtil {
         // 参数校验
         if (request == null) {
             logger.error("请求参数为null");
-            return null;
+            throw new GlobalException(new CodeMsg(500801,"请求参数为null"));
         }
 
         // 判断是多块请求的类型
         if (!(request instanceof MultipartHttpServletRequest)) {
             logger.error("请求参数不是上传类型的请求，不能处理。");
-            return null;
+            throw new GlobalException(new CodeMsg(500802,"请求参数不是上传类型的请求，不能处理。"));
         }
 
         // 强制转换成上传类型的请求处理
