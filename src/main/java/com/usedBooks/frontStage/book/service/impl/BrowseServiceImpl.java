@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -19,7 +20,13 @@ public class BrowseServiceImpl implements BrowseService {
     @Override
     public int addBrowse( Integer incr,BrowseRecord browseRecord) {
 
-        BrowseRecord tableRecord = browseMapper.select(browseRecord).get(0);
+        List<BrowseRecord> list = browseMapper.select(browseRecord);
+        BrowseRecord tableRecord = null;
+        if(list.size()==0){
+            tableRecord = null;
+        }else{
+            tableRecord = list.get(0);
+        }
         if(tableRecord!=null){
             tableRecord.setBrowseNum(incr+tableRecord.getBrowseNum());
             return browseMapper.updateByPrimaryKeySelective(tableRecord);

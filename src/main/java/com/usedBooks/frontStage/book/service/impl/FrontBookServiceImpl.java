@@ -92,6 +92,8 @@ public class FrontBookServiceImpl implements FrontBookService {
         map.put("sname",sname);
         map.put("sortRule",sortRule==null?"ASC":(sortRule==1?"ASC":"DESC"));
         map.put("keyword",keyword==null?null:"%"+keyword+"%");
+
+        log.info("----:{}",map);
         if(page!=null&&limit!=null){
             PageHelper.startPage(page,limit);
         }
@@ -110,14 +112,14 @@ public class FrontBookServiceImpl implements FrontBookService {
 
         BookDetailVo bookDetailVo = bookFrontMapper.toDetail(id,publishType);
 
-        bookDetailVo.setClassificationName(dicConstants.getItemName("classification",bookDetailVo.getClassification()+""));
-        bookDetailVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookDetailVo.getBookOldState()+""));
-
         if(bookDetailVo!=null){
             BrowseRecord browseRecord = new BrowseRecord();
             browseRecord.setBookId(id);
             browseRecord.setPublishType(publishType);
             browseService.addBrowse(1,browseRecord);
+
+            bookDetailVo.setClassificationName(dicConstants.getItemName("classification",bookDetailVo.getClassification()+""));
+            bookDetailVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookDetailVo.getBookOldState()+""));
         }
 
 

@@ -60,6 +60,8 @@ public class FrBookController {
     public Result toList(Integer page, Integer limit, BookSearchVo bookSearchVo,String keyword,
                          @RequestParam(defaultValue = "update_time") String sname,
                          Integer sortRule){
+
+        log.info(bookSearchVo.getClassification()+"");
         PageInfo pageInfo = frontBookService.toList(page,limit,keyword,bookSearchVo,sname,sortRule);
         return Result.success(pageInfo);
     }

@@ -4,11 +4,11 @@
 
 
     <sql id="Base_Column_List">
-      a.id, a.isbn, a.name, a.author, a.publish_house, a.picture_url, a.original_price
+      a.id, a.isbn, a.name, a.author, a.publish_house, a.picture_url, a.original_price,a.classification
      </sql>
 
     <sql id="publish_column_list">
-       b.publish_type,b.price,b.book_old_state,b.user_id,b.update_time,b.description,b.remark,b.book_id,b.status,b.is_drop
+       b.publish_type,b.price,b.book_old_state,b.user_id,b.update_time,b.description,b.remark,b.book_id,b.status,b.is_drop,b.create_time
       </sql>
 
     <sql id="need_user_columns">
@@ -16,11 +16,11 @@
       </sql>
 
     <sql id="publish_user_columns">
-    d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.update_time,d.book_id,d.status,d.is_drop
+    d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.update_time,d.book_id,d.status,d.is_drop,d.create_time
   </sql>
 
     <sql id="BookDetailVo">
-        d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.description,d.remark,d.book_id,d.status,d.is_drop
+        d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.description,d.remark,d.book_id,d.status,d.is_drop,d.create_time
     </sql>
     <select id="toList" resultType="com.usedBooks.frontStage.book.vo.BookVo">
         select
@@ -45,7 +45,7 @@
                 and d.status = #{status}
             </if>
             <if test="classification!=null">
-                and a.classification=#{classfaction}
+                and a.classification=#{classification}
             </if>
             <if test="keyword!=null">
                 and (a.name like #{keyword} or a.isbn like #{keyword})
