@@ -16,6 +16,7 @@ import com.usedBooks.pojo.Publish;
 import com.usedBooks.util.DicConstants;
 import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.UploadServiceUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 @Service
 @Transactional
+@Slf4j
 public class FrontBookServiceImpl implements FrontBookService {
 
     @Autowired
@@ -47,7 +49,10 @@ public class FrontBookServiceImpl implements FrontBookService {
 //        String fileKey = "pictureUrl";
 //        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
 //        book.setPictureUrl(picUrls.get(0));
-        Integer bookId = bookFrontMapper.insertUseGeneratedKeys(book);
+        log.info("添加前的bookId：{}",book.getId());
+        bookFrontMapper.insertUseGeneratedKeys(book);
+        Integer bookId = book.getId();
+        log.info("添加后的bookId：{}",book.getId());
         if(bookId>0){
             publish.setBookId(bookId);
             publish.setCreateTime(new Date());
@@ -96,9 +101,6 @@ public class FrontBookServiceImpl implements FrontBookService {
 
             bookVo.setClassificationName(dicConstants.getItemName("classification",bookVo.getClassification()+""));
             bookVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookVo.getBookOldState()+""));
-            bookVo.setPublishTypeName(dicConstants.getItemName("publishType",bookVo.getPublishType()));
-            bookVo.setIsDropName(dicConstants.getItemName("isDrop",bookVo.getIsDrop()+""));
-            bookVo.setStatusName(dicConstants.getItemName("status",bookVo.getStatus()+""));
         }
         return new PageInfo(list);
     }
@@ -110,9 +112,6 @@ public class FrontBookServiceImpl implements FrontBookService {
 
         bookDetailVo.setClassificationName(dicConstants.getItemName("classification",bookDetailVo.getClassification()+""));
         bookDetailVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookDetailVo.getBookOldState()+""));
-        bookDetailVo.setPublishTypeName(dicConstants.getItemName("publishType",bookDetailVo.getPublishType()));
-        bookDetailVo.setIsDropName(dicConstants.getItemName("isDrop",bookDetailVo.getIsDrop()+""));
-        bookDetailVo.setStatusName(dicConstants.getItemName("status",bookDetailVo.getStatus()+""));
 
         if(bookDetailVo!=null){
             BrowseRecord browseRecord = new BrowseRecord();
@@ -140,11 +139,9 @@ public class FrontBookServiceImpl implements FrontBookService {
         List<BookVo> list = bookFrontMapper.toHotBookList();
 
         for(BookVo bookVo:list){
+
             bookVo.setClassificationName(dicConstants.getItemName("classification",bookVo.getClassification()+""));
             bookVo.setBookOldStateName(dicConstants.getItemName("bookOldState",bookVo.getBookOldState()+""));
-            bookVo.setPublishTypeName(dicConstants.getItemName("publishType",bookVo.getPublishType()));
-            bookVo.setIsDropName(dicConstants.getItemName("isDrop",bookVo.getIsDrop()+""));
-            bookVo.setStatusName(dicConstants.getItemName("status",bookVo.getStatus()+""));
         }
         return new PageInfo(list);
     }

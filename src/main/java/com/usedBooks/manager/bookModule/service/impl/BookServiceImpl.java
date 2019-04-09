@@ -86,9 +86,7 @@ public class BookServiceImpl implements BookService {
 
             vo.setClassificationName(dicConstants.getItemName("classification",vo.getClassification()+""));
             vo.setBookOldStateName(dicConstants.getItemName("bookOldState",vo.getBookOldState()+""));
-            vo.setPublishTypeName(dicConstants.getItemName("publishType",vo.getPublishType()+""));
-            vo.setIsDropName(dicConstants.getItemName("isDrop",vo.getIsDrop()+""));
-            vo.setStatusName(dicConstants.getItemName("status",vo.getStatus()+""));
+
         }
         return list;
     }
