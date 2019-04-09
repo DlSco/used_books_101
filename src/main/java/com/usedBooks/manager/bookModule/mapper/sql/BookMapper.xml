@@ -152,7 +152,7 @@
       onshelf_time = now(),
       dropshelf_time = null
     </if>
-    where book_id = #{bookId}
+    where id = #{id}
   </update>
 
 
