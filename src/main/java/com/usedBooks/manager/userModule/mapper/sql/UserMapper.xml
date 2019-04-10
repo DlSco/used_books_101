@@ -26,6 +26,9 @@
     <if test="email != null">
         and email = #{email , jdbcType=VARCHAR}
     </if>
+    <if test="isDelete != null">
+      and is_delete = #{isDelete , jdbcType=INTEGER}
+    </if>
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.User">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -36,9 +39,10 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_no, user_name, phone, gender, password, salt, email
+    id, user_no, user_name, phone, gender, password, salt, email, is_delete
   </sql>
   <!--   -->
   <!--  @authorVakoe  -->
@@ -82,10 +86,10 @@
   <insert id="insert" parameterType="com.usedBooks.pojo.User">
     insert into user (id, user_no, user_name, 
       phone, gender, password, 
-      salt, email)
+      salt, email, is_delete)
     values (#{id,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
-      #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+      #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}), #{isDelete,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.usedBooks.pojo.User">
     insert into user
@@ -114,6 +118,9 @@
       <if test="email != null">
         email,
       </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +146,9 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{is_delete,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -172,6 +182,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
     </set>
     <where>
       <include refid="baseSearchSql" />
@@ -189,7 +202,8 @@
       gender = #{gender,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
+      email = #{email,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER}
     <where>
       <include refid="baseSearchSql" />
     </where>
@@ -218,6 +232,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -229,7 +246,8 @@
       gender = #{gender,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
+      email = #{email,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

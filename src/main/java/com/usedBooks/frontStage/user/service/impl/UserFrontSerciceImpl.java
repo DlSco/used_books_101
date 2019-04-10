@@ -78,7 +78,7 @@ public class UserFrontSerciceImpl implements UserFrontService {
         if(tempUser == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        if(tempUser.getIs_delete()==1){
+        if(tempUser.getIsDelete()==1){
             throw new GlobalException(CodeMsg.USER_COLD_ERROR);
         }
         //验证密码
