@@ -90,7 +90,7 @@ import java.io.Serializable;
      /**
       * 是否冻结，1：是，0：否
       */
-     private Integer is_delete;
+     private Integer isDelete;
 
      /**
       * user
