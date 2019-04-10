@@ -152,13 +152,13 @@
       onshelf_time = now(),
       dropshelf_time = null
     </if>
-    where book_id = #{bookId}
+    where id = #{id}
   </update>
 
 
   <!--查看书籍上下架字段的值-->
 
   <select id="getBookShelfCode" resultType="Integer" parameterType="Integer">
-    select is_drop from publish where book_id = #{bookId}
+    select is_drop from publish where id = #{id}
   </select>
 </mapper>
