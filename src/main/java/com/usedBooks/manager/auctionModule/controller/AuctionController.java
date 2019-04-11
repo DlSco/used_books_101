@@ -7,11 +7,13 @@ import com.usedBooks.manager.auctionModule.vo.AuctionVo;
 import com.usedBooks.manager.auctionModule.vo.ResParamsVo;
 import com.usedBooks.result.Result;
 import io.swagger.models.auth.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/auction")
 public class AuctionController {
@@ -24,8 +26,9 @@ public class AuctionController {
 	 * @return
 	 */
 	@PostMapping("/list")
-	public Result<List<AuctionVo>> getAuctions(@RequestBody ResParamsVo resParamsVo){
+	public Result<List<AuctionVo>> getAuctions(ResParamsVo resParamsVo){
 
+		log.info("resParamsVo:{}",resParamsVo);
 		return auctionService.getAuctions(resParamsVo.getPage(),
 				resParamsVo.getPageSize(), resParamsVo.getClassificationId(),resParamsVo.getUserId());
 	}
@@ -45,7 +48,7 @@ public class AuctionController {
 	 * @return
 	 */
 	@PostMapping("/doAuction")
-	public Result doAuction(@RequestBody ResParamsVo resParamsVo){
+	public Result doAuction( ResParamsVo resParamsVo){
 		return auctionService.startAuction(resParamsVo.getUserId(),resParamsVo.getAuctionId(),
 				resParamsVo.getNewPrice());
 	}
