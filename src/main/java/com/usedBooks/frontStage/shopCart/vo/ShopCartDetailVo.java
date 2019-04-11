@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ShopCartDetailVo extends ShopCartDetail {
-    private String name;
-    private Double originalPrice;
-    private Double price;
+    private String name;            //书名
+    private Double originalPrice;   //原价
+    private Double price;           //售价
 }

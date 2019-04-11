@@ -2,6 +2,8 @@
 
 package com.usedBooks.pojo;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +19,7 @@ import java.io.Serializable;
  * @date 2019年02月18日 14:06
  */
 @Entity(name="order_detail")
+@Data
 public class OrderDetail implements Serializable {
     /**
      * Database Column Remarks:
@@ -55,78 +58,32 @@ public class OrderDetail implements Serializable {
      */
     private Double totalprice;
 
+
+    /**
+     * Database Column Remarks:
+     *   卖家用户名
+     * order.seller
+     */
+    private String seller;
+
+    /**
+     * Database Column Remarks:
+     *   卖家id
+     * order.seller_id
+     */
+    private Integer sellerId;
     /**
      * order_detail
      */
+
+    /**
+     * Database Column Remarks:
+     *   卖家电话
+     * order.seller_phone
+     */
+    private String sellerPhone;
+
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @return  java.lang.Integer  id
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * @param java.lang.Integer  id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * @return  java.lang.Integer  orderId
-     */
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    /**
-     * @param java.lang.Integer  orderId
-     */
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    /**
-     * @return  java.lang.Integer  bookId
-     */
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    /**
-     * @param java.lang.Integer  bookId
-     */
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    /**
-     * @return  java.lang.Integer  quantity
-     */
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    /**
-     * @param java.lang.Integer  quantity
-     */
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     * @return  java.lang.Double  totalprice
-     */
-    public Double getTotalprice() {
-        return totalprice;
-    }
-
-    /**
-     * @param java.lang.Double  totalprice
-     */
-    public void setTotalprice(Double totalprice) {
-        this.totalprice = totalprice;
-    }
 }

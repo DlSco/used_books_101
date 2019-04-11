@@ -12,67 +12,15 @@
 
 package com.usedBooks.manager.orderModule.mapper;
 
+import com.usedBooks.mybatis.common.BaseMapper;
 import com.usedBooks.pojo.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
  @Mapper
-public interface OrderDetailMapper {
-    /**
-     * @param orderDetail
-     * @return  long
-     */
-    long countByOrderDetail(OrderDetail orderDetail);
+public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
-    /**
-     * @param orderDetail
-     * @return  int
-     */
-    int deleteByOrderDetail(OrderDetail orderDetail);
-
-    /**
-     * @param id
-     * @return  int
-     */
-    int deleteByPrimaryKey(Integer id);
-
-    /**
-     * @param record
-     * @return  int
-     */
-    int insert(OrderDetail record);
-
-    /**
-     * @param record
-     * @return  int
-     */
-    int insertSelective(OrderDetail record);
-
-    /**
-     * @param orderDetail
-     * @return  java.util.List<com.hhly.sns.entity.app.OrderDetail>
-     */
-    java.util.List<OrderDetail> selectWithRowbounds(OrderDetail orderDetail, RowBounds rowBounds);
-
-    /**
-     * @param id
-     * @return  com.hhly.sns.entity.app.OrderDetail
-     */
-    OrderDetail selectByPrimaryKey(Integer id);
-
-    /**
-     * @param record
-     * @return  int
-     */
-    int updateByPrimaryKeySelective(OrderDetail record);
-
-    /**
-     * @param record
-     * @return  int
-     */
-    int updateByPrimaryKey(OrderDetail record);
 
     List<OrderDetail> getDetail(Integer orderId);
 }

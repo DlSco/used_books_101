@@ -17,6 +17,7 @@ import com.usedBooks.util.DicConstants;
 import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.UploadServiceUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,8 @@ public class FrontBookServiceImpl implements FrontBookService {
 //        String fileKey = "pictureUrl";
 //        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
 //        book.setPictureUrl(picUrls.get(0));
+        //判断数据库是否有相同的book
+
         log.info("添加前的bookId：{}",book.getId());
         bookFrontMapper.insertUseGeneratedKeys(book);
         Integer bookId = book.getId();

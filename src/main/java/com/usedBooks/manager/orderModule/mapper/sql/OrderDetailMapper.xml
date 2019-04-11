@@ -17,6 +17,15 @@
     <if test="totalprice != null">
         and totalprice = #{totalprice , jdbcType=DOUBLE}
     </if>
+    <if test="sellerPhone != null">
+      and seller_phone = #{sellerPhone , jdbcType=VARCHAR}
+    </if>
+    <if test="seller != null">
+      and seller = #{seller , jdbcType=VARCHAR}
+    </if>
+    <if test="sellerId != null">
+      and seller_id = #{sellerId , jdbcType=INTEGER}
+    </if>
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.OrderDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -24,158 +33,14 @@
     <result column="book_id" jdbcType="INTEGER" property="bookId" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="totalprice" jdbcType="DOUBLE" property="totalprice" />
+    <result column="seller" jdbcType="VARCHAR" property="seller" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, book_id, quantity, totalprice
+    id, order_id, book_id, quantity, totalprice,seller_phone,seller, seller_id
   </sql>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 14:06 -->
-  <select id="countByOrderDetail" parameterType="com.usedBooks.pojo.OrderDetail" resultType="java.lang.Long">
-    select count(*) from order_detail
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </select>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 14:06 -->
-  <select id="selectWithRowbounds" parameterType="com.usedBooks.pojo.OrderDetail" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from order_detail
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from order_detail
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order_detail
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 14:06 -->
-  <delete id="deleteByOrderDetail" parameterType="com.usedBooks.pojo.OrderDetail">
-    delete from order_detail
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </delete>
-  <insert id="insert" parameterType="com.usedBooks.pojo.OrderDetail">
-    insert into order_detail (id, order_id, book_id, 
-      quantity, totalprice)
-    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{totalprice,jdbcType=DOUBLE})
-  </insert>
-  <insert id="insertSelective" parameterType="com.usedBooks.pojo.OrderDetail">
-    insert into order_detail
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="orderId != null">
-        order_id,
-      </if>
-      <if test="bookId != null">
-        book_id,
-      </if>
-      <if test="quantity != null">
-        quantity,
-      </if>
-      <if test="totalprice != null">
-        totalprice,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=INTEGER},
-      </if>
-      <if test="bookId != null">
-        #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="quantity != null">
-        #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="totalprice != null">
-        #{totalprice,jdbcType=DOUBLE},
-      </if>
-    </trim>
-  </insert>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 14:06 -->
-  <update id="updateByOrderDetailSelective">
-    update order_detail
-    <set>
-      <if test="id != null">
-        id = #{id,jdbcType=INTEGER},
-      </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
-      </if>
-      <if test="bookId != null">
-        book_id = #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="totalprice != null">
-        totalprice = #{totalprice,jdbcType=DOUBLE},
-      </if>
-    </set>
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </update>
-  <!--   -->
-  <!--  @authorVakoe  -->
-  <!--  @date2019年02月18日 14:06 -->
-  <update id="updateByOrderDetail">
-    update order_detail
-    set id = #{id,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=INTEGER},
-      book_id = #{bookId,jdbcType=INTEGER},
-      quantity = #{quantity,jdbcType=INTEGER},
-      totalprice = #{totalprice,jdbcType=DOUBLE}
-    <where>
-      <include refid="baseSearchSql" />
-    </where>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.usedBooks.pojo.OrderDetail">
-    update order_detail
-    <set>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
-      </if>
-      <if test="bookId != null">
-        book_id = #{bookId,jdbcType=INTEGER},
-      </if>
-      <if test="quantity != null">
-        quantity = #{quantity,jdbcType=INTEGER},
-      </if>
-      <if test="totalprice != null">
-        totalprice = #{totalprice,jdbcType=DOUBLE},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.usedBooks.pojo.OrderDetail">
-    update order_detail
-    set order_id = #{orderId,jdbcType=INTEGER},
-      book_id = #{bookId,jdbcType=INTEGER},
-      quantity = #{quantity,jdbcType=INTEGER},
-      totalprice = #{totalprice,jdbcType=DOUBLE}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 
   <select id="getDetail" parameterType="Integer" resultMap="BaseResultMap">
     select

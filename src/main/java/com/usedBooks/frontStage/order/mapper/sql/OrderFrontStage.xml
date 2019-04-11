@@ -66,5 +66,11 @@
         <result column="is_cancel" jdbcType="INTEGER" property="isCancel" />
         <result column="is_valid" jdbcType="INTEGER" property="isValid" />
     </resultMap>
+    
+    
+    <!--获取库存-->
+    <select id="JudgeStore" resultType="java.lang.Integer">
+        select quantity from publish where book_id = #{bookId}
+    </select>
 
 </mapper>

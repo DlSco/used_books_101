@@ -1,7 +1,10 @@
 package com.usedBooks.frontStage.order.mapper;
 
+import com.usedBooks.mybatis.common.BaseMapper;
+import com.usedBooks.pojo.Order;
 
-import com.usedBooks.manager.orderModule.mapper.OrderMapper;
+public interface OrderFrontStageMapper extends BaseMapper<Order> {
 
-public interface OrderFrontStageMapper extends OrderMapper {
+
+    Integer getStore(Integer bookId,Integer publishType);
 }

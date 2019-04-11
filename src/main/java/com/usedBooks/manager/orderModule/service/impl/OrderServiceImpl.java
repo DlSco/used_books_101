@@ -30,13 +30,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public long countByOrder(Order order) {
-        long count = this.orderMapper.countByOrder(order);
+        long count = this.orderMapper.selectCount(order);
         logger.debug("count: {}", count);
         return count;
     }
 
     public List<Order> listWithRowbounds(Order order, RowBounds rowBounds) {
-        return this.orderMapper.selectWithRowbounds(order,rowBounds);
+        return this.orderMapper.selectByRowBounds(order,rowBounds);
     }
 
     public int removeByPrimaryKey(Integer id) {
@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public int removeByOrder(Order order) {
-        return this.orderMapper.deleteByOrder(order);
+        return this.orderMapper.delete(order);
     }
 
     public int save(Order order) {

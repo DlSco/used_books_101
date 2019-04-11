@@ -22,9 +22,16 @@ public class OrderFrontStageController {
     @Autowired
     private OrderService orderService;
 
+    /**
+     * 单个下单
+     * @param order
+     * @param orderDetail
+     * @return
+     */
 
     @PostMapping("/add")
     public Result add(Order order, OrderDetail orderDetail){
+
         if(orderFrontStageService.saveOrder(order,orderDetail)>0){
             return Result.success(null);
         }
@@ -43,6 +50,28 @@ public class OrderFrontStageController {
         }
         return Result.error(new CodeMsg(0,"修改失败"));
     }
+
+    /**
+     * 判断库存
+     */
+    @RequestMapping("/checkStoreEnough")
+    public Result  checkStoreEnough(Integer buyQuantity,Integer bookId){
+        if(!orderFrontStageService.checkStoreEnough(buyQuantity,bookId)){
+            return Result.error(new CodeMsg(0,"库存不足"));
+        }
+        return Result.success(null);
+    }
+
+    /**
+     * 购物车下单
+     */
+    @RequestMapping("/addByShopCart")
+    public Result addByShopCart(Integer shopCartId,Order tempOrder){
+
+        return Result.success(orderFrontStageService.addOrderByShopCart(shopCartId,tempOrder));
+
+    }
+
 }
 
 

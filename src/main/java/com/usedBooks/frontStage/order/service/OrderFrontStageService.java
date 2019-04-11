@@ -1,6 +1,5 @@
 package com.usedBooks.frontStage.order.service;
 
-import com.github.pagehelper.PageInfo;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
 
@@ -14,8 +13,15 @@ public interface OrderFrontStageService {
 
     int saveOrder(Order order, OrderDetail orderDetail);
 
+    /**
+     * 判断库存
+     * @param buyQuantity
+     * @param bookId
+     * @return
+     */
+    boolean checkStoreEnough(Integer buyQuantity,Integer bookId);
 
 
-
+    int addOrderByShopCart(Integer shopCartId,Order tempOrder);
 
 }

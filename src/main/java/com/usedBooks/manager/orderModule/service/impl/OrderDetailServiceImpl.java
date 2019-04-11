@@ -25,13 +25,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     public long countByOrderDetail(OrderDetail orderDetail) {
-        long count = this.orderDetailMapper.countByOrderDetail(orderDetail);
+        long count = this.orderDetailMapper.selectCount(orderDetail);
         logger.debug("count: {}", count);
         return count;
     }
 
     public List<OrderDetail> listWithRowbounds(OrderDetail orderDetail, RowBounds rowBounds) {
-        return this.orderDetailMapper.selectWithRowbounds(orderDetail,rowBounds);
+        return this.orderDetailMapper.selectByRowBounds(orderDetail,rowBounds);
     }
 
     public int removeByPrimaryKey(Integer id) {
@@ -47,7 +47,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     public int removeByOrderDetail(OrderDetail orderDetail) {
-        return this.orderDetailMapper.deleteByOrderDetail(orderDetail);
+        return this.orderDetailMapper.delete(orderDetail);
     }
 
     public int save(OrderDetail orderDetail) {
