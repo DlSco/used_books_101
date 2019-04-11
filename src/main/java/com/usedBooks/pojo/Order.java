@@ -107,6 +107,31 @@ public class Order implements Serializable {
      */
     private Integer isValid;
 
+
+    /**
+     * Database Column Remarks:
+     *   卖家用户名
+     * order.seller
+     */
+    private String seller;
+
+    /**
+     * Database Column Remarks:
+     *   卖家id
+     * order.seller_id
+     */
+    private Integer sellerId;
+    /**
+     * order_detail
+     */
+
+    /**
+     * Database Column Remarks:
+     *   卖家电话
+     * order.seller_phone
+     */
+    private String sellerPhone;
+
     /**
      * order
      */

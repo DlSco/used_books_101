@@ -39,10 +39,10 @@ public class OrderDetail implements Serializable {
 
     /**
      * Database Column Remarks:
-     *   书籍id
+     *   发布id
      * order_detail.book_id
      */
-    private Integer bookId;
+    private Integer publishId;
 
     /**
      * Database Column Remarks:
@@ -57,31 +57,6 @@ public class OrderDetail implements Serializable {
      * order_detail.totalprice
      */
     private Double totalprice;
-
-
-    /**
-     * Database Column Remarks:
-     *   卖家用户名
-     * order.seller
-     */
-    private String seller;
-
-    /**
-     * Database Column Remarks:
-     *   卖家id
-     * order.seller_id
-     */
-    private Integer sellerId;
-    /**
-     * order_detail
-     */
-
-    /**
-     * Database Column Remarks:
-     *   卖家电话
-     * order.seller_phone
-     */
-    private String sellerPhone;
 
     private static final long serialVersionUID = 1L;
 

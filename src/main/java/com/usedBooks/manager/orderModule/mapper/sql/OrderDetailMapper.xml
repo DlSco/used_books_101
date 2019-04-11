@@ -8,7 +8,7 @@
     <if test="orderId != null">
         and order_id = #{orderId , jdbcType=INTEGER}
     </if>
-    <if test="bookId != null">
+    <if test="publishId != null">
         and book_id = #{bookId , jdbcType=INTEGER}
     </if>
     <if test="quantity != null">
@@ -17,28 +17,17 @@
     <if test="totalprice != null">
         and totalprice = #{totalprice , jdbcType=DOUBLE}
     </if>
-    <if test="sellerPhone != null">
-      and seller_phone = #{sellerPhone , jdbcType=VARCHAR}
-    </if>
-    <if test="seller != null">
-      and seller = #{seller , jdbcType=VARCHAR}
-    </if>
-    <if test="sellerId != null">
-      and seller_id = #{sellerId , jdbcType=INTEGER}
-    </if>
+
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.OrderDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
-    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="publish_id" jdbcType="INTEGER" property="publishId" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="totalprice" jdbcType="DOUBLE" property="totalprice" />
-    <result column="seller" jdbcType="VARCHAR" property="seller" />
-    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
-    <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, book_id, quantity, totalprice,seller_phone,seller, seller_id
+    id, order_id, publish_id, quantity, totalprice
   </sql>
 
 
