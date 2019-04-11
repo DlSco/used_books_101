@@ -32,11 +32,12 @@ public class ShopCartDetailServiceImpl implements ShopCartDetailService {
     }
 
     @Override
-    public PageInfo toList(Integer page, Integer limit, ShopCartDetail shopCartDetail) {
+    public PageInfo toList(Integer page, Integer limit, ShopCartDetail shopCartDetail,Integer userId) {
         if(page!=null && limit!=null){
             PageHelper.startPage(page,limit);
         }
         Map<String,Object> map = MyBeanUtils.beanToMap(shopCartDetail);
+        map.put("userId",userId);
         List<ShopCartDetailVo> list = shopCartDetailMapper.toList(map);
         return new PageInfo(list);
     }

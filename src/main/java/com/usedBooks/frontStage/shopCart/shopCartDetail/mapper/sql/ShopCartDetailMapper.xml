@@ -30,23 +30,43 @@
         </if>
     </sql>
     <sql id="Base_Column_List">
-      id, book_id, purchase_quantity, shop_cart_id,publish_id
+      id,  purchase_quantity, shop_cart_id,publish_id
     </sql>
     <sql id="list_column">
-        a.id, a.book_id, a.purchase_quantity, a.shop_cart_id,a.publish_id,
+        a.id, a.purchase_quantity, a.shop_cart_id,a.publish_id
     </sql>
+
+
     <select id="toList" resultType="com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo">
-        select <include refid="list_column"></include>,m0.user_name,m0.quantity as store,m0.original_price,m0.price
-        from shop_cart_detail a
-        inner join
-        (select t1.user_name,t2.name,t0.quantity, t2.original_price,t2.price
-        from publish t0
-        inner join user t1 on t0.user_id = t1.id
-        inner join book t2 on t0.book_id = t2.id
-        where t0.publish_type = 2) m0
-        on m0.id = a.publish_id
+        SELECT
+        <include refid = "list_column" />,
+        m0.user_name,
+        m0.quantity AS store,
+        m0.original_price,
+        m0.price,
+        m0.book_id,
+        m0.NAME AS bookName
+        FROM
+        shop_cart_detail a
+        INNER JOIN (
+        SELECT
+        t1.user_name,
+        t2.NAME,
+        t0.quantity,
+        t2.original_price,
+        t0.price,
+        t0.id,
+        t2.id AS book_id
+        FROM
+        publish t0
+        INNER JOIN USER t1 ON t0.user_id = t1.id
+        AND t1.id = #{userId}
+        INNER JOIN book t2 ON t0.book_id = t2.id
+        WHERE
+        t0.publish_type = 2
+        ) m0 ON m0.id = a.publish_id
         <where>
-          <include refid="listSearchSql"></include>
+            <include refid = "listSearchSql" ></include >
         </where>
     </select>
 </mapper>

@@ -9,5 +9,5 @@ public interface ShopCartDetailService {
 
     int updateByPrimaryKey(ShopCartDetail shopCartDetail);
 
-    PageInfo toList(Integer page, Integer limit, ShopCartDetail shopCartDetail);
+    PageInfo toList(Integer page, Integer limit, ShopCartDetail shopCartDetail,Integer userId);
 }

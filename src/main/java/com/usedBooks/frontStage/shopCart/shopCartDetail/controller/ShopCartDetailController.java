@@ -33,8 +33,8 @@ public class ShopCartDetailController {
     }
 
     @RequestMapping("/toList")
-    public Result toList(Integer page,Integer limit,ShopCartDetail shopCartDetail){
-        PageInfo pageInfo = shopCartDetailService.toList(page,limit,shopCartDetail);
+    public Result toList(Integer page,Integer limit,ShopCartDetail shopCartDetail,Integer userId){
+        PageInfo pageInfo = shopCartDetailService.toList(page,limit,shopCartDetail,userId);
         if(pageInfo.getList()==null){
             return Result.error  (new CodeMsg(0,"查询失败!"));
         }
