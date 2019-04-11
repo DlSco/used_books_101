@@ -148,7 +148,7 @@
         <if test="classification != null">
             AND bk.classification = #{classification}
         </if>
-        AND ac.begin_time > NOW()
+        AND ac.end_time > NOW()
     </select>
 
     <select id="getAuctionHistory" resultMap="historyMap" resultType="java.util.List">

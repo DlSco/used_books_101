@@ -24,9 +24,8 @@ public class ShopCartDetailController {
         return Result.error(new CodeMsg(0,"删除购物车详情失败"));
     }
 
-    @RequestMapping("/update/{id}")
-    public Result update(@PathVariable Integer id, ShopCartDetail shopCartDetail){
-        shopCartDetail.setId(id);
+    @RequestMapping("/update")
+    public Result update( ShopCartDetail shopCartDetail){
         if(shopCartDetailService.updateByPrimaryKey(shopCartDetail)>0){
             return Result.success(null);
         }

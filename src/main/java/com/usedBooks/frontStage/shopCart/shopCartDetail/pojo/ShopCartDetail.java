@@ -17,9 +17,8 @@ public class ShopCartDetail {
 
     private Integer shopCartId;             //购物车id
 
-    private Integer bookId;                 //书籍id
+    private Integer publishId;                 //发布id
 
     private Integer  purchaseQuantity;        //购买数量
 
-    private Integer sellerId;               //卖家id
 }

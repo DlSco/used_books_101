@@ -6,7 +6,7 @@
     <!--  @date2019年03月12日 14:17 -->
     <sql id="baseSearchSql">
         <if test="bookId != null">
-            and book_id = #{bookId , jdbcType=INTEGER}
+            and publish_id = #{bookId , jdbcType=INTEGER}
         </if>
         <if test="purchaseQuantity != null">
             and purchase_quantity = #{purchaseQuantity , jdbcType=DOUBLE}
@@ -17,7 +17,7 @@
     </sql>
     <sql id="listSearchSql">
         <if test="bookId != null">
-            and a.book_id = #{bookId , jdbcType=INTEGER}
+            and a.publish_id = #{bookId , jdbcType=INTEGER}
         </if>
         <if test="purchaseQuantity != null">
             and a.purchase_quantity = #{purchaseQuantity , jdbcType=DOUBLE}
@@ -25,22 +25,26 @@
         <if test="shopCartId != null">
             and a.shop_cart_id = #{shopCartId , jdbcType=INTEGER}
         </if>
-        <if test="sellerId != null">
-            and a.seller_id = #{sellerId,jdbcType=Integer}
-        </if>
         <if test="name != null">
             and name = #{name,jdbcType=VARCHAR}
         </if>
     </sql>
     <sql id="Base_Column_List">
-      id, book_id, purchase_quantity, shop_cart_id,seller_id
+      id, book_id, purchase_quantity, shop_cart_id,publish_id
     </sql>
     <sql id="list_column">
-        a.id, a.book_id, a.purchase_quantity, a.shop_cart_id,a.seller_id,b.name,b.original_price,b.price
+        a.id, a.book_id, a.purchase_quantity, a.shop_cart_id,a.publish_id,
     </sql>
     <select id="toList" resultType="com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo">
-        select <include refid="list_column"></include>
-        from shop_cart_detail a inner join book b on b.id = a.book_id
+        select <include refid="list_column"></include>,m0.user_name,m0.quantity as store,m0.original_price,m0.price
+        from shop_cart_detail a
+        inner join
+        (select t1.user_name,t2.name,t0.quantity, t2.original_price,t2.price
+        from publish t0
+        inner join user t1 on t0.user_id = t1.id
+        inner join book t2 on t0.book_id = t2.id
+        where t0.publish_type = 2) m0
+        on m0.id = a.publish_id
         <where>
           <include refid="listSearchSql"></include>
         </where>
