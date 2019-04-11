@@ -12,9 +12,8 @@ import java.util.List;
 public interface AuctionMapper extends BaseMapper<Auction> {
 
 	public List<AuctionVo> getAuctionListByConstant(@Param("userId") String userId,
-													@Param("classification") String classification,
-													@Param("start") Integer start,
-													@Param("length") Integer length);
+													@Param("classification") String classification
+													);
 
 	public List<AuctionHistoryVo> getAuctionHistory(@Param("auctionId") String auctionId);
 

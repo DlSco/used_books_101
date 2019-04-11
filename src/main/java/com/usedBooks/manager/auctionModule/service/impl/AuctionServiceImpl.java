@@ -3,6 +3,8 @@ package com.usedBooks.manager.auctionModule.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.auctionModule.mapper.AuctionMapper;
 import com.usedBooks.manager.auctionModule.service.AuctionService;
 import com.usedBooks.manager.auctionModule.vo.AuctionHistoryVo;
@@ -179,7 +181,7 @@ public class AuctionServiceImpl implements AuctionService {
 	 */
 	public Result getAuctions(Integer page, Integer length, String classificationId, String userId){
 
-		Result<List<AuctionVo>> result = new Result<>();
+		Result result = new Result<>();
 
 		if(null == page || null == length || page < 1 || length <1){
 
@@ -199,8 +201,12 @@ public class AuctionServiceImpl implements AuctionService {
 
 		// 如果类别id 或者用户id为空的就是获取所有的
 		try{
+
+			if(page!=null && length!=null){
+				PageHelper.startPage(page,length);
+			}
 			List<AuctionVo> auctions = auctionMapper.getAuctionListByConstant(userId,
-					classificationId, (page - 1) * length, length);
+					classificationId);
 
 			logger.info("查询结果为：{}",auctions);
 			if(null == auctions || auctions.size() == 0){
@@ -212,7 +218,7 @@ public class AuctionServiceImpl implements AuctionService {
 
 			result.setCode(200);
 			result.setMsg("ok");
-			result.setData(auctions);
+			result.setData(new PageInfo(auctions) );
 
 			return result;
 		}catch (Exception e){
