@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.usedBooks.manager.auctionModule.mapper.AuctionMapper">
+
+    <resultMap id="auctionResult" type="com.usedBooks.manager.auctionModule.vo.AuctionVo">
+        <result column="auctionId" property="auctionId"></result>
+        <result column="beginTime" property="beginTime"></result>
+        <result column="endTime" property="endTime"></result>
+        <result column="bookName" property="bookName"></result>
+        <result column="publishHouse" property="publishHouse"></result>
+        <result column="author" property="author"></result>
+        <result column="isbn" property="isbn"></result>
+        <result column="pictureUrl" property="pictureUrl"></result>
+        <result column="originalPrice" property="originalPrice"></result>
+        <result column="price" property="price"></result>
+        <result column="currentAuctionPrice" property="currentAuctionPrice"></result>
+        <result column="userName" property="userName"></result>
+        <result column="bookOldStateName" property="bookOldStateName"></result>
+        <result column="classificationName" property="classificationName"></result>
+    </resultMap>
+    <resultMap id="auctionDetail" type="com.usedBooks.manager.auctionModule.vo.AuctionVo">
+        <result column="auctionId" property="auctionId"></result>
+        <result column="beginTime" property="beginTime"></result>
+        <result column="endTime" property="endTime"></result>
+        <result column="bookName" property="bookName"></result>
+        <result column="publishHouse" property="publishHouse"></result>
+        <result column="author" property="author"></result>
+        <result column="isbn" property="isbn"></result>
+        <result column="pictureUrl" property="pictureUrl"></result>
+        <result column="originalPrice" property="originalPrice"></result>
+        <result column="price" property="price"></result>
+        <result column="currentAuctionPrice" property="currentAuctionPrice"></result>
+        <result column="userName" property="userName"></result>
+        <result column="bookOldStateName" property="bookOldStateName"></result>
+        <result column="classificationName" property="classificationName"></result>
+        <result column="remark" property="remark"></result>
+    </resultMap>
+
+    <resultMap id="historyMap" type="com.usedBooks.manager.auctionModule.vo.AuctionHistoryVo">
+        <result column="userName" property="userName"></result>
+        <result column="auctionTime" property="auctionTime"></result>
+        <result column="oldPrice" property="oldPrice"></result>
+        <result column="newPrice" property="newPrice"></result>
+    </resultMap>
+    <!--
+  	private String beginTime;
+	private String endTime;
+	private String currentPrice;
+    -->
+    <resultMap id="statusMap" type="com.usedBooks.manager.auctionModule.vo.AuctionStatusVo">
+        <result column="begin_time" property="beginTime"></result>
+        <result column="end_time" property="endTime"></result>
+        <result column="new_price" property="currentPrice"></result>
+    </resultMap>
+
+    <select id="getAuctionDetailById" resultMap="auctionDetail" resultType="com.usedBooks.manager.auctionModule.vo.AuctionVo">
+      -- 获取竞拍列表的操作
+        SELECT
+            ac.id auctionId,
+            ac.begin_time beginTime,
+            ac.end_time endTime,
+            bk.name bookName,
+            bk.publish_house publishHouse,
+            bk.author author,
+            bk.isbn isbn,
+            bk.picture_url pictureUrl,
+            bk.original_price originalPrice,
+            ph.price price,
+            tmp_history.currentAuctionPrice currentAuctionPrice,
+            user.user_name userName,
+            oldState.stateName bookOldState,
+            classes.className classificationName,
+            ph.remark remark
+        FROM
+        auction ac
+        LEFT JOIN publish ph ON ac.publish_id = ph.id
+        LEFT JOIN book bk ON ph.book_id = bk.id
+        LEFT JOIN user ON ph.user_id = `user`.id
+        LEFT JOIN (
+            SELECT
+                di.item_name className,
+                di.item_value classId
+            FROM dictionary_item di
+            WHERE di.dict_id = 4
+        ) classes ON bk.classification = classes.classId
+        LEFT JOIN (
+            SELECT
+                di.item_name stateName,
+                di.item_value stateId
+            FROM dictionary_item di
+            WHERE di.dict_id = 7
+        ) oldState ON ph.book_old_state = oldState.stateId
+        LEFT JOIN (
+            SELECT
+                MAX(ah.new_price) currentAuctionPrice,
+                GROUP_CONCAT(DISTINCT ah.auction_id) auctionId
+            FROM auction_history ah
+            GROUP BY ah.auction_id
+        ) tmp_history ON ac.id = tmp_history.auctionId
+        WHERE ac.id = #{auctionId}
+    </select>
+    <select id="getAuctionListByConstant" resultMap="auctionResult" resultType="java.util.List">
+        SELECT
+            ac.id auctionId,
+            ac.begin_time beginTime,
+            ac.end_time endTime,
+            bk.name bookName,
+            bk.publish_house publishHouse,
+            bk.author author,
+            bk.isbn isbn,
+            bk.picture_url pictureUrl,
+            bk.original_price originalPrice,
+            ph.price price,
+            tmp_history.currentAuctionPrice currentAuctionPrice,
+            user.user_name userName,
+            oldState.stateName bookOldStateName,
+            classes.className classificationName
+        FROM
+        auction ac
+        LEFT JOIN publish ph ON ac.publish_id = ph.id
+        LEFT JOIN book bk ON ph.book_id = bk.id
+        LEFT JOIN user ON ph.user_id = `user`.id
+        LEFT JOIN (
+            SELECT
+            di.item_name className,
+            di.item_value classId
+            FROM dictionary_item di
+            WHERE di.dict_id = 4
+            ) classes ON bk.classification = classes.classId
+        LEFT JOIN (
+            SELECT
+            di.item_name stateName,
+            di.item_value stateId
+            FROM dictionary_item di
+            WHERE di.dict_id = 7
+            ) oldState ON ph.book_old_state = oldState.stateId
+        LEFT JOIN (
+            SELECT
+            MAX(ah.new_price) currentAuctionPrice,
+            GROUP_CONCAT(DISTINCT ah.auction_id) auctionId
+            FROM auction_history ah
+            GROUP BY ah.auction_id
+        ) tmp_history ON ac.id = tmp_history.auctionId
+        WHERE 1 = 1
+        <if test="userId != null">
+            AND ph.user_id = #{userId}
+        </if>
+        <if test="classification != null">
+            AND bk.classification = #{classification}
+        </if>
+        AND ac.begin_time > NOW()
+        LIMIT #{start},#{length}
+    </select>
+
+    <select id="getAuctionHistory" resultMap="historyMap" resultType="java.util.List">
+        SELECT
+            user.user_name userName,
+            ah.auction_time auctionTime,
+            ah.old_price oldPrice,
+            ah.new_price newPrice
+        FROM auction ac
+        LEFT JOIN auction_history ah ON ac.id = ah.auction_id
+        LEFT JOIN user ON ah.user_id = user.id
+        WHERE ac.id = #{auctionId}
+        ORDER BY oldPrice
+    </select>
+
+    <select id="getAuctionStatus" resultMap="statusMap" resultType="com.usedBooks.manager.auctionModule.vo.AuctionStatusVo">
+        SELECT
+            ac.begin_time begin_time,
+            ac.end_time end_time,
+            ah.new_price new_price
+        FROM auction ac
+        LEFT JOIN auction_history ah ON ac.id = ah.auction_id
+        WHERE ac.id = #{auctionId}
+        ORDER BY ah.auction_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="getAuctionStatusWhereNoHistory" resultMap="statusMap" resultType="com.usedBooks.manager.auctionModule.vo.AuctionStatusVo">
+        SELECT
+            ac.begin_time begin_time,
+            ac.end_time end_time,
+            ph.price new_price
+        FROM auction ac
+        LEFT JOIN publish ph ON ac.publish_id = ph.id
+        WHERE ac.id = #{auctionId}
+    </select>
+
+    <insert id="insertAuction">
+        INSERT INTO auction_history (user_id, auction_id, auction_time, old_price, new_price) VALUES
+        (
+        #{userId},
+        #{auctionId},
+        #{auctionTime},
+        #{oldPrice},
+        #{newPrice}
+        )
+    </insert>
+
+</mapper>
