@@ -109,7 +109,7 @@ public class Order implements Serializable {
 
     /**
      * Database Column Remarks:
-     *   订单状态  1:未支付，2:已支付，3:待发货，4:已发货
+     *   订单状态  1:已支付，2:已发货,3：已收货
      * order.state
      */
     private Integer state;

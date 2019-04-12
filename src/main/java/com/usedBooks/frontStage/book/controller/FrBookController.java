@@ -31,8 +31,8 @@ public class FrBookController {
      * @return       结果集
      */
     @RequestMapping(value="/addBook",method = RequestMethod.POST)
-    public Result addBook(Book book, Publish publish, HttpServletRequest request){
-        if(frontBookService.save(book,publish,request)>0){
+    public Result addBook(Book book, Publish publish, HttpServletRequest request, String beginTime,String endTime ){
+        if(frontBookService.save(book,publish,beginTime,endTime)>0){
             return Result.success(null);
         }
         return Result.error(new CodeMsg(0,"添加书籍失败"));

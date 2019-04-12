@@ -8,7 +8,7 @@
      </sql>
 
     <sql id="publish_column_list">
-       b.quantity,b.publish_type,b.price,b.book_old_state,b.user_id,b.update_time,b.description,b.remark,b.book_id,b.status,b.is_drop,b.create_time
+       b.id as publish_id,b.quantity,b.publish_type,b.price,b.book_old_state,b.user_id,b.update_time,b.description,b.remark,b.book_id,b.status,b.is_drop,b.create_time
       </sql>
 
     <sql id="need_user_columns">
@@ -16,11 +16,11 @@
       </sql>
 
     <sql id="publish_user_columns">
-      d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.update_time,d.book_id,d.status,d.is_drop,d.create_time
+      d.publish_id,d.quantity,d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.update_time,d.book_id,d.status,d.is_drop,d.create_time
   </sql>
 
     <sql id="BookDetailVo">
-        d.quantity,d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.description,d.remark,d.book_id,d.status,d.is_drop,d.create_time
+        d.publish_id,d.quantity,d.publish_type,d.price,d.book_old_state,d.user_name,d.user_id,d.description,d.remark,d.book_id,d.status,d.is_drop,d.create_time
     </sql>
     <select id="toList" resultType="com.usedBooks.frontStage.book.vo.BookVo">
         select
@@ -50,7 +50,9 @@
             <if test="keyword!=null">
                 and (a.name like #{keyword} or a.isbn like #{keyword})
             </if>
-
+            <if test="userId==null" >
+                and d.quantity >0
+            </if>
 
         </where>
         <if test="sname != null and sname != '' and sortRule != null and sortRule != ''">

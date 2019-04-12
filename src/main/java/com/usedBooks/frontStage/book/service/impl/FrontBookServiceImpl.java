@@ -11,14 +11,20 @@ import com.usedBooks.frontStage.book.service.FrontBookService;
 import com.usedBooks.frontStage.book.vo.BookDetailVo;
 import com.usedBooks.frontStage.book.vo.BookSearchVo;
 import com.usedBooks.frontStage.book.vo.BookVo;
+import com.usedBooks.frontStage.order.enums.PublishEnum;
+import com.usedBooks.manager.auctionModule.mapper.AuctionMapper;
+import com.usedBooks.pojo.Auction;
 import com.usedBooks.pojo.Book;
 import com.usedBooks.pojo.Publish;
+import com.usedBooks.result.CodeMsg;
+import com.usedBooks.util.DateUtils;
 import com.usedBooks.util.DicConstants;
 import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.UploadServiceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,16 +48,19 @@ public class FrontBookServiceImpl implements FrontBookService {
     private UploadServiceUtil uploadServiceUtil;
     @Autowired
     private DicConstants dicConstants;
+    @Autowired
+    private AuctionMapper auctionMapper;
     @Override
-    public int save(Book book,Publish publish,HttpServletRequest request) {
+    public int save(Book book,Publish publish,String beginTime,String endTime) {
 
 
-//        String dirName = "book"+"/"+publish.getUserId()+"/"+publish.getPublishType();
-//        String fileKey = "pictureUrl";
-//        List<String> picUrls = uploadServiceUtil.Upload(request,fileKey,dirName);
-//        book.setPictureUrl(picUrls.get(0));
         //判断数据库是否有相同的book
-
+        Book tempBook = new Book();
+        BeanUtils.copyProperties(book,tempBook,new String[]{ "author","publishHouse", "pictureUrl","originalPrice","classification"});
+        log.info("tempBook:{}",tempBook);
+       if(bookFrontMapper.selectCount(tempBook)>0) {
+           throw new GlobalException(new CodeMsg(500,"存在相同的书籍"));
+       }
         log.info("添加前的bookId：{}",book.getId());
         bookFrontMapper.insertUseGeneratedKeys(book);
         Integer bookId = book.getId();
@@ -62,7 +71,15 @@ public class FrontBookServiceImpl implements FrontBookService {
             publish.setUpdateTime(new Date());
             publish.setOnshelfTime(new Date());
             publish.setDropshelfTime(new Date());
-            return publishMapper.insert(publish);
+            int result = publishMapper.insertUseGeneratedKeys(publish);
+
+            if (result>0 && publish.getPublishType() == PublishEnum.PUBLISH_AUCTION.getPublishCode()){
+                Auction auction = new Auction();
+                auction.setBeginTime(DateUtils.transferDateTime(beginTime));
+                auction.setEndTime(DateUtils.transferDateTime(endTime));
+                auction.setPublishId(publish.getId());
+                return auctionMapper.insert(auction);
+            }
         }
         return 0;
     }

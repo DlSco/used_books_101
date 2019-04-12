@@ -19,7 +19,7 @@ public interface FrontBookService {
      * @param publish
      * @return
      */
-    int save(Book book, Publish publish, HttpServletRequest request);
+    int save(Book book, Publish publish, String beginTime,String endTime);
 
     /**
      * 删除

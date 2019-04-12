@@ -67,9 +67,8 @@
         <result column="is_valid" jdbcType="INTEGER" property="isValid" />
     </resultMap>
 
-<!--
 
-    <resultMap id="OrderConfirmVo" type="com.cw.erp.module.production.schedule.vo.ManufactorAndWorkshopVo" >
+<!--    <resultMap id="OrderConfirmVo" type="com.usedBooks.frontStage.order.vo.OrderConfirmVo" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="manufactor_name" property="manufactorName" jdbcType="VARCHAR" />
         <result column="manufactor_director" property="manufactorDirector" jdbcType="VARCHAR" />
@@ -86,11 +85,10 @@
             <id column="wid" property="id" jdbcType="INTEGER" />
             <result column="workshop_name" property="workshopName" jdbcType="VARCHAR" />
         </collection>
-    </resultMap>
-    -->
+    </resultMap>-->
     <!--获取库存-->
-    <select id="JudgeStore" resultType="java.lang.Integer">
-        select quantity from publish where publish_id = #{publishId} and publish_type = #{publishType}
+    <select id="getStore" resultType="java.lang.Integer">
+        select quantity from publish where id = #{publishId} and publish_type = #{publishType}
     </select>
 
 

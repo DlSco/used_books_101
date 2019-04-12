@@ -9,7 +9,8 @@ import java.util.Date;
 @Data
 public class BookVo extends Book {
 
-
+    //发布id
+    private Integer publishId;
     //售价或求购价或竞拍
     private Double price;
     //新旧程度

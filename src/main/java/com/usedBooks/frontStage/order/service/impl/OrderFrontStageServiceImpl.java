@@ -2,6 +2,7 @@ package com.usedBooks.frontStage.order.service.impl;
 
 
 import com.usedBooks.exception.GlobalException;
+import com.usedBooks.frontStage.book.mapper.PublishMapper;
 import com.usedBooks.frontStage.order.enums.PublishEnum;
 import com.usedBooks.frontStage.order.mapper.OrderFrontStageMapper;
 import com.usedBooks.frontStage.order.service.OrderFrontStageService;
@@ -14,6 +15,7 @@ import com.usedBooks.frontStage.user.mapper.UserFrontMapper;
 import com.usedBooks.manager.orderModule.mapper.OrderDetailMapper;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
+import com.usedBooks.pojo.Publish;
 import com.usedBooks.pojo.User;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.util.ToolController;
@@ -43,6 +45,8 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     private ShopCartMapper shopCartMapper ;
     @Autowired
     private UserFrontMapper userFrontMapper;
+    @Autowired
+    private PublishMapper publishMapper;
 
     /**
      * 单个购买
@@ -52,8 +56,9 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
      */
     @Override
     public int saveOrder(Order order, OrderDetail orderDetail) {
+        Integer store = orderMapper.getStore(orderDetail.getPublishId(), PublishEnum.PUBLISH_SELL.getPublishCode());
         //先判断库存
-        if(orderDetail.getQuantity()>orderMapper.getStore(orderDetail.getPublishId(), PublishEnum.PUBLISH_SELL.getPublishCode())){
+        if(orderDetail.getQuantity()>store){
             throw new GlobalException(new CodeMsg(0,"库存不足"));
         }
         order.setIsCancel(0);
@@ -73,6 +78,13 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
             log.info("orderDetail:{}",orderDetail);
             int result = orderDetailMapper.insert(orderDetail);
             if(result>0){
+                if( store > 0 ){
+                    //改库存
+                    Publish publish = new Publish();
+                    publish.setQuantity(store-1);
+                    publish.setId(orderDetail.getPublishId());
+                    publishMapper.updateByPrimaryKeySelective(publish);
+                }
                 return 1;
             }
         }
@@ -86,6 +98,9 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     public boolean checkStoreEnough(Integer buyQuantity,Integer bookId){
 
         Integer store = orderMapper.getStore(bookId, PublishEnum.PUBLISH_SELL.getPublishCode());
+        if(store == 0){
+            throw new GlobalException(new CodeMsg(500,"库存为0"));
+        }
         if(buyQuantity>store){
             return true;
         }
@@ -100,24 +115,25 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     public int addOrderByShopCart(List<OrderRequestVo> requestList) {
 
         Date date = new Date();
-        //1.解析数据
+        //解析数据
         for(OrderRequestVo orderRequestVo :requestList){
-
+            if(orderRequestVo.getBuyerId() == null || orderRequestVo.getActualAmount() == null
+                    || orderRequestVo.getTotalAmount()==null || orderRequestVo.getSellerId() == null){
+                throw new GlobalException(new CodeMsg(500,"请检查参数非空情况"));
+            }
             Order order = this.setOrder(orderRequestVo,date);
             orderMapper.insertUseGeneratedKeys(order);
             //返回的订单id
             int orderId = order.getId();
-
+            log.info("返回的订单id：{}",orderId);
             //获取购物车详情信息
             List<ShopCartDetailVo> shopCartDetailVos = shopCartDetailMapper.findByIds(orderRequestVo.getShopCartDetailId());
             log.info("shopCartDetailVos:[]",shopCartDetailVos);
+            List<OrderDetail> list = this.setOrderDetail(shopCartDetailVos,orderId);
 
+            orderDetailMapper.insertList(list);
         }
-
-
-        /*添加订单详情*/
-       // return orderDetailMapper.insertList(list);
-        return 0;
+        return 1;
     }
 
 
@@ -148,34 +164,31 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
         return order;
     }
 
-//    /**
-//     * 设置订单详情对象
-//     * @param tempVo
-//     * @param orderId
-//     * @param user
-//     * @return
-//     */
-//    private OrderDetail setOrderDetail(ShopCartDetailVo tempVo,Integer orderId,User user){
-//
-//        OrderDetail orderDetail = new OrderDetail();
-//        orderDetail.setOrderId(orderId);
-//        orderDetail.setBookId(tempVo.getBookId());
-//        orderDetail.setQuantity(tempVo.getPurchaseQuantity());
-//        //判断库存
-//        if(orderDetail.getQuantity() > orderMapper.getStore(orderDetail.getBookId(),
-//                PublishEnum.PUBLISH_SELL.getPublishCode())){
-//            throw new GlobalException(new CodeMsg(0,"库存不足"));
-//        }
-//
-//        orderDetail.setSellerId(tempVo.getSellerId());
-//        orderDetail.setTotalprice(tempVo.getPrice()*tempVo.getPurchaseQuantity());
-//
-//        user = userFrontMapper.selectByPrimaryKey(tempVo.getSellerId());
-//        orderDetail.setSeller(user.getUserName());
-//        orderDetail.setSellerPhone(user.getPhone());
-//
-//        return orderDetail;
-//    }
+    /**
+     * 设置订单详情对象
+     * @param orderId
+     * @return
+     */
+    private List<OrderDetail> setOrderDetail(List<ShopCartDetailVo> list,Integer orderId){
+
+        List<OrderDetail> orderDetails = new LinkedList<>();
+        for(ShopCartDetailVo tempVo:list){
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrderId(orderId);
+            orderDetail.setPublishId(tempVo.getBookId());
+            orderDetail.setQuantity(tempVo.getPurchaseQuantity());
+            //判断库存
+            if(orderDetail.getQuantity() > orderMapper.getStore(orderDetail.getPublishId(),
+                    PublishEnum.PUBLISH_SELL.getPublishCode())){
+                throw new GlobalException(new CodeMsg(0,"库存不足"));
+            }
+
+            orderDetail.setTotalprice(tempVo.getPrice()*tempVo.getPurchaseQuantity());
+            orderDetails.add(orderDetail);
+        }
+
+        return orderDetails;
+    }
 
     /**
      * 订单确认页数据
