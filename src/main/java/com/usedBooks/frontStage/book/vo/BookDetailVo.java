@@ -11,6 +11,4 @@ public class BookDetailVo extends BookVo{
 
     private String remark;//发布人说
 
-    private Double quantity;//数量
-
 }

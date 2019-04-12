@@ -24,9 +24,12 @@ public class BookVo extends Book {
 
     private String userName;
 
+
+
     private Integer userId;
 
     private Date createTime;
+    private Double quantity;//数量
 
 
     private String publishTypeName;
