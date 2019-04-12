@@ -34,7 +34,7 @@ public class OrderController {
     @RequestMapping("/getDetail/{orderId}")
     public Result getDetail(Integer page,Integer limit,@PathVariable Integer orderId){
 
-        PageInfo<OrderDetail> pageInfo = detailService.getDetail(page,limit,orderId);
+        PageInfo pageInfo = detailService.getDetail(page,limit,orderId);
         logger.info(pageInfo.toString());
         return Result.success(pageInfo);
     }

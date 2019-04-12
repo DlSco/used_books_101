@@ -27,18 +27,18 @@
     <result column="totalprice" jdbcType="DOUBLE" property="totalprice" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, publish_id, quantity, totalprice
+    a.id, a.order_id, a.publish_id, a.quantity, a.totalprice
   </sql>
 
 
-  <select id="getDetail" parameterType="Integer" resultMap="BaseResultMap">
+  <select id="getDetail" parameterType="Integer" resultType="com.usedBooks.manager.orderModule.vo.OrderDetailVo">
     select
-      <include refid="Base_Column_List" /> from order_detail
+      <include refid="Base_Column_List" /> ,t3.book_name,t3.book_id,t3.price,t3.original_price
+      from order_detail a
       inner join
     (
     SELECT
     t2.NAME as book_name,
-    t0.quantity,
     t2.original_price,
     t0.price,
     t2.id AS book_id,
@@ -47,8 +47,8 @@
     publish t0
     INNER JOIN book t2 ON t0.book_id = t2.id
     WHERE
-    t0.publish_type = 2)
-    on order_detail.publish_id = t0.id
+    t0.publish_type = 2) t3
+    on a.publish_id = t3.id
     where order_id = #{orderId,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.usedBooks.manager.orderModule.mapper.OrderDetailMapper;
 import com.usedBooks.manager.orderModule.service.OrderDetailService;
+import com.usedBooks.manager.orderModule.vo.OrderDetailVo;
 import com.usedBooks.pojo.OrderDetail;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         if(page!=null&&limit!=null){
             PageHelper.startPage(page,limit);
         }
-        List<OrderDetail>list = orderDetailMapper.getDetail(orderId);
+        List<OrderDetailVo>list = orderDetailMapper.getDetail(orderId);
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }

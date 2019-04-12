@@ -12,9 +12,11 @@
 
 package com.usedBooks.manager.orderModule.mapper;
 
+import com.usedBooks.manager.orderModule.vo.OrderDetailVo;
 import com.usedBooks.mybatis.common.BaseMapper;
 import com.usedBooks.pojo.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,5 +24,5 @@ import java.util.List;
 public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
 
-    List<OrderDetail> getDetail(Integer orderId);
+    List<OrderDetailVo> getDetail(@Param("orderId") Integer orderId);
 }
