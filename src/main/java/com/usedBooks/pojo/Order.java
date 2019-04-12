@@ -128,7 +128,8 @@ public class Order implements Serializable {
      */
     private Integer isValid;
 
-    private String address;
+    private Integer addressInfoId;   //收货地址表的id
+
     /**
      * order
      */
