@@ -49,7 +49,7 @@
     <if test="sellerId != null">
       and seller_id = #{sellerId , jdbcType=INTEGER}
     </if>
-    <if test="addressInfoId!=null">
+    <if test="address!=null">
       and address = #{address,jdbcType=VARCHAR}
     </if>
 
@@ -73,17 +73,18 @@
     <result column="seller" jdbcType="VARCHAR" property="seller" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
-    <result column="addressInfoId" jdbcType="INTEGER" property="addressInfoId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
   </resultMap>
   <sql id="Base_Column_List">
     id, buyer_phone,  order_number, buyer, buyer_id,
-    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address_info_id,seller,sellerId,sellerPhone
+    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address,seller,seller_id,seller_phone
   </sql>
+
 
   <select id="getList" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from order_form a
+    from order_form
     <where>
       <include refid="baseSearchSql" />
       <if test="key != null and key != '' and value != null">
