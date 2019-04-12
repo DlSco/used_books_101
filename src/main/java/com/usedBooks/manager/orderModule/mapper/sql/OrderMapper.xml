@@ -73,11 +73,11 @@
     <result column="seller" jdbcType="VARCHAR" property="seller" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="address_info_id" jdbcType="VARCHAR" property="address" />
   </resultMap>
   <sql id="Base_Column_List">
     id, buyer_phone,  order_number, buyer, buyer_id,
-    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address,seller,seller_id,seller_phone
+    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address_info_id,seller,seller_id,seller_phone
   </sql>
 
 
