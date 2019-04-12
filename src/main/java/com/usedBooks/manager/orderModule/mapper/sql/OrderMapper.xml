@@ -80,6 +80,7 @@
     time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address,seller,seller_id,seller_phone
   </sql>
 
+
   <select id="getList" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
