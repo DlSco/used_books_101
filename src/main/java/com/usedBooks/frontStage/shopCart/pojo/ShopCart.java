@@ -1,8 +1,6 @@
 package com.usedBooks.frontStage.shopCart.pojo;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 
 @Entity(name = "shop_cart")
@@ -13,7 +11,7 @@ public class ShopCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;             //id
 
-    private Integer userId;        //买家id
+    private Integer userId;        //用户id
 
     private Double totalAmount;     //总金额
 

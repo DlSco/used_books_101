@@ -1,7 +1,10 @@
 package com.usedBooks.frontStage.order.service;
 
+import com.usedBooks.frontStage.order.vo.OrderRequestVo;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
+
+import java.util.List;
 
 public interface OrderFrontStageService {
 
@@ -22,6 +25,7 @@ public interface OrderFrontStageService {
     boolean checkStoreEnough(Integer buyQuantity,Integer bookId);
 
 
-    int addOrderByShopCart(Integer shopCartId,Order tempOrder);
+
+    int addOrderByShopCart(List<OrderRequestVo> requestList);
 
 }

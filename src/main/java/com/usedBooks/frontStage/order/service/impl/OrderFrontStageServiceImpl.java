@@ -5,10 +5,10 @@ import com.usedBooks.exception.GlobalException;
 import com.usedBooks.frontStage.order.enums.PublishEnum;
 import com.usedBooks.frontStage.order.mapper.OrderFrontStageMapper;
 import com.usedBooks.frontStage.order.service.OrderFrontStageService;
+import com.usedBooks.frontStage.order.vo.OrderConfirmVo;
+import com.usedBooks.frontStage.order.vo.OrderRequestVo;
 import com.usedBooks.frontStage.shopCart.mapper.ShopCartMapper;
-import com.usedBooks.frontStage.shopCart.pojo.ShopCart;
 import com.usedBooks.frontStage.shopCart.shopCartDetail.mapper.ShopCartDetailMapper;
-import com.usedBooks.frontStage.shopCart.shopCartDetail.pojo.ShopCartDetail;
 import com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo;
 import com.usedBooks.frontStage.user.mapper.UserFrontMapper;
 import com.usedBooks.manager.orderModule.mapper.OrderDetailMapper;
@@ -53,7 +53,7 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     @Override
     public int saveOrder(Order order, OrderDetail orderDetail) {
         //先判断库存
-        if(orderDetail.getQuantity()>orderMapper.getStore(orderDetail.getBookId(), PublishEnum.PUBLISH_SELL.getPublishCode())){
+        if(orderDetail.getQuantity()>orderMapper.getStore(orderDetail.getPublishId(), PublishEnum.PUBLISH_SELL.getPublishCode())){
             throw new GlobalException(new CodeMsg(0,"库存不足"));
         }
         order.setIsCancel(0);
@@ -70,9 +70,6 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
 
         if(orderId>0){
             orderDetail.setOrderId(orderId);
-            User user = userFrontMapper.selectByPrimaryKey(orderDetail.getSellerId());
-            orderDetail.setSellerPhone(user.getPhone());
-
             log.info("orderDetail:{}",orderDetail);
             int result = orderDetailMapper.insert(orderDetail);
             if(result>0){
@@ -97,103 +94,95 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
 
     /**
      * 购物车下单
-     * @param shopCartId
-     * @param tempOrder
      * @return
      */
     @Override
-    public int addOrderByShopCart(Integer shopCartId,Order tempOrder) {
+    public int addOrderByShopCart(List<OrderRequestVo> requestList) {
 
-        List<OrderDetail> list = new LinkedList<>();
+        Date date = new Date();
+        //1.解析数据
+        for(OrderRequestVo orderRequestVo :requestList){
 
-        //1.获取购物车信息
+            Order order = this.setOrder(orderRequestVo,date);
+            orderMapper.insertUseGeneratedKeys(order);
+            //返回的订单id
+            int orderId = order.getId();
 
-        ShopCart shopCart = shopCartMapper.selectByPrimaryKey(shopCartId);
-        log.info("shoCart:{}",shopCart);
+            //获取购物车详情信息
+            List<ShopCartDetailVo> shopCartDetailVos = shopCartDetailMapper.findByIds(orderRequestVo.getShopCartDetailId());
+            log.info("shopCartDetailVos:[]",shopCartDetailVos);
 
-        //2.获取购物车详情信息
-        Map<String,Object> map = new HashMap<>();
-
-        map.put("shopCartId",shopCartId);
-        List<ShopCartDetailVo> shopCartDetailVos = shopCartDetailMapper.toList(map);
-
-        log.info("shopCartDetailVos:[]",shopCartDetailVos);
-
-        //3.将购物车信息放到订单对象中,并添加订单
-        Order order = this.setOrder(shopCart,tempOrder);
-
-        /*添加订单*/
-        orderMapper.insertUseGeneratedKeys(order);
-        Integer orderId = order.getId();
-
-        //4.将购物车详情的信息放到订单详情对象中
-
-        User user = new User();
-        for(ShopCartDetailVo tempVo:shopCartDetailVos){
-
-            OrderDetail orderDetail = this.setOrderDetail(tempVo,orderId,user);
-
-            list.add(orderDetail);
-            log.info("orderDetail:{}",orderDetail);
         }
-        /*添加订单详情*/
-        return orderDetailMapper.insertList(list);
 
+
+        /*添加订单详情*/
+       // return orderDetailMapper.insertList(list);
+        return 0;
     }
+
+
 
     /**
      * 设置订单对象
-     * @param shopCart
-     * @param tempOrder
      * @return
      */
-    private Order setOrder(ShopCart shopCart,Order tempOrder){
+    private Order setOrder(OrderRequestVo orderRequestVo,Date date ){
 
-        User user = userFrontMapper.selectByPrimaryKey(shopCart.getUserId());
-
+        User buyer = userFrontMapper.selectByPrimaryKey(orderRequestVo.getBuyerId());
+        User seller = userFrontMapper.selectByPrimaryKey(orderRequestVo.getSellerId());
         Order order = new Order();
         order.setIsValid(1);
         order.setIsCancel(0);
         order.setOrderNumber(ToolController.getOrderForm("book101"));
-        order.setActualAmount(tempOrder.getActualAmount());
-        order.setBuyerId(shopCart.getUserId());
-        order.setBuyer(user.getUserName());
+        order.setActualAmount(orderRequestVo.getActualAmount());
+        order.setBuyerId(orderRequestVo.getBuyerId());
+        order.setBuyer(buyer.getUserName());
         order.setState(1);
-        order.setOrderAmount(shopCart.getTotalAmount());
-        order.setTime(new Date());
-        order.setDeliveryMethod(tempOrder.getDeliveryMethod());
-
+        order.setOrderAmount(orderRequestVo.getTotalAmount());
+        order.setTime(date);
+        order.setDeliveryMethod(orderRequestVo.getDeliveryMethod());
+        order.setSeller(seller.getUserName());
+        order.setSellerId(seller.getId());
+        order.setSellerPhone(seller.getPhone());
         log.info("order:{}",order);
         return order;
     }
 
+//    /**
+//     * 设置订单详情对象
+//     * @param tempVo
+//     * @param orderId
+//     * @param user
+//     * @return
+//     */
+//    private OrderDetail setOrderDetail(ShopCartDetailVo tempVo,Integer orderId,User user){
+//
+//        OrderDetail orderDetail = new OrderDetail();
+//        orderDetail.setOrderId(orderId);
+//        orderDetail.setBookId(tempVo.getBookId());
+//        orderDetail.setQuantity(tempVo.getPurchaseQuantity());
+//        //判断库存
+//        if(orderDetail.getQuantity() > orderMapper.getStore(orderDetail.getBookId(),
+//                PublishEnum.PUBLISH_SELL.getPublishCode())){
+//            throw new GlobalException(new CodeMsg(0,"库存不足"));
+//        }
+//
+//        orderDetail.setSellerId(tempVo.getSellerId());
+//        orderDetail.setTotalprice(tempVo.getPrice()*tempVo.getPurchaseQuantity());
+//
+//        user = userFrontMapper.selectByPrimaryKey(tempVo.getSellerId());
+//        orderDetail.setSeller(user.getUserName());
+//        orderDetail.setSellerPhone(user.getPhone());
+//
+//        return orderDetail;
+//    }
+
     /**
-     * 设置订单详情对象
-     * @param tempVo
-     * @param orderId
-     * @param user
-     * @return
+     * 订单确认页数据
      */
-    private OrderDetail setOrderDetail(ShopCartDetailVo tempVo,Integer orderId,User user){
 
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrderId(orderId);
-        orderDetail.setBookId(tempVo.getBookId());
-        orderDetail.setQuantity(tempVo.getPurchaseQuantity());
-        //判断库存
-        if(orderDetail.getQuantity() > orderMapper.getStore(orderDetail.getBookId(),
-                PublishEnum.PUBLISH_SELL.getPublishCode())){
-            throw new GlobalException(new CodeMsg(0,"库存不足"));
-        }
-
-        orderDetail.setSellerId(tempVo.getSellerId());
-        orderDetail.setTotalprice(tempVo.getPrice()*tempVo.getPurchaseQuantity());
-
-        user = userFrontMapper.selectByPrimaryKey(tempVo.getSellerId());
-        orderDetail.setSeller(user.getUserName());
-        orderDetail.setSellerPhone(user.getPhone());
-
-        return orderDetail;
+    public List<OrderConfirmVo> toOrderConfirmVoList(Integer shopCartId){
+        return null;
     }
 
 }

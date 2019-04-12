@@ -69,4 +69,45 @@
             <include refid = "listSearchSql" ></include >
         </where>
     </select>
+
+
+
+    <!--in查询-->
+    <select id="findByIds" resultType="com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo">
+
+        SELECT
+        <include refid = "list_column" />,
+        m0.user_name,
+        m0.quantity AS store,
+        m0.original_price,
+        m0.price,
+        m0.book_id,
+        m0.NAME AS bookName
+        FROM
+        shop_cart_detail a
+        INNER JOIN (
+        SELECT
+        t1.user_name,
+        t2.NAME,
+        t0.quantity,
+        t2.original_price,
+        t0.price,
+        t0.id,
+        t2.id AS book_id
+        FROM
+        publish t0
+        INNER JOIN USER t1 ON t0.user_id = t1.id
+        AND t1.id = #{userId}
+        INNER JOIN book t2 ON t0.book_id = t2.id
+        WHERE
+        t0.publish_type = 2
+        ) m0 ON m0.id = a.publish_id
+        where a.id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
 </mapper>

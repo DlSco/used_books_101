@@ -2,17 +2,19 @@ package com.usedBooks.frontStage.order.controller;
 
 
 import com.usedBooks.frontStage.order.service.OrderFrontStageService;
+import com.usedBooks.frontStage.order.vo.OrderRequestVo;
 import com.usedBooks.manager.orderModule.service.OrderService;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
 import com.usedBooks.result.CodeMsg;
 import com.usedBooks.result.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Slf4j
 @RequestMapping(value="/order",method = RequestMethod.POST)
 @RestController
 public class OrderFrontStageController {
@@ -66,12 +68,17 @@ public class OrderFrontStageController {
      * 购物车下单
      */
     @RequestMapping("/addByShopCart")
-    public Result addByShopCart(Integer shopCartId,Order tempOrder){
+    public Result addByShopCart(@RequestParam("requestList[]") List<OrderRequestVo> requestList){
 
-        return Result.success(orderFrontStageService.addOrderByShopCart(shopCartId,tempOrder));
+        log.info("传过来的数据：{}",requestList.toString());
+        return Result.success(orderFrontStageService.addOrderByShopCart(requestList));
 
     }
 
+    /**
+     * 订单确认页数据
+     */
+    //
 }
 
 

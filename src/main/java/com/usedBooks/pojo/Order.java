@@ -39,6 +39,13 @@ public class Order implements Serializable {
 
     /**
      * Database Column Remarks:
+     *   卖家电话
+     * order.seller_phone
+     */
+    private String sellerPhone;
+
+    /**
+     * Database Column Remarks:
      *   订单编号
      * order.order_number
      */
@@ -57,6 +64,20 @@ public class Order implements Serializable {
      * order.buyer_id
      */
     private Integer buyerId;
+
+    /**
+     * Database Column Remarks:
+     *   卖家用户名
+     * order.seller
+     */
+    private String seller;
+
+    /**
+     * Database Column Remarks:
+     *   卖家id
+     * order.seller_id
+     */
+    private Integer sellerId;
 
     /**
      * Database Column Remarks:
@@ -107,35 +128,219 @@ public class Order implements Serializable {
      */
     private Integer isValid;
 
-
-    /**
-     * Database Column Remarks:
-     *   卖家用户名
-     * order.seller
-     */
-    private String seller;
-
-    /**
-     * Database Column Remarks:
-     *   卖家id
-     * order.seller_id
-     */
-    private Integer sellerId;
-    /**
-     * order_detail
-     */
-
-    /**
-     * Database Column Remarks:
-     *   卖家电话
-     * order.seller_phone
-     */
-    private String sellerPhone;
-
     /**
      * order
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * @return  java.lang.Integer  id
+     */
+    public Integer getId() {
+        return id;
+    }
 
+    /**
+     * @param java.lang.Integer  id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * @return  java.lang.String  buyerPhone
+     */
+    public String getBuyerPhone() {
+        return buyerPhone;
+    }
+
+    /**
+     * @param java.lang.String  buyerPhone
+     */
+    public void setBuyerPhone(String buyerPhone) {
+        this.buyerPhone = buyerPhone;
+    }
+
+    /**
+     * @return  java.lang.String  sellerPhone
+     */
+    public String getSellerPhone() {
+        return sellerPhone;
+    }
+
+    /**
+     * @param java.lang.String  sellerPhone
+     */
+    public void setSellerPhone(String sellerPhone) {
+        this.sellerPhone = sellerPhone;
+    }
+
+    /**
+     * @return  java.lang.String  orderNumber
+     */
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    /**
+     * @param java.lang.String  orderNumber
+     */
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    /**
+     * @return  java.lang.String  buyer
+     */
+    public String getBuyer() {
+        return buyer;
+    }
+
+    /**
+     * @param java.lang.String  buyer
+     */
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
+
+    /**
+     * @return  java.lang.Integer  buyerId
+     */
+    public Integer getBuyerId() {
+        return buyerId;
+    }
+
+    /**
+     * @param java.lang.Integer  buyerId
+     */
+    public void setBuyerId(Integer buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    /**
+     * @return  java.lang.String  seller
+     */
+    public String getSeller() {
+        return seller;
+    }
+
+    /**
+     * @param java.lang.String  seller
+     */
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    /**
+     * @return  java.lang.Integer  sellerId
+     */
+    public Integer getSellerId() {
+        return sellerId;
+    }
+
+    /**
+     * @param java.lang.Integer  sellerId
+     */
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    /**
+     * @return  java.util.Date  time
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public Date getTime() {
+        return time;
+    }
+
+    /**
+     * @param java.util.Date  time
+     */
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    /**
+     * @return  java.lang.Double  orderAmount
+     */
+    public Double getOrderAmount() {
+        return orderAmount;
+    }
+
+    /**
+     * @param java.lang.Double  orderAmount
+     */
+    public void setOrderAmount(Double orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    /**
+     * @return  java.lang.Double  actualAmount
+     */
+    public Double getActualAmount() {
+        return actualAmount;
+    }
+
+    /**
+     * @param java.lang.Double  actualAmount
+     */
+    public void setActualAmount(Double actualAmount) {
+        this.actualAmount = actualAmount;
+    }
+
+    /**
+     * @return  java.lang.String  deliveryMethod
+     */
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    /**
+     * @param java.lang.String  deliveryMethod
+     */
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
+    }
+
+    /**
+     * @return  java.lang.Integer  state
+     */
+    public Integer getState() {
+        return state;
+    }
+
+    /**
+     * @param java.lang.Integer  state
+     */
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    /**
+     * @return  java.lang.Integer  isCancel
+     */
+    public Integer getIsCancel() {
+        return isCancel;
+    }
+
+    /**
+     * @param java.lang.Integer  isCancel
+     */
+    public void setIsCancel(Integer isCancel) {
+        this.isCancel = isCancel;
+    }
+
+    /**
+     * @return  java.lang.Integer  isValid
+     */
+    public Integer getIsValid() {
+        return isValid;
+    }
+
+    /**
+     * @param java.lang.Integer  isValid
+     */
+    public void setIsValid(Integer isValid) {
+        this.isValid = isValid;
+    }
 }
