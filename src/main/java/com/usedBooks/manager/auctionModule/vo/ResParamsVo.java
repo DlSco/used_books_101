@@ -11,4 +11,5 @@ public class ResParamsVo {
 	private String auctionId;
 	private Double oldPrice;
 	private Double newPrice;
+	private Boolean flag;
 }

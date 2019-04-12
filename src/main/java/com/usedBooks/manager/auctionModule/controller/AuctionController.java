@@ -30,7 +30,7 @@ public class AuctionController {
 
 		log.info("resParamsVo:{}",resParamsVo);
 		return auctionService.getAuctions(resParamsVo.getPage(),
-				resParamsVo.getPageSize(), resParamsVo.getClassificationId(),resParamsVo.getUserId());
+				resParamsVo.getPageSize(), resParamsVo.getClassificationId(),resParamsVo.getUserId(),resParamsVo.getFlag());
 	}
 
 	@GetMapping("/history/{auctionId}")

@@ -53,6 +53,61 @@
         <result column="new_price" property="currentPrice"></result>
     </resultMap>
 
+    <select id="getAuctionListByConstant" resultMap="auctionResult" resultType="java.util.List">
+        SELECT
+        ac.id auctionId,
+        ac.begin_time beginTime,
+        ac.end_time endTime,
+        bk.name bookName,
+        bk.publish_house publishHouse,
+        bk.author author,
+        bk.isbn isbn,
+        bk.picture_url pictureUrl,
+        bk.original_price originalPrice,
+        ph.price price,
+        tmp_history.currentAuctionPrice currentAuctionPrice,
+        user.user_name userName,
+        oldState.stateName bookOldStateName,
+        classes.className classificationName
+        FROM
+        auction ac
+        LEFT JOIN publish ph ON ac.publish_id = ph.id
+        LEFT JOIN book bk ON ph.book_id = bk.id
+        LEFT JOIN user ON ph.user_id = `user`.id
+        LEFT JOIN (
+        SELECT
+        di.item_name className,
+        di.item_value classId
+        FROM dictionary_item di
+        WHERE di.dict_id = 4
+        ) classes ON bk.classification = classes.classId
+        LEFT JOIN (
+        SELECT
+        di.item_name stateName,
+        di.item_value stateId
+        FROM dictionary_item di
+        WHERE di.dict_id = 7
+        ) oldState ON ph.book_old_state = oldState.stateId
+        LEFT JOIN (
+        SELECT
+        MAX(ah.new_price) currentAuctionPrice,
+        GROUP_CONCAT(DISTINCT ah.auction_id) auctionId
+        FROM auction_history ah
+        GROUP BY ah.auction_id
+        ) tmp_history ON ac.id = tmp_history.auctionId
+        WHERE 1 = 1
+        <if test="userId != null">
+            AND ph.user_id = #{userId}
+        </if>
+        <if test="classification != null">
+            AND bk.classification = #{classification}
+        </if>
+        <if test="flag == null">
+            AND ac.end_time > NOW()
+        </if>
+
+
+    </select>
     <select id="getAuctionDetailById" resultMap="auctionDetail" resultType="com.usedBooks.manager.auctionModule.vo.AuctionVo">
       -- 获取竞拍列表的操作
         SELECT
@@ -98,57 +153,6 @@
             GROUP BY ah.auction_id
         ) tmp_history ON ac.id = tmp_history.auctionId
         WHERE ac.id = #{auctionId}
-    </select>
-    <select id="getAuctionListByConstant" resultMap="auctionResult" resultType="java.util.List">
-        SELECT
-            ac.id auctionId,
-            ac.begin_time beginTime,
-            ac.end_time endTime,
-            bk.name bookName,
-            bk.publish_house publishHouse,
-            bk.author author,
-            bk.isbn isbn,
-            bk.picture_url pictureUrl,
-            bk.original_price originalPrice,
-            ph.price price,
-            tmp_history.currentAuctionPrice currentAuctionPrice,
-            user.user_name userName,
-            oldState.stateName bookOldStateName,
-            classes.className classificationName
-        FROM
-        auction ac
-        LEFT JOIN publish ph ON ac.publish_id = ph.id
-        LEFT JOIN book bk ON ph.book_id = bk.id
-        LEFT JOIN user ON ph.user_id = `user`.id
-        LEFT JOIN (
-            SELECT
-            di.item_name className,
-            di.item_value classId
-            FROM dictionary_item di
-            WHERE di.dict_id = 4
-            ) classes ON bk.classification = classes.classId
-        LEFT JOIN (
-            SELECT
-            di.item_name stateName,
-            di.item_value stateId
-            FROM dictionary_item di
-            WHERE di.dict_id = 7
-            ) oldState ON ph.book_old_state = oldState.stateId
-        LEFT JOIN (
-            SELECT
-            MAX(ah.new_price) currentAuctionPrice,
-            GROUP_CONCAT(DISTINCT ah.auction_id) auctionId
-            FROM auction_history ah
-            GROUP BY ah.auction_id
-        ) tmp_history ON ac.id = tmp_history.auctionId
-        WHERE 1 = 1
-        <if test="userId != null">
-            AND ph.user_id = #{userId}
-        </if>
-        <if test="classification != null">
-            AND bk.classification = #{classification}
-        </if>
-        AND ac.end_time > NOW()
     </select>
 
     <select id="getAuctionHistory" resultMap="historyMap" resultType="java.util.List">

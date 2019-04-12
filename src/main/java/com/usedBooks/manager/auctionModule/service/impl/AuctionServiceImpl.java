@@ -179,7 +179,7 @@ public class AuctionServiceImpl implements AuctionService {
 	 * 获取列表
 	 * 注意这里数据字典的类型现在在mapper中是写死的
 	 */
-	public Result getAuctions(Integer page, Integer length, String classificationId, String userId){
+	public Result getAuctions(Integer page, Integer length, String classificationId, String userId, Boolean flag){
 
 		Result result = new Result<>();
 
@@ -206,7 +206,7 @@ public class AuctionServiceImpl implements AuctionService {
 				PageHelper.startPage(page,length);
 			}
 			List<AuctionVo> auctions = auctionMapper.getAuctionListByConstant(userId,
-					classificationId);
+					classificationId,flag);
 
 			logger.info("查询结果为：{}",auctions);
 			if(null == auctions || auctions.size() == 0){

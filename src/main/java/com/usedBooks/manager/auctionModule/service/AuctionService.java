@@ -27,7 +27,7 @@ public interface AuctionService {
 
     int saveSelective(Auction auction);
 
-    Result getAuctions(Integer page, Integer length, String classificationId, String userId);
+    Result getAuctions(Integer page, Integer length, String classificationId, String userId, Boolean flag);
 
     Result<List<AuctionHistoryVo>> getAuctionHistory(String auctionId);
 
