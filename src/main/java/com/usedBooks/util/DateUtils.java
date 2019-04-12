@@ -20,7 +20,7 @@ public class DateUtils {
 	 * @throws Exception
 	 */
 	public static Date transferDateTime(String dateStr) {
-        String format = "yyyy-MM-dd";
+        String format = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = new Date();
         try {
