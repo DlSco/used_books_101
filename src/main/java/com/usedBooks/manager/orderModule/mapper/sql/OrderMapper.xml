@@ -73,7 +73,7 @@
     <result column="seller" jdbcType="VARCHAR" property="seller" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
-    <result column="address_info_id" jdbcType="VARCHAR" property="address" />
+    <result column="address_info_id" jdbcType="VARCHAR" property="addressInfoId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, buyer_phone,  order_number, buyer, buyer_id,
