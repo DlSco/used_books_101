@@ -95,9 +95,9 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     /**
      * 获取库存
      */
-    public boolean checkStoreEnough(Integer buyQuantity,Integer bookId){
+    public boolean checkStoreEnough(Integer buyQuantity,Integer publishId){
 
-        Integer store = orderMapper.getStore(bookId, PublishEnum.PUBLISH_SELL.getPublishCode());
+        Integer store = orderMapper.getStore(publishId, PublishEnum.PUBLISH_SELL.getPublishCode());
         if(store == 0){
             throw new GlobalException(new CodeMsg(500,"库存为0"));
         }

@@ -57,8 +57,8 @@ public class OrderFrontStageController {
      * 判断库存
      */
     @RequestMapping("/checkStoreEnough")
-    public Result  checkStoreEnough(Integer buyQuantity,Integer bookId){
-        if(!orderFrontStageService.checkStoreEnough(buyQuantity,bookId)){
+    public Result  checkStoreEnough(Integer buyQuantity,Integer publishId){
+        if(!orderFrontStageService.checkStoreEnough(buyQuantity,publishId)){
             return Result.error(new CodeMsg(0,"库存不足"));
         }
         return Result.success(null);
