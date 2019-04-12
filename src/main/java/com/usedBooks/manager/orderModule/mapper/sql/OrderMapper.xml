@@ -49,6 +49,9 @@
     <if test="sellerId != null">
       and seller_id = #{sellerId , jdbcType=INTEGER}
     </if>
+    <if test="address!=null">
+      and address = #{address,jdbcType=VARCHAR}
+    </if>
 
   </sql>
   <resultMap id="BaseResultMap" type="com.usedBooks.pojo.Order">
@@ -70,10 +73,11 @@
     <result column="seller" jdbcType="VARCHAR" property="seller" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="seller_phone" jdbcType="VARCHAR" property="sellerPhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
   </resultMap>
   <sql id="Base_Column_List">
     id, buyer_phone,  order_number, buyer, buyer_id,
-    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid
+    time , order_amount, actual_amount, delivery_method, state, is_cancel, is_valid,address
   </sql>
 
   <select id="getList" parameterType="Map" resultMap="BaseResultMap">

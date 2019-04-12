@@ -128,6 +128,7 @@ public class Order implements Serializable {
      */
     private Integer isValid;
 
+    private String address;
     /**
      * order
      */
