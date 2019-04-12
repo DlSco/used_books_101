@@ -81,6 +81,7 @@
   </sql>
 
 
+
   <select id="getList" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
