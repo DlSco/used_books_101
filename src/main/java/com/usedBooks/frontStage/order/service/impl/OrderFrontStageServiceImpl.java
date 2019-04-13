@@ -129,12 +129,20 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
             //返回的订单id
             int orderId = order.getId();
             log.info("返回的订单id：{}",orderId);
+
+            if (orderId == 0){
+                throw new GlobalException(CodeMsg.SERVER_ERROR);
+            }
             //获取购物车详情信息
             List<ShopCartDetailVo> shopCartDetailVos = shopCartDetailMapper.findByIds(orderRequestVo.getShopCartDetailId());
             log.info("shopCartDetailVos:[]",shopCartDetailVos);
             List<OrderDetail> list = this.setOrderDetail(shopCartDetailVos,orderId);
 
-            orderDetailMapper.insertList(list);
+            int result = orderDetailMapper.insertList(list);
+
+            if(result == 0){
+                throw new GlobalException(CodeMsg.SERVER_ERROR);
+            }
         }
         return 1;
     }
@@ -168,7 +176,7 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     }
 
     /**
-     * 设置订单详情对象
+     * 封装订单详情对象list
      * @param orderId
      * @return
      */
