@@ -50,7 +50,7 @@ public class FrontBookServiceImpl implements FrontBookService {
     @Override
     public int save(Book book,Publish publish,String beginTime,String endTime) {
 
-
+        int bothResult = 0;
         //判断数据库是否有相同的book
         Book tempBook = new Book();
         BeanUtils.copyProperties(book,tempBook,new String[]{ "author","publishHouse", "pictureUrl","originalPrice","classification"});
@@ -83,7 +83,7 @@ public class FrontBookServiceImpl implements FrontBookService {
             publish.setStatus(2);
             log.info("竞拍publish：{}",publish);
             int result = publishMapper.insertUseGeneratedKeys(publish);
-
+            bothResult =result;
             if (result>0 && publish.getPublishType() == PublishEnum.PUBLISH_AUCTION.getPublishCode()){
                 Auction auction = new Auction();
                 auction.setBeginTime(DateUtils.transferDateTime(beginTime));
@@ -94,7 +94,7 @@ public class FrontBookServiceImpl implements FrontBookService {
                 return auctionMapper.insert(auction);
             }
         }
-        return 0;
+        return bothResult;
     }
 
     @Override
