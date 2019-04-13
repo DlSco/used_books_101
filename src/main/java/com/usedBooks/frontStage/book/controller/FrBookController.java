@@ -45,6 +45,10 @@ public class FrBookController {
      */
     @RequestMapping(value="/modify",method = RequestMethod.POST)
     public Result modify (Book book,Publish publish,Integer publishId){
+        if(book.getId() == null || publishId == null ){
+            return Result.error(new CodeMsg(0,"请检查bookId，publishId的非空情况"));
+        }
+
         publish.setId(publishId);
         if(frontBookService.modifyBook(book,publish)>0){
             return Result.success(null);
