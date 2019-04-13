@@ -21,6 +21,8 @@ import com.usedBooks.pojo.OrderDetail;
 import com.usedBooks.pojo.Publish;
 import com.usedBooks.pojo.User;
 import com.usedBooks.result.CodeMsg;
+import com.usedBooks.util.DicConstants;
+import com.usedBooks.util.MyBeanUtils;
 import com.usedBooks.util.ToolController;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -53,6 +55,8 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     private PublishMapper publishMapper;
     @Autowired
     private AddressInfoMapper addressInfoMapper;
+    @Autowired
+    private DicConstants dicConstants;
 
     /**
      * 单个购买
@@ -224,13 +228,17 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
 
     @Override
     public Map getDetail(Integer orderId, Integer addressInfoId) {
+
         List<OrderDetailVo>list = orderDetailMapper.getDetail(orderId);
         Order order = orderMapper.selectByPrimaryKey(orderId);
         AddressInfo addressInfo = addressInfoMapper.selectByPrimaryKey(addressInfoId);
+
+        Map<String,Object> addMap = MyBeanUtils.beanToMap(addressInfo);
+        addMap.put("provinceName",dicConstants.getItemName("province",addressInfo.getProvince()+""));
         Map<String,Object> map = new HashMap<>();
         map.put("details",list);
         map.put("orderInfo",order);
-        map.put("addressInfo",addressInfo);
+        map.put("addressInfo",addMap);
         return map;
     }
 
