@@ -8,12 +8,15 @@ import com.usedBooks.frontStage.shopCart.service.ShopCartService;
 import com.usedBooks.frontStage.shopCart.shopCartDetail.mapper.ShopCartDetailMapper;
 import com.usedBooks.frontStage.shopCart.shopCartDetail.pojo.ShopCartDetail;
 import com.usedBooks.result.CodeMsg;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 public class ShopCartServiceImpl implements ShopCartService {
@@ -39,10 +42,26 @@ public class ShopCartServiceImpl implements ShopCartService {
         }
         if(isExist){
             //若存在
-            shopCart = shopCartList.get(0);
+            ShopCartDetail temp = new ShopCartDetail();
+            temp.setPublishId(shopCartDetail.getPublishId());
+            List<ShopCartDetail> list= shopCartDetailMapper.select(temp);
+            log.info("购物车详情列表：{}" ,list.toString());
             //添加购物车详情
             shopCartDetail.setShopCartId(shopCart.getId());
-            if(shopCartDetailMapper.insert(shopCartDetail)>0){
+            if(list.size()>0){
+                BeanUtils.copyProperties(list.get(0),shopCartDetail);
+                log.info("从数据库的购物车详情记录复制到当前bean：{}",shopCartDetail);
+            }
+            Integer result = 0;
+            if(shopCartDetail.getId() == null || shopCartDetail.getId() == 0){
+
+                //执行添加操作
+                result = shopCartDetailMapper.insert(shopCartDetail);
+
+            }else{
+                result = shopCartDetailMapper.updateByPrimaryKeySelective(shopCartDetail);
+            }
+            if(result>0){
                 //更新购物车表
                 shopCart.setTotalAmount(shopCart.getTotalAmount()+price);
                 shopCart.setOriginalAmount(shopCart.getOriginalAmount()+originalPrice);

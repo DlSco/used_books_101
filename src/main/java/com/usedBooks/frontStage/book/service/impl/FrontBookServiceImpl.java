@@ -67,7 +67,7 @@ public class FrontBookServiceImpl implements FrontBookService {
             publish.setCreateTime(new Date());
             publish.setUpdateTime(new Date());
             publish.setOnshelfTime(new Date());
-            publish.setDropshelfTime(new Date());
+            publish.setStatus(2);
             int result = publishMapper.insertUseGeneratedKeys(publish);
 
             if (result>0 && publish.getPublishType() == PublishEnum.PUBLISH_AUCTION.getPublishCode()){
