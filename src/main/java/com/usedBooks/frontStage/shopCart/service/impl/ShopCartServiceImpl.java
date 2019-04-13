@@ -41,6 +41,7 @@ public class ShopCartServiceImpl implements ShopCartService {
             isExist = false;
         }
         if(isExist){
+            shopCart = shopCartList.get(0);
             //若存在
             ShopCartDetail temp = new ShopCartDetail();
             temp.setPublishId(shopCartDetail.getPublishId());
