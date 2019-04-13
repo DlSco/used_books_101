@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequestMapping(value="/order",method = RequestMethod.POST)
@@ -83,6 +84,15 @@ public class OrderFrontStageController {
 
         log.info("传过来的数据：{}",shopCartDetailIds.toString());
         return Result.success(orderFrontStageService.getOrderConfirmData(shopCartDetailIds));
+    }
+
+
+    @RequestMapping("/toDetail/{orderId}")
+    public Result getDetail(@PathVariable Integer orderId,Integer addressInfoId){
+
+        Map map = orderFrontStageService.getDetail(orderId,addressInfoId);
+        log.info(map.toString());
+        return Result.success(map);
     }
 }
 

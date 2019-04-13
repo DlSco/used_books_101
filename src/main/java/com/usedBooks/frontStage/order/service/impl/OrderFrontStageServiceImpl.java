@@ -2,6 +2,8 @@ package com.usedBooks.frontStage.order.service.impl;
 
 
 import com.usedBooks.exception.GlobalException;
+import com.usedBooks.frontStage.addressInfo.mapper.AddressInfoMapper;
+import com.usedBooks.frontStage.addressInfo.pojo.AddressInfo;
 import com.usedBooks.frontStage.book.mapper.PublishMapper;
 import com.usedBooks.frontStage.order.enums.PublishEnum;
 import com.usedBooks.frontStage.order.mapper.OrderFrontStageMapper;
@@ -13,6 +15,7 @@ import com.usedBooks.frontStage.shopCart.shopCartDetail.mapper.ShopCartDetailMap
 import com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo;
 import com.usedBooks.frontStage.user.mapper.UserFrontMapper;
 import com.usedBooks.manager.orderModule.mapper.OrderDetailMapper;
+import com.usedBooks.manager.orderModule.vo.OrderDetailVo;
 import com.usedBooks.pojo.Order;
 import com.usedBooks.pojo.OrderDetail;
 import com.usedBooks.pojo.Publish;
@@ -48,6 +51,8 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
     private UserFrontMapper userFrontMapper;
     @Autowired
     private PublishMapper publishMapper;
+    @Autowired
+    private AddressInfoMapper addressInfoMapper;
 
     /**
      * 单个购买
@@ -214,6 +219,18 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
         Map<String,Object> map = new HashMap<>();
         map.put("orderConfirmData",list);
         map.put("totalOrderAmount",totalOrderAmount);
+        return map;
+    }
+
+    @Override
+    public Map getDetail(Integer orderId, Integer addressInfoId) {
+        List<OrderDetailVo>list = orderDetailMapper.getDetail(orderId);
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        AddressInfo addressInfo = addressInfoMapper.selectByPrimaryKey(addressInfoId);
+        Map<String,Object> map = new HashMap<>();
+        map.put("details",list);
+        map.put("orderInfo",order);
+        map.put("addressInfo",addressInfo);
         return map;
     }
 

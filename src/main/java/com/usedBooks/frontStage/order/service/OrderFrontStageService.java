@@ -33,4 +33,5 @@ public interface OrderFrontStageService {
     Map<String,Object> getOrderConfirmData(List<Integer> shopCartDetailIds);
 
 
+    Map getDetail(Integer orderId, Integer addressInfoId);
 }
