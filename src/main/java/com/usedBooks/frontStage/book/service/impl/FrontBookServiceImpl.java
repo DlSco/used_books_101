@@ -55,13 +55,26 @@ public class FrontBookServiceImpl implements FrontBookService {
         Book tempBook = new Book();
         BeanUtils.copyProperties(book,tempBook,new String[]{ "author","publishHouse", "pictureUrl","originalPrice","classification"});
         log.info("tempBook:{}",tempBook);
-       if(bookFrontMapper.selectCount(tempBook)>0) {
-           throw new GlobalException(new CodeMsg(500,"存在相同的书籍"));
+        List<Book> list = bookFrontMapper.select(tempBook);
+        Integer bookId;
+       if(list.size()>0) {
+           //若存在，取其bookId
+          bookId = list.get(0).getId();
+
+       }else{
+           //不存在，进行添加，取出返回的id
+           log.info("添加前的bookId：{}",book.getId());
+           bookFrontMapper.insertUseGeneratedKeys(book);
+           bookId = book.getId();
+           log.info("添加后的bookId：{}",book.getId());
        }
-        log.info("添加前的bookId：{}",book.getId());
-        bookFrontMapper.insertUseGeneratedKeys(book);
-        Integer bookId = book.getId();
-        log.info("添加后的bookId：{}",book.getId());
+
+        Publish tempPublish = new Publish();
+       tempPublish.setBookId(bookId);
+       tempPublish.setPublishType(publish.getPublishType());
+       if(publishMapper.selectCount(tempPublish)>0){ //判断发布类型
+           throw new GlobalException(new CodeMsg(0,"已发布相同的书籍"));
+       }
         if(bookId>0){
             publish.setBookId(bookId);
             publish.setCreateTime(new Date());
