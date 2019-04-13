@@ -78,7 +78,12 @@ public class OrderFrontStageController {
     /**
      * 订单确认页数据
      */
-    //
+    @RequestMapping("/getOrderConfirmData")
+    public Result getOrderConfirmData(@RequestParam("shopCartDetailIds") List<Integer> shopCartDetailIds){
+
+        log.info("传过来的数据：{}",shopCartDetailIds.toString());
+        return Result.success(orderFrontStageService.getOrderConfirmData(shopCartDetailIds));
+    }
 }
 
 

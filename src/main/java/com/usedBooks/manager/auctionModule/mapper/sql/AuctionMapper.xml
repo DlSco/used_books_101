@@ -17,6 +17,7 @@
         <result column="userName" property="userName"></result>
         <result column="bookOldStateName" property="bookOldStateName"></result>
         <result column="classificationName" property="classificationName"></result>
+        <result column="userId" property="userId"></result>
     </resultMap>
     <resultMap id="auctionDetail" type="com.usedBooks.manager.auctionModule.vo.AuctionVo">
         <result column="auctionId" property="auctionId"></result>
@@ -34,6 +35,7 @@
         <result column="bookOldStateName" property="bookOldStateName"></result>
         <result column="classificationName" property="classificationName"></result>
         <result column="remark" property="remark"></result>
+        <result column="userId" property="userId"></result>
     </resultMap>
 
     <resultMap id="historyMap" type="com.usedBooks.manager.auctionModule.vo.AuctionHistoryVo">
@@ -66,7 +68,7 @@
         bk.original_price originalPrice,
         ph.price price,
         tmp_history.currentAuctionPrice currentAuctionPrice,
-        user.user_name userName,
+        user.user_name userName,user.id userId,
         oldState.stateName bookOldStateName,
         classes.className classificationName
         FROM
@@ -122,7 +124,7 @@
             bk.original_price originalPrice,
             ph.price price,
             tmp_history.currentAuctionPrice currentAuctionPrice,
-            user.user_name userName,
+            user.user_name userName,user.id userId,
             oldState.stateName bookOldState,
             classes.className classificationName,
             ph.remark remark

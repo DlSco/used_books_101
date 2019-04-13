@@ -1,10 +1,13 @@
 package com.usedBooks.frontStage.shopCart.service.impl;
 
+import com.usedBooks.exception.GlobalException;
+import com.usedBooks.frontStage.order.service.OrderFrontStageService;
 import com.usedBooks.frontStage.shopCart.mapper.ShopCartMapper;
 import com.usedBooks.frontStage.shopCart.pojo.ShopCart;
 import com.usedBooks.frontStage.shopCart.service.ShopCartService;
 import com.usedBooks.frontStage.shopCart.shopCartDetail.mapper.ShopCartDetailMapper;
 import com.usedBooks.frontStage.shopCart.shopCartDetail.pojo.ShopCartDetail;
+import com.usedBooks.result.CodeMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +22,26 @@ public class ShopCartServiceImpl implements ShopCartService {
     private ShopCartMapper shopCartMapper;
     @Autowired
     private ShopCartDetailMapper shopCartDetailMapper;
+    @Autowired
+    private OrderFrontStageService orderFrontStageService;
     @Override
     public int add(ShopCart shopCart, ShopCartDetail shopCartDetail, Double originalPrice, Double price) {
 
+        //判断库存
+        if(!orderFrontStageService.checkStoreEnough(shopCartDetail.getPurchaseQuantity(),shopCartDetail.getPublishId())){
+            throw new GlobalException(new CodeMsg(0,"添加失败，库存不足"));
+        }
         //判断该用户下是否存在购物车
         boolean isExist  = true;
         List<ShopCart> shopCartList = shopCartMapper.select(shopCart);
-        if(shopCartList == null){
+        if(shopCartList.size() == 0){
             isExist = false;
         }
         if(isExist){
             //若存在
             shopCart = shopCartList.get(0);
             //添加购物车详情
+            shopCartDetail.setShopCartId(shopCart.getId());
             if(shopCartDetailMapper.insert(shopCartDetail)>0){
                 //更新购物车表
                 shopCart.setTotalAmount(shopCart.getTotalAmount()+price);
@@ -44,10 +54,10 @@ public class ShopCartServiceImpl implements ShopCartService {
             shopCart.setOriginalAmount(originalPrice);
             shopCart.setTotalAmount(price);
             //添加购物车，返回主键id
-            Integer shopCartId = shopCartMapper.insertUseGeneratedKeys(shopCart);
-            if(shopCartId>0){
+            Integer result = shopCartMapper.insertUseGeneratedKeys(shopCart);
+            if(result>0){
                 //添加购物车详情
-                shopCartDetail.setShopCartId(shopCartId);
+                shopCartDetail.setShopCartId(shopCart.getId());
                 return shopCartDetailMapper.insert(shopCartDetail);
             }
 

@@ -68,32 +68,89 @@
     </resultMap>
 
 
-<!--    <resultMap id="OrderConfirmVo" type="com.usedBooks.frontStage.order.vo.OrderConfirmVo" >
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="manufactor_name" property="manufactorName" jdbcType="VARCHAR" />
-        <result column="manufactor_director" property="manufactorDirector" jdbcType="VARCHAR" />
-        <result column="phone" property="phone" jdbcType="VARCHAR" />
-        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-        <result column="created_by" property="createdBy" jdbcType="INTEGER" />
-        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
-        <result column="updated_by" property="updatedBy" jdbcType="INTEGER" />
-        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
-        <result column="addition_procedure" property="additionProcedure" jdbcType="VARCHAR" />
-        <result column="finish_date" property="finishDate" jdbcType="TIMESTAMP" />
-        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-        <collection property="erpWorkshopList" ofType="com.cw.erp.bean.ErpWorkshop">
-            <id column="wid" property="id" jdbcType="INTEGER" />
-            <result column="workshop_name" property="workshopName" jdbcType="VARCHAR" />
+    <resultMap id="OrderConfirmVo" type="com.usedBooks.frontStage.order.vo.OrderConfirmVo" >
+        <id column="id" property="shopCartId" jdbcType="INTEGER" />
+        <result column="seller" property="seller" jdbcType="VARCHAR" />
+        <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
+        <result column="total_amount" property="totalAmount" jdbcType="DOUBLE" />
+        <result column="book_amount" property="bookAmount" jdbcType="DOUBLE" />
+        <collection property="cartDetailVos" ofType="com.usedBooks.frontStage.shopCart.vo.ShopCartDetailVo">
+            <id column="shop_cart_detail_id" property="id" jdbcType="INTEGER" />
+            <result column="publish_id" property="publishId" jdbcType="INTEGER" />
+            <result column="id" property="shopCartId" jdbcType="INTEGER"/>
+            <result column="purchase_quantity" property="purchaseQuantity" jdbcType="DOUBLE" />
+            <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+            <result column="original_price" property="originalPrice" jdbcType="DOUBLE" />
+            <result column="price" property="price" jdbcType="DOUBLE" />
+            <result column="store" property="store" jdbcType="INTEGER" />
+            <result column="book_id" property="bookId" jdbcType="INTEGER" />
         </collection>
-    </resultMap>-->
+    </resultMap>
     <!--获取库存-->
     <select id="getStore" resultType="java.lang.Integer">
         select quantity from publish where id = #{publishId} and publish_type = #{publishType}
     </select>
 
 
-    <select id="toOrderConfirmVoList" resultType="com.usedBooks.frontStage.order.vo.OrderConfirmVo">
+    <sql id="list_column">
+        a.id, a.purchase_quantity, a.shop_cart_id,a.publish_id
+    </sql>
+
+    <select id="toOrderConfirmVoList" resultMap="OrderConfirmVo">
+
         select
+        sc.id ,
+        sc.total_amount,
+        t6.seller,
+        t6.seller_id,
+        t6.publish_id,
+        t6.purchase_quantity,
+        t6.book_name,
+        t6.original_price,
+        t6.price,
+        t6.store,
+        t6.book_id,
+        t6.id as shop_cart_detail_id,
+        count(0) as book_amount
+        from shop_cart as sc inner join
+        (SELECT
+        <include refid = "list_column" />,
+        m0.seller_id,
+        m0.seller,
+        m0.quantity AS store,
+        m0.original_price,
+        m0.price,
+        m0.book_id,
+        m0.NAME AS book_name
+        FROM
+        shop_cart_detail a
+        INNER JOIN (
+        SELECT
+        t2.NAME,
+        t0.quantity,
+        t2.original_price,
+        t0.price,
+        t0.id,
+        t2.id AS book_id,
+        t0.user_id as seller_id,
+        t1.user_name as seller
+        FROM
+        publish t0
+        INNER JOIN user t1 ON t0.user_id = t1.id
+        INNER JOIN book t2 ON t0.book_id = t2.id
+        WHERE
+        t0.publish_type = 2
+
+        ) m0 ON m0.id = a.publish_id
+        where a.id in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>) t6
+
+        on t6.shop_cart_id  = sc.id
+
+
     </select>
 
 </mapper>

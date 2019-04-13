@@ -12,5 +12,5 @@ public interface OrderFrontStageMapper extends BaseMapper<Order> {
 
     Integer getStore(@Param("publishId") Integer publishId, @Param("publishType") Integer publishType);
 
-    List<OrderConfirmVo> toOrderConfirmVoList(@Param("shopCartId") Integer shopCartId);
+    List<OrderConfirmVo> toOrderConfirmVoList(@Param("ids") List<Integer> ids );
 }

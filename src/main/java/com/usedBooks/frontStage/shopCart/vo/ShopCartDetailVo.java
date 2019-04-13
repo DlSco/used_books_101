@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class ShopCartDetailVo extends ShopCartDetail {
-    private String bookName;            //书名
+    private String bookName;        //书名
     private Double originalPrice;   //原价
     private Double price;           //售价
     private Integer store;          //库存
     private Integer bookId;         //书id
-    private String userName;
+    private String userName;        //购物车用户名
 }

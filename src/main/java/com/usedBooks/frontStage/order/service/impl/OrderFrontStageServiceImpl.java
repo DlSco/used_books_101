@@ -101,7 +101,7 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
         if(store == 0){
             throw new GlobalException(new CodeMsg(500,"库存为0"));
         }
-        if(buyQuantity>store){
+        if(buyQuantity<=store){
             return true;
         }
         return false;
@@ -194,8 +194,18 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
      * 订单确认页数据
      */
 
-    public List<OrderConfirmVo> toOrderConfirmVoList(Integer shopCartId){
-        return null;
+    public Map<String,Object> getOrderConfirmData(List<Integer> shopCartDetailIds){
+
+        List<OrderConfirmVo> list = orderMapper.toOrderConfirmVoList(shopCartDetailIds);
+        Double totalOrderAmount = 0.00;
+        for(OrderConfirmVo orderConfirmVo : list){
+            totalOrderAmount = totalOrderAmount + orderConfirmVo.getTotalAmount();
+        }
+        log.info("totalOrderAmount,总订单金额：{}",totalOrderAmount);
+        Map<String,Object> map = new HashMap<>();
+        map.put("orderConfirmData",list);
+        map.put("totalOrderAmount",totalOrderAmount);
+        return map;
     }
 
 }

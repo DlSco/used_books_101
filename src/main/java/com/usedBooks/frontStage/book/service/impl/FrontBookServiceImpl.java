@@ -97,6 +97,8 @@ public class FrontBookServiceImpl implements FrontBookService {
 
     @Override
     public int modifyBook(Book book, Publish publish) {
+        log.info("book:{}",book.toString());
+        log.info("publish:{}",publish.toString());
         Integer result = bookFrontMapper.updateByPrimaryKeySelective(book);
         if(result>0){
             publish.setUpdateTime(new Date());

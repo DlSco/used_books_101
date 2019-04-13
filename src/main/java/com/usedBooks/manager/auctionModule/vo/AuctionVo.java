@@ -20,6 +20,7 @@ public class AuctionVo {
 //	private String bookOldState;
 	private String bookOldStateName;
 	private String classificationName;
+	private Integer userId;
 //	private String classificationId;
 
 

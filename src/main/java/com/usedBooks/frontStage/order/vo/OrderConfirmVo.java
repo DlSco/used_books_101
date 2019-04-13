@@ -8,9 +8,10 @@ import java.util.List;
 @Data
 public class OrderConfirmVo {
 
+    private Integer shopCartId;
     private String seller;
     private Integer sellerId;
-    private Double totalPrice;
-    private Integer BookAmount;
+    private Double totalAmount;
+    private Integer bookAmount;
     private List<ShopCartDetailVo> cartDetailVos;
 }

@@ -60,13 +60,15 @@
         FROM
         publish t0
         INNER JOIN user t1 ON t0.user_id = t1.id
-        AND t1.id = #{userId}
         INNER JOIN book t2 ON t0.book_id = t2.id
         WHERE
         t0.publish_type = 2
         ) m0 ON m0.id = a.publish_id
+        inner join shop_cart
+        on shop_cart.id = a.shop_cart_id
         <where>
             <include refid = "listSearchSql" ></include >
+            and shop_cart.user_id = #{userId}
         </where>
     </select>
 
