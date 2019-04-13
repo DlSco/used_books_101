@@ -88,8 +88,6 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
                 }
                 return 1;
             }
-        }else{
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return 0;
     }
