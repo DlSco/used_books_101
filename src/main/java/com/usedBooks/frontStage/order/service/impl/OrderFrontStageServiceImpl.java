@@ -65,7 +65,8 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
      * @return
      */
     @Override
-    public int saveOrder(Order order, OrderDetail orderDetail) {
+    public Map<String,Object> saveOrder(Order order, OrderDetail orderDetail) {
+        Map<String,Object> map = new HashMap<>();
         Integer store = orderMapper.getStore(orderDetail.getPublishId(), PublishEnum.PUBLISH_SELL.getPublishCode());
         //先判断库存
         if(orderDetail.getQuantity()>store){
@@ -95,10 +96,12 @@ public class OrderFrontStageServiceImpl implements OrderFrontStageService {
                     publish.setId(orderDetail.getPublishId());
                     publishMapper.updateByPrimaryKeySelective(publish);
                 }
-                return 1;
+                map.put("orderId",order.getId());
+                map.put("addressInfoId",order.getAddressInfoId());
+                return map;
             }
         }
-        return 0;
+        return null;
     }
 
 

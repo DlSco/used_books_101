@@ -16,7 +16,7 @@ public interface OrderFrontStageService {
      * @param orderDetail     订单详情实体
      */
 
-    int saveOrder(Order order, OrderDetail orderDetail);
+    Map<String,Object> saveOrder(Order order, OrderDetail orderDetail);
 
     /**
      * 判断库存

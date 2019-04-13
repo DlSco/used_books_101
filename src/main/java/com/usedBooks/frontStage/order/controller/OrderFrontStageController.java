@@ -34,9 +34,9 @@ public class OrderFrontStageController {
 
     @PostMapping("/add")
     public Result add(Order order, OrderDetail orderDetail){
-
-        if(orderFrontStageService.saveOrder(order,orderDetail)>0){
-            return Result.success(null);
+        Map<String,Object> map = orderFrontStageService.saveOrder(order,orderDetail);
+        if(map!=null){
+            return Result.success(map);
         }
         return Result.error(new CodeMsg(0,"下订单失败!!"));
     }
