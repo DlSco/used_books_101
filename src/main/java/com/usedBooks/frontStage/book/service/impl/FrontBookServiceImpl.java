@@ -68,12 +68,15 @@ public class FrontBookServiceImpl implements FrontBookService {
             publish.setUpdateTime(new Date());
             publish.setOnshelfTime(new Date());
             publish.setStatus(2);
+            log.info("竞拍publish：{}",publish);
             int result = publishMapper.insertUseGeneratedKeys(publish);
 
             if (result>0 && publish.getPublishType() == PublishEnum.PUBLISH_AUCTION.getPublishCode()){
                 Auction auction = new Auction();
                 auction.setBeginTime(DateUtils.transferDateTime(beginTime));
+                log.info("beginTime:{}",beginTime);
                 auction.setEndTime(DateUtils.transferDateTime(endTime));
+                log.info("endTime:{}",endTime);
                 auction.setPublishId(publish.getId());
                 return auctionMapper.insert(auction);
             }
