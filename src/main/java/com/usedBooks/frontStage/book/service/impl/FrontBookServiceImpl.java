@@ -72,6 +72,7 @@ public class FrontBookServiceImpl implements FrontBookService {
         Publish tempPublish = new Publish();
        tempPublish.setBookId(bookId);
        tempPublish.setPublishType(publish.getPublishType());
+       tempPublish.setUserId(publish.getUserId());
        if(publishMapper.selectCount(tempPublish)>0){ //判断发布类型
            throw new GlobalException(new CodeMsg(0,"已发布相同的书籍"));
        }

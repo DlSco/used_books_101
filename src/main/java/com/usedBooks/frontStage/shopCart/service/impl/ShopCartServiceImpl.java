@@ -60,6 +60,9 @@ public class ShopCartServiceImpl implements ShopCartService {
                 result = shopCartDetailMapper.insert(shopCartDetail);
 
             }else{
+                if(orderFrontStageService.checkStoreEnough(shopCartDetail.getPurchaseQuantity()+1,shopCartDetail.getPublishId())){
+                    shopCartDetail.setPurchaseQuantity(shopCartDetail.getPurchaseQuantity()+1);
+                }
                 result = shopCartDetailMapper.updateByPrimaryKeySelective(shopCartDetail);
             }
             if(result>0){
