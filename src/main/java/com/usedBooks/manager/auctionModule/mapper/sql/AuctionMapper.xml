@@ -170,7 +170,7 @@
         ORDER BY oldPrice
     </select>
 
-    <select id="getAuctionStatus" resultMap="statusMap" resultType="com.usedBooks.manager.auctionModule.vo.AuctionStatusVo">
+    <select id="getAuctionStatus" resultMap="statusMap" >
         SELECT
             ac.begin_time begin_time,
             ac.end_time end_time,
@@ -182,7 +182,7 @@
         LIMIT 1
     </select>
 
-    <select id="getAuctionStatusWhereNoHistory" resultMap="statusMap" resultType="com.usedBooks.manager.auctionModule.vo.AuctionStatusVo">
+    <select id="getAuctionStatusWhereNoHistory" resultMap="statusMap" >
         SELECT
             ac.begin_time begin_time,
             ac.end_time end_time,
