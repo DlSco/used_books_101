@@ -39,6 +39,7 @@
     </resultMap>
 
     <resultMap id="historyMap" type="com.usedBooks.manager.auctionModule.vo.AuctionHistoryVo">
+        <result column="userId" property="userId"></result>
         <result column="userName" property="userName"></result>
         <result column="auctionTime" property="auctionTime"></result>
         <result column="oldPrice" property="oldPrice"></result>
@@ -160,6 +161,7 @@
     <select id="getAuctionHistory" resultMap="historyMap" resultType="java.util.List">
         SELECT
             user.user_name userName,
+            user.id as userId,
             ah.auction_time auctionTime,
             ah.old_price oldPrice,
             ah.new_price newPrice

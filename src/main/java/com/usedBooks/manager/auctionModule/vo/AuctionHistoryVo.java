@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class AuctionHistoryVo {
 
+	private Integer userId;
 	private String userName;
 	private String auctionTime;
 	private Integer oldPrice;
